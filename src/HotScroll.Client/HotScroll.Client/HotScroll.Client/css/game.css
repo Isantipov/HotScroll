@@ -1,8 +1,39 @@
-﻿#countdown {
+﻿@keyframes countdown {
+    from {
+        opacity: 0;
+        transform: scale(0.1);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.searching {
+    width: 100%;
+    height: 150px;
+    line-height: 150px;
     font-size: 100px;
-    margin: 200px auto;
     text-align: center;
-    width: 200px;
+    top: 50%;
+    position: absolute;
+    left: 0;
+    margin: -75px 0 0 0;
+}
+
+#countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 768px;
+    width: 400px;
+    line-height: 768px;
+    font-size: 500px;
+    margin: -384px 0 0 -200px;
+    text-align: center;
+    animation: countdown 1s ease-out infinite;
+    font-weight: bold;
+    font-family: '911 Porscha';
 }
 #game {
     display: none;
