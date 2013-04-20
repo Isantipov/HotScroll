@@ -9,6 +9,7 @@
 
                 function startCountDown() {
                     searching.style.display = 'none';
+                    
                     var countdown = document.getElementById('countdown');
                     countdown.innerHTML = '3';
                     setTimeout(function () {
@@ -20,19 +21,27 @@
                             setTimeout(function () {
                                 countdown.style.display = 'none';
                                 document.getElementById('game').style.display = 'block';
-                            }, 1000);
-                        }, 1000);
-                    }, 1000);
+                                
+                                initializeGame();
+                            }, 1050);
+                        }, 1050);
+                    }, 1050);
                 }
 
-                initializeGame();
+                $.get('http://localhost:57666/signalr/hubs', function (response) {
+                    eval(response);
+                    $.connection.hub.url = 'http://localhost:57666/signalr';
+                    $.connection.hub.start().done(function () {
+                        startCountDown();
+                    });
+                });
 
             };
 
             function Player(userName, current) {
                 this.name = userName;
                 this.points = 0;
-                this.id;
+                //this.id;
                 this.element = current ? document.getElementById('currentPlayer') : document.getElementById('opponentPlayer');
             }
 
@@ -43,7 +52,7 @@
             var currentPlayer = new Player(localStorage.userName, true);
 
             function initializeGame() {
-                window.onmousewheel = function (event) {
+                window.onmousewheel = function(event) {
                     currentPlayer.points -= event.wheelDelta / 120;
                     if (currentPlayer.points > 0 && currentPlayer.points < 1000) {
                         currentPlayer.element.style.left = (currentPlayer.points / 1000) * 100 + '%';
@@ -52,7 +61,7 @@
                     } else {
                         currentPlayer.element.style.left = 0;
                     }
-                }
+                };
             }
         }
     });

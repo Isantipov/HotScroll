@@ -33,9 +33,7 @@
     font-size: 500px;
     margin: -384px 0 0 -200px;
     text-align: center;
-    animation: countdown 1s ease-out infinite;
-    font-weight: bold;
-    font-family: '911 Porscha';
+    font-weight: bold;  
 }
 #game {
     display: none;
