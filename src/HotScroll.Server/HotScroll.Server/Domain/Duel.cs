@@ -18,5 +18,9 @@ namespace HotScroll.Server.Domain
             Id = Guid.NewGuid().ToString();
             Steps = new List<Step>();
         }
+        public DuelProjection ToProjection(string userId)
+        {
+            return new DuelProjection { Oponent = Player1.Id == userId? Player2 : Player1, Id = Id };
+        }
     }
 }
