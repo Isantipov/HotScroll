@@ -17,6 +17,7 @@
 
     <!-- HotScroll.Client references -->
     <link href="/css/default.css" rel="stylesheet" />
+    <link href="/css/game.css" rel="stylesheet" />
     <script src="/js/default.js"></script>
 </head>
 <body>
@@ -27,6 +28,35 @@
             <button id="start">Lets Race!</button>
         </div>
     </fieldset>
+    <div id="game-container">
+        <div class="searching">Searching for opponents...</div>
+        <div id="countdown"></div>
+        <div id="game">
+            <div id="arrow-up"></div>
+            <div id="arrow-down"></div>
+        </div>
+        <div id="battleField">
+            <div class="track-container">
+                <div class="track">
+                    <div class="player" id="currentPlayer">
+                        <span class="player-user-name">Diablo</span>
+                        <div class="player-icon">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="track-container">
+                <div class="track">
+                    <div class="player" id="opponentPlayer">
+                        <span class="player-user-name">Diablo</span>
+                        <div class="player-icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         var loginForm = document.getElementById('loginForm');
         var credentials = document.getElementById('credentials');
