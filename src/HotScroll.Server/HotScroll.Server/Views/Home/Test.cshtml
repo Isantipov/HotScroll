@@ -8,7 +8,7 @@
 
 <div class="container">
     <input type="text" id="message" />
-    <input type="button" id="sendmessage" value="Send" />
+    <input type="button" id="playBtn" value="Play" />
     <input type="hidden" id="displayname" />
     <ul id="discussion">
     </ul>
@@ -23,39 +23,38 @@
     <script src="~/signalr/hubs"></script>
     <!--SignalR script to update the chat page and send messages.--> 
     <script>
+        var User = null;
         $(function() {
             // Reference the auto-generated proxy for the hub.  
             var chat = $.connection.connectHub;
             // Create a function that the hub can call back to display messages.
             chat.client.userConnected = function(user) {
-                // Add the message to the page. 
-                $('#discussion').append('<li><strong>' + htmlEncode(user.Name)
-                    + '</strong>: ' + htmlEncode('connected') + '</li>');
+                addMessage(user, "connected");
             };
 
             chat.client.play = function(projection) {
-                alert('playing now with id=' + projection.Oponent.Id);
+                addMessage(User, 'playing now with id =' + projection.Oponent.Id);
             };
-            // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
-            // Set initial focus to message input box.
-            $('#message').focus();
-            // Start the connection.
-            $.connection.hub.start().done(function() {
-                $('#sendmessage').click(function() {
-                    // Call the Send method on the hub. 
-                    chat.server.connect({ Name: $('#displayname').val() }).done(
-                        function(user) {
-                            alert(user.Id);
-                            chat.server.waitPartner(user);
-                        });
 
-                    // Clear text box and reset focus for next comment. 
-                    $('#message').val('').focus();
+            $('#displayname').val(prompt('Enter your name:', ''));
+
+            $.connection.hub.start().done(function() {
+                chat.server.connect({ Name: $('#displayname').val() }).done(function (user) {
+                    User = user;
                 });
+            });
+            
+            $('#playBtn').click(function () {
+                addMessage(User, "waiting for partener");
+                chat.server.waitPartner(User);
             });
         });
         // This optional function html-encodes messages for display in the page.
+
+        function addMessage(user, msg) {
+            $('#discussion').append('<li><strong>' + htmlEncode(user.Name + ' (' + user.Id + ')')
+                + '</strong>: ' + htmlEncode(msg) + '</li>');
+        }
 
         function htmlEncode(value) {
             var encodedValue = $('<div />').text(value).html();
