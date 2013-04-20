@@ -10,7 +10,7 @@ namespace HotScroll.Server.Hubs
     {
         public void Connect(User user)
         {
-            Clients.AllExcept(Context.ConnectionId).UserConnected(user);
+            Clients.AllExcept(Context.ConnectionId).userConnected(user);
         }
     }
 }

@@ -24,5 +24,12 @@ namespace HotScroll.Server.Controllers
 
             return View();
         }
+
+        // GET /Test
+        
+        public ActionResult Test()
+        {
+            return View();
+        }
     }
 }
