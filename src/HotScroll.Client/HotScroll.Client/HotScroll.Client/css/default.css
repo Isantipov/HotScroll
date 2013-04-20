@@ -9,6 +9,9 @@
     transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
     border: none;
 }
+#game-container {
+    display: none;
+}
 
     .login-container.expanded {
         height: 390px;

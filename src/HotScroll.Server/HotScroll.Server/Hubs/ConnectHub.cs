@@ -18,7 +18,7 @@ namespace HotScroll.Server.Hubs
             return user;
         }
 
-        public void WaitPartner(User user)
+        public DuelProjection WaitPartner(User user)
         {
             var oponent = UserService.GetFreeUser(user);
             
@@ -28,22 +28,26 @@ namespace HotScroll.Server.Hubs
                 var duel = DuelService.AddDuel(user, oponent);
 
                 var proj1 = duel.ToProjection(user.Id);
-                Clients.Caller.play(proj1);
+                Clients.Client(user.ConnectionId).play(proj1);
 
                 var proj2 = duel.ToProjection(oponent.Id);
                 Clients.Client(oponent.ConnectionId).play(proj2);
+                return proj1;
             }
+            return null;
         }
 
         /// <summary>
         /// Returns duel Id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="step"></param>
         /// <returns></returns>
-        public string Play(string userId)
+        public void RecordStep(Step step)
         {
-            var duel = DuelService.GetDuelForUser(userId);
-            return string.Empty;
+            var user = UserService.GetUser(step.UserId);
+            var duel = DuelService.GetDuelForUser(user.Id);
+            var opponent = duel.GetOpponent(user.Id);
+            Clients.Client(opponent.ConnectionId).receiveStep(step);
         }
     }
 }
