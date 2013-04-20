@@ -32,7 +32,11 @@
                     eval(response);
                     $.connection.hub.url = 'http://localhost:57666/signalr';
                     $.connection.hub.start().done(function () {
-                        startCountDown();
+                        $.connection.connectHub.waitForPartner(localStorage.user);
+                        $.connection.connectHub.play(function (response) {
+                            localStorage.duel = response;
+                            startCountDown();
+                        });
                     });
                 });
 
