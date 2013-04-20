@@ -64,7 +64,7 @@
                                 countdown.style.display = 'none';
                                 document.getElementById('scrollDirection').style.display = 'block';
 
-                                initializeGame(new Player(window.user.Name, window.user.Id, true), new Player(window.duel.Oponent.Name, window.duel.Oponent.Id, false));
+                                initializeGame(new Player(window.user.Name, window.user.Id, true), new Player(window.duel.Opponent.Name, window.duel.Opponent.Id, false));
                             }, 1050);
                         }, 1050);
                     }, 1050);
