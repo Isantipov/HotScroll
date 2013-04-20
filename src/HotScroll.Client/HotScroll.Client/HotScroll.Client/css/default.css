@@ -6,20 +6,20 @@
     padding: 0;
     width: 620px;
     height: 300px;
-    transition: height 1s ease-in-out, margin 1s ease-in-out;
+    transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
     border: none;
 }
 
     .login-container.expanded {
-        height: 600px;
-        margin: -300px 0 0 -310px;
+        height: 390px;
+        margin: -180px 0 0 -310px;
     }
 
     .login-container #credentials {
-        height: 300px;
+        height: 90px;
         width: 50%;
         margin: 0 auto;
-        transition: opacity 1s ease-in-out 1s, transform 1s ease-in-out 1s;
+        transition: opacity 0.5s ease-in-out 0.5s, transform 0.5s ease-in-out 0.5s;
         opacity: 0;
         transform: scale(0.5);
         transform-origin: 50% 50%;
@@ -31,18 +31,20 @@
     }
 
 #login {
-    font-size: 18px;
-    line-height: 22px;
-    margin: 0;
-    padding: 5px;
+    height: 35px;
+    font-size: 16px;
+    line-height: 20px ;
+    margin: 0 0 20px 0;
     width: 100%;
     box-sizing: border-box;
 }
 #start {
+    height: 35px;
+    width: 100%;
     display: block;
-    margin: 10px auto;
+    margin: 0;
     padding: 5px;
-    width: 50%;
+    box-sizing: border-box;
 }
 
 #startLogo {
