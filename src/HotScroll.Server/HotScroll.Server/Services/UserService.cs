@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using HotScroll.Server.Domain;
 
 namespace HotScroll.Server.Services
@@ -18,6 +19,16 @@ namespace HotScroll.Server.Services
             user.Id = Guid.NewGuid().ToString();
 
             UsersInternal.Add(user);
+        }
+
+        public static User GetUser(string id)
+        {
+            return UsersInternal.FirstOrDefault(t => t.Id == id);
+        }
+
+        public static User GetFreeUser()
+        {
+            return UsersInternal.FirstOrDefault(t => t.Status == UserStatus.Pending);
         }
     }
 }
