@@ -75,6 +75,8 @@
                     this.points = 0;
                     //this.id;
                     this.element = current ? document.getElementById('currentPlayer') : document.getElementById('opponentPlayer');
+
+                    this.element.querySelector('.player-user-name').innerHTML = this.name;
                 }
 
                 Player.prototype.setId = function (id) {
