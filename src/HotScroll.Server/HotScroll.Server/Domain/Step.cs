@@ -4,5 +4,6 @@
     {
         public int Points { get; set; }
         public long Timestamp { get; set; }
+        public string UserId { get; set; }
     }
 }
