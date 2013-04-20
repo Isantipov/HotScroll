@@ -46,6 +46,9 @@
 
                 $.connection.connectHub.client.gameOver = function (resp) {
                     document.getElementById('game-container').style.display = 'none';
+
+                    clearInterval(window.legsAnimation);
+                    window.onmousewheel = null;
                     
                     if (resp == true) {
                         document.getElementById('you-won').style.display = 'block';
