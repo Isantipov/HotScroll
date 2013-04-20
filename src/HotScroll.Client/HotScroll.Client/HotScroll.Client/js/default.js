@@ -57,6 +57,10 @@
                 $.connection.hub.url = 'http://hotscroll.azurewebsites.net/signalr';
                 $.connection.hub.start().done(function () {
 
+                    Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (resp) {
+                        document.getElementById('login').value = resp;
+                    });
+
                     var startButton = document.getElementById('start');
                     startButton.onclick = function () {
                         var login = document.getElementById('login').value;
@@ -168,7 +172,7 @@
                             opponentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
                             currentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
                         }
-                    }, 200);
+                    }, 100);
 
                     window.onmousewheel = function (event) {
                         window.currentPlayer.points -= event.wheelDelta / 120;
