@@ -8,6 +8,7 @@ namespace HotScroll.Server.Domain
     {
         public string Id { get; set; }
         public User Player1 { get; set; }
+        
         public User Player2 { get; set; }
 
         [JsonIgnore]
@@ -20,7 +21,12 @@ namespace HotScroll.Server.Domain
         }
         public DuelProjection ToProjection(string userId)
         {
-            return new DuelProjection { Oponent = Player1.Id == userId? Player2 : Player1, Id = Id };
+            return new DuelProjection { Oponent = GetOpponent(userId), Id = Id };
+        }
+
+        public User GetOpponent(string userId)
+        {
+            return Player1.Id == userId ? Player2 : Player1;
         }
     }
 }
