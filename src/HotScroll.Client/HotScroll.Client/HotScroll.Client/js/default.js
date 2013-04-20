@@ -101,7 +101,7 @@
 
                         document.getElementById('game-container').style.display = 'block';
                         document.getElementById('currentPlayer').style.left = '0px';
-                        document.getElementById('opponentPlayer').style.left = '0px';5
+                        document.getElementById('opponentPlayer').style.left = '0px';
 
                         $.connection.connectHub.server.waitPartner(window.user);
                     };
