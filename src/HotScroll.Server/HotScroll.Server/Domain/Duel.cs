@@ -26,7 +26,7 @@ namespace HotScroll.Server.Domain
 
         public DuelProjection ToProjection(string userId)
         {
-            return new DuelProjection { Oponent = GetOpponent(userId), Id = Id };
+            return new DuelProjection { Opponent = GetOpponent(userId), Id = Id };
         }
 
         public User GetOpponent(string userId)
