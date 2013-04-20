@@ -30,7 +30,7 @@
             chat.client.userConnected = function (user) {
                 // Add the message to the page. 
                 $('#discussion').append('<li><strong>' + htmlEncode(user.Name) 
-                    + '</strong>: ' + htmlEncode('sample') + '</li>');
+                    + '</strong>: ' + htmlEncode('connected') + '</li>');
             };
             // Get the user name and store it to prepend to messages.
             $('#displayname').val(prompt('Enter your name:', ''));
