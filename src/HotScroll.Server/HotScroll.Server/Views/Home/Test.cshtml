@@ -45,8 +45,12 @@
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub. 
-                    chat.server.connect({ Name: $('#displayname').val() }).done(function (user) { alert(user.Id); });
-                    chat.server.waitPartner({ Name: $('#displayname').val() }).done(function (user) { alert(user.Id); });
+                    chat.server.connect({ Name: $('#displayname').val() }).done(
+                        function (user) {
+                            alert(user.Id);
+                            chat.server.waitPartner(user);
+                        });
+                    
                     // Clear text box and reset focus for next comment. 
                     $('#message').val('').focus();
                 });
