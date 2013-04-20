@@ -12,6 +12,20 @@
 #game-container {
     display: none;
 }
+#you-won {
+    display: none;
+    color: green;
+    margin: 200px auto;
+    text-align: center;
+    width: 300px;
+}
+#you-lost {
+    display: none;
+    color: red;
+    margin: 200px auto;
+    text-align: center;
+    width: 300px;
+}
 
     .login-container.expanded {
         height: 390px;
