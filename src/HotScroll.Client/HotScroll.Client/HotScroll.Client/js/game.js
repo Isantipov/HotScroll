@@ -14,7 +14,8 @@
                         countdown.innerHTML = '1';
 
                         setTimeout(function () {
-                            countdown.innerHTML = 'Go!';
+                            countdown.style.display = 'none';
+                            document.getElementById('game').style.display = 'block';
                         }, 1000);
                     }, 1000);
                 }, 1000);

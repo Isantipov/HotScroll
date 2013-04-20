@@ -4,3 +4,25 @@
     text-align: center;
     width: 200px;
 }
+#game {
+    display: none;
+}
+
+#arrow-up {
+    background: url("../images/arrow-up.png") 0 0 no-repeat transparent;
+    display: block;
+    height: 200px;
+    margin: 20px;
+    opacity: 0.2;
+    width: 130px;
+}
+#arrow-down {
+    background: url("../images/arrow-down.png") 0 0 no-repeat transparent;
+    display: block;
+    height: 200px;
+    margin: 20px;
+    opacity: 0.2;
+    width: 130px;
+
+
+}
