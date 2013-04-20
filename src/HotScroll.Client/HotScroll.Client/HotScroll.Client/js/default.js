@@ -28,6 +28,7 @@
                 };
 
                 $.connection.connectHub.client.receiveStep = function (resp) {
+                    debugger;
                     window.opponentPlayer.points = resp.Points;
 
                     if (window.opponentPlayer.points > 0 && window.opponentPlayer.points < 1000) {
@@ -71,7 +72,7 @@
 
                         setTimeout(function () {
                             countdown.innerHTML = '1';
-
+                            
                             setTimeout(function () {
                                 countdown.style.display = 'none';
                                 document.getElementById('scrollDirection').style.display = 'block';
@@ -97,6 +98,9 @@
                 };
 
                 function initializeGame(currentPlayer, opponentPlayer) {
+                    window.legsAnimation = setInterval(function () {
+
+                    }, 75);
                     window.opponentPlayer = opponentPlayer;
 
                     window.onmousewheel = function (event) {
