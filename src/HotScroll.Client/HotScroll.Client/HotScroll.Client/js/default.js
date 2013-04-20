@@ -74,7 +74,7 @@
 
                             setTimeout(function () {
                                 countdown.style.display = 'none';
-                                document.getElementById('game').style.display = 'block';
+                                document.getElementById('scrollDirection').style.display = 'block';
 
                                 initializeGame(new Player(window.user.Name, window.user.Id, true), new Player(window.duel.Opponent.Name, window.duel.Opponent.Id, false));
                             }, 1050);
