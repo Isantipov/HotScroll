@@ -40,7 +40,7 @@
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub. 
-                    chat.server.onnect({ Name: $('#displayname').val() });
+                    chat.server.connect({ Name: $('#displayname').val() });
                     // Clear text box and reset focus for next comment. 
                     $('#message').val('').focus();
                 });
