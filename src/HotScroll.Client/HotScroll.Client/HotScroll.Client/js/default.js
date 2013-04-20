@@ -21,20 +21,79 @@
 
             $.get('http://localhost:57666/signalr/hubs', function (response) {
                 eval(response);
-                
-                var startButton = document.getElementById('start');
-                startButton.onclick = function () {
-                    var login = document.getElementById('login').value;
-                    if (login !== '') {
-                        $.connection.hub.url = 'http://localhost:57666/signalr';
-                        $.connection.hub.start().done(function () {
-                            $.connection.connectHub.server.connect({ Name: login }).done(function (response) {
-                                localStorage.user = JSON.stringify(response);
-                                location.href = '/game.html';
-                            });
-                        });
-                    }
+
+                $.connection.connectHub.client.play = function (resp) {
+                    window.duel = resp;
+                    startCountDown();
                 };
+
+                $.connection.hub.url = 'http://localhost:57666/signalr';
+                $.connection.hub.start().done(function () {
+
+                    var startButton = document.getElementById('start');
+                    startButton.onclick = function () {
+                        var login = document.getElementById('login').value;
+                        if (login !== '') {
+                            $.connection.connectHub.server.connect({ Name: login }).done(function (response) {
+                                window.user = response;
+                                document.getElementById('loginForm').style.display = 'none';
+                                document.getElementById('game-container').style.display = 'block';
+                                
+                                $.connection.connectHub.server.waitPartner(response);
+
+                            });
+                        }
+                    };
+
+                });
+
+                var searching = document.querySelector('.searching');
+
+                function startCountDown() {
+                    searching.style.display = 'none';
+
+                    var countdown = document.getElementById('countdown');
+                    countdown.innerHTML = '3';
+                    setTimeout(function () {
+                        countdown.innerHTML = '2';
+
+                        setTimeout(function () {
+                            countdown.innerHTML = '1';
+
+                            setTimeout(function () {
+                                countdown.style.display = 'none';
+                                document.getElementById('game').style.display = 'block';
+
+                                initializeGame(new Player(window.user.Name, true), new Player(window.duel.Oponent.Name, false));
+                            }, 1050);
+                        }, 1050);
+                    }, 1050);
+                }
+
+                function Player(userName, current) {
+                    this.name = userName;
+                    this.points = 0;
+                    //this.id;
+                    this.element = current ? document.getElementById('currentPlayer') : document.getElementById('opponentPlayer');
+                }
+
+                Player.prototype.setId = function (id) {
+                    this.id = id;
+                };
+
+                function initializeGame(currentPlayer, opponentPlayer) {
+                    window.onmousewheel = function (event) {
+                        currentPlayer.points -= event.wheelDelta / 120;
+                        if (currentPlayer.points > 0 && currentPlayer.points < 1000) {
+                            currentPlayer.element.style.left = (currentPlayer.points / 1000) * 100 + '%';
+                        } else if (currentPlayer.points === 1000) {
+                            'ertwer';
+                        } else {
+                            currentPlayer.element.style.left = 0;
+                        }
+                    };
+                }
+
             });
 
             
