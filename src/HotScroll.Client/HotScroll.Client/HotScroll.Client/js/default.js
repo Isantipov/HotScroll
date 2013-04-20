@@ -19,7 +19,7 @@
             }
             args.setPromise(WinJS.UI.processAll());
 
-            $.get('http://localhost:57666/signalr/hubs', function (response) {
+            $.get('http://hotscroll.azurewebsites.net/signalr/hubs', function (response) {
                 eval(response);
 
                 $.connection.connectHub.client.play = function (resp) {
@@ -27,7 +27,7 @@
                     startCountDown();
                 };
 
-                $.connection.hub.url = 'http://localhost:57666/signalr';
+                $.connection.hub.url = 'http://hotscroll.azurewebsites.net/signalr';
                 $.connection.hub.start().done(function () {
 
                     var startButton = document.getElementById('start');
@@ -62,7 +62,7 @@
 
                             setTimeout(function () {
                                 countdown.style.display = 'none';
-                                document.getElementById('game').style.display = 'block';
+                                document.getElementById('scrollDirection').style.display = 'block';
 
                                 initializeGame(new Player(window.user.Name, true), new Player(window.duel.Oponent.Name, false));
                             }, 1050);

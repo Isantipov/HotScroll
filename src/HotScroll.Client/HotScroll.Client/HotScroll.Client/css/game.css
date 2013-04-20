@@ -149,3 +149,12 @@
             border-color: transparent transparent #ccc transparent;
             margin: -10px 0 0 -10px;
         }
+
+
+#scrollDirection {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+
+}
