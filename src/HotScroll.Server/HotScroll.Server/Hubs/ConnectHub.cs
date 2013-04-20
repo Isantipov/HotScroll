@@ -46,8 +46,21 @@ namespace HotScroll.Server.Hubs
         {
             var user = UserService.GetUser(step.UserId);
             var duel = DuelService.GetDuelForUser(user.Id);
+            if (duel.IsGameOver)
+            {
+                return;
+            }
+
             var opponent = duel.GetOpponent(user.Id);
             Clients.Client(opponent.ConnectionId).receiveStep(step);
+
+            if (DuelService.IsGameOver(step))
+            {
+                duel.IsGameOver = true;
+
+                Clients.Client(opponent.ConnectionId).gameOver(false);
+                Clients.Caller.gameOver(true);
+            }
         }
     }
 }
