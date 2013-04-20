@@ -28,7 +28,8 @@ namespace HotScroll.Server.Services
 
         public static User GetFreeUser(User currentUser)
         {
-            return UsersInternal.FirstOrDefault(t => t.Status == UserStatus.Pending && t.Id != currentUser.Id);
+            return UsersInternal.FirstOrDefault(t => t.Status == UserStatus.WaitingForPartner
+                                                     && t.Id != currentUser.Id);
         }
     }
 }
