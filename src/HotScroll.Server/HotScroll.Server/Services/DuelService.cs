@@ -30,5 +30,12 @@ namespace HotScroll.Server.Services
         {
             return DuelsInternal.FirstOrDefault(t => t.Player1.Id == userId || t.Player2.Id == userId);
         }
+
+        public static bool IsGameOver(Step step)
+        {
+            const int pointToWin = 1000;
+
+            return step.Points >= pointToWin;
+        }
     }
 }

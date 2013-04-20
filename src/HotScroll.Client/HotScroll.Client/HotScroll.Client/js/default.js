@@ -64,14 +64,15 @@
                                 countdown.style.display = 'none';
                                 document.getElementById('scrollDirection').style.display = 'block';
 
-                                initializeGame(new Player(window.user.Name, true), new Player(window.duel.Oponent.Name, false));
+                                initializeGame(new Player(window.user.Name, window.user.Id, true), new Player(window.duel.Oponent.Name, window.duel.Oponent.Id, false));
                             }, 1050);
                         }, 1050);
                     }, 1050);
                 }
 
-                function Player(userName, current) {
+                function Player(userName, id, current) {
                     this.name = userName;
+                    this.id = id;
                     this.points = 0;
                     //this.id;
                     this.element = current ? document.getElementById('currentPlayer') : document.getElementById('opponentPlayer');
@@ -84,8 +85,23 @@
                 };
 
                 function initializeGame(currentPlayer, opponentPlayer) {
+                    $.connection.connectHub.client.receiveStep = function (resp) {
+                        opponentPlayer.points = resp.Points;
+
+                        if (opponentPlayer.points > 0 && opponentPlayer.points < 1000) {
+                            opponentPlayer.element.style.left = (opponentPlayer.points / 1000) * 100 + '%';
+                        } else if (opponentPlayer.points === 1000) {
+                            'ertwer';
+                        } else {
+                            opponentPlayer.element.style.left = 0;
+                        }
+                    };
+
                     window.onmousewheel = function (event) {
                         currentPlayer.points -= event.wheelDelta / 120;
+
+                        $.connection.connectHub.server.recordStep({ Points: currentPlayer.points, UserId: currentPlayer.id });
+
                         if (currentPlayer.points > 0 && currentPlayer.points < 1000) {
                             currentPlayer.element.style.left = (currentPlayer.points / 1000) * 100 + '%';
                         } else if (currentPlayer.points === 1000) {
