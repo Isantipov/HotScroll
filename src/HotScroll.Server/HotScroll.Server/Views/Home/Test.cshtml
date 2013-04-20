@@ -35,7 +35,7 @@
 
             chat.client.play = function (projection) {
                 // Add the message to the page. 
-                alert(projection.oponent.Id);
+                alert('projection received' + projection.oponent.Id);
             };
             // Get the user name and store it to prepend to messages.
             $('#displayname').val(prompt('Enter your name:', ''));

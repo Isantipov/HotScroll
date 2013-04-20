@@ -6,6 +6,8 @@ namespace HotScroll.Server.Domain
 {
     public class User
     {
+        private UserStatus status = UserStatus.Pending;
+
         public string Name { get; set; }
 
         public string Id { get; set; }
@@ -14,7 +16,11 @@ namespace HotScroll.Server.Domain
         public int Score { get; set; }
 
         [JsonIgnore]
-        public UserStatus Status { get; set; }
+        public UserStatus Status
+        {
+            get { return status; }
+            set { status = value; }
+        }
 
         [JsonIgnore]
         public string ConnectionId { get; set; }
