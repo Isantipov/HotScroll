@@ -3,6 +3,10 @@
 (function () {
     "use strict";
 
+    // var account = Windows.System.UserProfile.UserInformation.accountPictureChangeEnabled;
+
+
+
     WinJS.Binding.optimizeBindingReferences = true;
 
     var app = WinJS.Application;
@@ -67,6 +71,41 @@
                         }
                     };
 
+                    document.querySelectorAll('.exit-button')[0].onclick = function () {
+                        window.close();
+                    };
+                    document.querySelectorAll('.exit-button')[1].onclick = function () {
+                        window.close();
+                    };
+
+                    document.querySelectorAll('.retry-button')[0].onclick = function () {
+                        document.getElementById('you-won').style.display = 'none';
+                        document.getElementById('you-lost').style.display = 'none';
+
+                        document.querySelector('.searching').style.display = 'block';
+                        document.getElementById('countdown').style.display = 'block';
+
+                        document.getElementById('game-container').style.display = 'block';
+                        document.getElementById('currentPlayer').style.left = '0px';
+                        document.getElementById('opponentPlayer').style.left = '0px';
+
+
+                        $.connection.connectHub.server.waitPartner(window.user);
+                    };
+                    document.querySelectorAll('.retry-button')[1].onclick = function () {
+                        document.getElementById('you-won').style.display = 'none';
+                        document.getElementById('you-lost').style.display = 'none';
+
+                        document.querySelector('.searching').style.display = 'block';
+                        document.getElementById('countdown').style.display = 'block';
+
+                        document.getElementById('game-container').style.display = 'block';
+                        document.getElementById('currentPlayer').style.left = '0px';
+                        document.getElementById('opponentPlayer').style.left = '0px';5
+
+                        $.connection.connectHub.server.waitPartner(window.user);
+                    };
+
                 });
 
                 var searching = document.querySelector('.searching');
@@ -83,6 +122,7 @@
                             countdown.innerHTML = '1';
 
                             setTimeout(function () {
+                                countdown.innerHTML = '';
                                 countdown.style.display = 'none';
                                 document.getElementById('scrollDirection').style.display = 'block';
 
