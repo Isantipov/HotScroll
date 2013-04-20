@@ -1,0 +1,30 @@
+﻿.login-container {
+    margin: 200px auto;
+    padding: 30px;
+    width: 300px;
+}
+#login {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0;
+    padding: 5px;
+    width: 95%;
+}
+#start {
+    display: block;
+    margin: 10px auto;
+    padding: 5px;
+    width: 50%;
+}
+
+@media screen and (-ms-view-state: fullscreen-landscape) {
+}
+
+@media screen and (-ms-view-state: filled) {
+}
+
+@media screen and (-ms-view-state: snapped) {
+}
+
+@media screen and (-ms-view-state: fullscreen-portrait) {
+}
