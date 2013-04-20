@@ -38,12 +38,14 @@ namespace HotScroll.Server.Hubs
         /// <summary>
         /// Returns duel Id
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="step"></param>
         /// <returns></returns>
-        public string Play(string userId)
+        public void RecordStep(Step step)
         {
-            var duel = DuelService.GetDuelForUser(userId);
-            return string.Empty;
+            var user = UserService.GetUser(step.UserId);
+            var duel = DuelService.GetDuelForUser(user.Id);
+            var opponent = duel.GetOpponent(user.Id);
+            Clients.Client(opponent.ConnectionId).receiveStep(step);
         }
     }
 }
