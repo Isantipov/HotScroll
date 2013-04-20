@@ -19,14 +19,14 @@
             }
             args.setPromise(WinJS.UI.processAll());
 
-            $.get('http://localhost:57666/signalr/hubs', function (response) {
+            $.get('http://hotscroll.azurewebsites.net/signalr/hubs', function (response) {
                 eval(response);
                 
                 var startButton = document.getElementById('start');
                 startButton.onclick = function () {
                     var login = document.getElementById('login').value;
                     if (login !== '') {
-                        $.connection.hub.url = 'http://localhost:57666/signalr';
+                        $.connection.hub.url = 'http://hotscroll.azurewebsites.net/signalr';
                         $.connection.hub.start().done(function () {
                             $.connection.connectHub.server.connect({ Name: login }).done(function (response) {
                                 localStorage.user = response;

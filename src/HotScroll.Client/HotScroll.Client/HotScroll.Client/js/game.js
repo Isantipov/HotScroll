@@ -22,15 +22,16 @@
                                 countdown.style.display = 'none';
                                 document.getElementById('game').style.display = 'block';
                                 
+
                                 initializeGame();
                             }, 1050);
                         }, 1050);
                     }, 1050);
                 }
 
-                $.get('http://localhost:57666/signalr/hubs', function (response) {
+                $.get('http://hotscroll.azurewebsites.net/signalr/hubs', function (response) {
                     eval(response);
-                    $.connection.hub.url = 'http://localhost:57666/signalr';
+                    $.connection.hub.url = 'http://hotscroll.azurewebsites.net/signalr';
                     $.connection.hub.start().done(function () {
                         startCountDown();
                     });
@@ -56,13 +57,15 @@
                     currentPlayer.points -= event.wheelDelta / 120;
                     if (currentPlayer.points > 0 && currentPlayer.points < 1000) {
                         currentPlayer.element.style.left = (currentPlayer.points / 1000) * 100 + '%';
-                    } else if (currentPlayer.points === 1000) {
-                        'ertwer';
+                    } else if (currentPlayer.points >= 1000) {
+                        currentPlayer.points = 0;
                     } else {
                         currentPlayer.element.style.left = 0;
                     }
                 };
             }
+
+            startCountDown();
         }
     });
 })();
