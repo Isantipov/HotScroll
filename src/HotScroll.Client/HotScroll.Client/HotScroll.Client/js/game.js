@@ -16,6 +16,8 @@
                         setTimeout(function () {
                             countdown.style.display = 'none';
                             document.getElementById('game').style.display = 'block';
+
+                            debugger;
                         }, 1000);
                     }, 1000);
                 }, 1000);

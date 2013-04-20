@@ -18,12 +18,25 @@
                 // Restore application state here.
             }
             args.setPromise(WinJS.UI.processAll());
+
+            $.get('http://localhost:57666/signalr/hubs', function (response) {
+                eval(response);
+                
+                var startButton = document.getElementById('start');
+                startButton.onclick = function () {
+                    var login = document.getElementById('login').value;
+                    if (login !== '') {
+                        $.connection.hub.url = 'http://localhost:57666/signalr';
+                        $.connection.hub.start().done(function () {
+                            $.connection.connectHub.server.connect({ Name: login }).done(function (response) {
+                                location.href = '/game.html?guid=' + JSON.stringify(response);
+                            });
+                        });
+                    }
+                };
+            });
+
             
-            var startButton = document.getElementById('start');
-            startButton.onclick = function () {
-                // TODO: send request to the server with user name
-                location.href = '/game.html';
-            };
         }
     };
 
