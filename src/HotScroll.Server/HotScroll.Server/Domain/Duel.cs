@@ -12,6 +12,8 @@ namespace HotScroll.Server.Domain
         
         public User Player2 { get; set; }
 
+        public Direction Direction { get; set; }
+
         [JsonIgnore]
         public bool IsGameOver { get; set; }
 
@@ -22,6 +24,7 @@ namespace HotScroll.Server.Domain
         {
             Id = Guid.NewGuid().ToString();
             Steps = new List<Step>();
+            Direction = Direction.Right;
         }
 
         public DuelProjection ToProjection(string userId)
@@ -33,5 +36,12 @@ namespace HotScroll.Server.Domain
         {
             return Player1.Id == userId ? Player2 : Player1;
         }
+
+    }
+    
+    public enum Direction
+    {
+        Right = 1,
+        Left = 2,
     }
 }
