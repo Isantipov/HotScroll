@@ -172,7 +172,7 @@
                             opponentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
                             currentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
                         }
-                    }, 100);
+                    }, 130);
 
                     window.onmousewheel = function (event) {
                         window.currentPlayer.points -= event.wheelDelta / 120;
