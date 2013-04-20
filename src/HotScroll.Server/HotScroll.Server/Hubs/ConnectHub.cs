@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using HotScroll.Server.Domain;
+using Microsoft.AspNet.SignalR;
 
 namespace HotScroll.Server.Hubs
 {
@@ -7,9 +8,9 @@ namespace HotScroll.Server.Hubs
     /// </summary>
     public class ConnectHub : Hub
     {
-        public void Hello()
+        public void Connect(User user)
         {
-            Clients.All.hello();
+            Clients.AllExcept(Context.ConnectionId).UserConnected(user);
         }
     }
 }
