@@ -14,9 +14,18 @@
     <script src="/js/default.js"></script>
 </head>
 <body>
-    <fieldset class="login-container">
-        <input type="text" id="login" placeholder="Login">
-        <button id="start">Start game!</button>
+    <fieldset class="login-container" id="loginForm">
+        <img id="Image1" src="images/splashscreen.png" alt="HotScroll">
+        <div id="credentials">
+            <input type="text" id="login" placeholder="Login">
+            <button id="start">Start game!</button>
+        </div>
     </fieldset>
+    <script>
+        var loginForm = document.getElementById('loginForm');
+        setTimeout(function () {
+            loginForm.className += ' expanded';
+        }, 500);
+    </script>
 </body>
 </html>

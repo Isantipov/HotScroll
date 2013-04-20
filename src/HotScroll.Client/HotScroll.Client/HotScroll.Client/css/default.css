@@ -1,20 +1,41 @@
 ﻿.login-container {
-    margin: 200px auto;
-    padding: 30px;
-    width: 300px;
+    margin: -150px 0 0 -310px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0;
+    width: 620px;
+    height: 300px;
+    transition: height 1s ease-in-out, margin 1s ease-in-out;
+    border: none;
 }
+
+    .login-container.expanded {
+        height: 600px;
+        margin: -300px 0 0 -310px;
+    }
+
+    .login-container #credentials {
+        
+    }
+
 #login {
     font-size: 18px;
     line-height: 22px;
     margin: 0;
     padding: 5px;
-    width: 95%;
+    width: 310px;
 }
 #start {
     display: block;
     margin: 10px auto;
     padding: 5px;
     width: 50%;
+}
+
+#startLogo {
+    width: 620px;
+    height: 300px;
 }
 
 @media screen and (-ms-view-state: fullscreen-landscape) {
