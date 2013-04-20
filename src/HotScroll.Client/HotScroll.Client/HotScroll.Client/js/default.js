@@ -29,7 +29,8 @@
                         $.connection.hub.url = 'http://localhost:57666/signalr';
                         $.connection.hub.start().done(function () {
                             $.connection.connectHub.server.connect({ Name: login }).done(function (response) {
-                                location.href = '/game.html?guid=' + JSON.stringify(response);
+                                localStorage.user = response;
+                                location.href = '/game.html';
                             });
                         });
                     }

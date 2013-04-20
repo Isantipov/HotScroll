@@ -25,5 +25,10 @@ namespace HotScroll.Server.Services
         {
             return DuelsInternal.FirstOrDefault(t => t.Id == id);
         }
+
+        public static Duel GetDuelForUser(string userId)
+        {
+            return DuelsInternal.FirstOrDefault(t => t.Player1.Id == userId || t.Player2.Id == userId);
+        }
     }
 }

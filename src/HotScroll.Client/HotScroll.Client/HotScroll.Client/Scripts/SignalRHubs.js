@@ -84,6 +84,14 @@
         proxies.connectHub.server = {
             connect: function (user) {
                 return proxies.connectHub.invoke.apply(proxies.connectHub, $.merge(["Connect"], $.makeArray(arguments)));
+            },
+
+            play: function (userId) {
+                return proxies.connectHub.invoke.apply(proxies.connectHub, $.merge(["Play"], $.makeArray(arguments)));
+            },
+
+            waitPartner: function (user) {
+                return proxies.connectHub.invoke.apply(proxies.connectHub, $.merge(["WaitPartner"], $.makeArray(arguments)));
             }
         };
 
