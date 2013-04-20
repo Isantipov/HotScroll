@@ -102,7 +102,7 @@
 
                         document.getElementById('game-container').style.display = 'block';
                         document.getElementById('currentPlayer').style.left = '0px';
-                        document.getElementById('opponentPlayer').style.left = '0px';5
+                        document.getElementById('opponentPlayer').style.left = '0px';
 
                         $.connection.connectHub.server.waitPartner(window.user);
                     };
@@ -152,16 +152,23 @@
                     window.currentPlayer = currentPlayer;
                     window.opponentPlayer.element.style.backgroundPositionX = 0;
                     window.currentPlayer.element.style.backgroundPositionX = 0;
-                       window.legsAnimation = setInterval(function () {
-                            var bgPos = parseInt(window.opponentPlayer.element.style.backgroundPositionX, 10);
-                            if (Math.abs(bgPos) >= 676) {
-                                window.opponentPlayer.element.style.backgroundPositionX = 0;
-                                window.currentPlayer.element.style.backgroundPositionX = 0;
-                            } else {
-                                window.opponentPlayer.element.style.backgroundPositionX = bgPos - 169 + 'px';
-                                window.currentPlayer.element.style.backgroundPositionX = bgPos - 169 + 'px';
-                            }
-                        }, 500);
+
+                    var currentIcon = window.currentPlayer.element.querySelector('.player-icon');
+                    var opponentIcon = window.opponentPlayer.element.querySelector('.player-icon');
+                    opponentIcon.style.backgroundPositionX = '0px';
+                    currentIcon.style.backgroundPositionX = '0px';
+
+                    window.legsAnimation = setInterval(function () {
+                        var bgPos = parseInt(opponentIcon.style.backgroundPositionX, 10);
+
+                        if (Math.abs(bgPos) >= 676 - 169) {
+                            opponentIcon.style.backgroundPositionX = '0px';
+                            currentIcon.style.backgroundPositionX = '0px';
+                        } else {
+                            opponentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
+                            currentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
+                        }
+                    }, 200);
 
                     window.onmousewheel = function (event) {
                         window.currentPlayer.points -= event.wheelDelta / 120;

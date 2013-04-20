@@ -20,20 +20,23 @@ namespace HotScroll.Server.Hubs
 
         public DuelProjection WaitPartner(User user)
         {
-            var oponent = UserService.GetFreeUser(user);
+            var serverUser = UserService.GetUser(user.Id);
+            serverUser.Status = UserStatus.WaitingForPartner;
+            var oponent = UserService.GetFreeUser(serverUser);
             
             if (oponent != null)
             {
-                user.Status = oponent.Status = UserStatus.Playing;
-                var duel = DuelService.AddDuel(user, oponent);
+                serverUser.Status = oponent.Status = UserStatus.Playing;
+                var duel = DuelService.AddDuel(serverUser, oponent);
 
-                var proj1 = duel.ToProjection(user.Id);
-                Clients.Client(user.ConnectionId).play(proj1);
+                var proj1 = duel.ToProjection(serverUser.Id);
+                Clients.Client(serverUser.ConnectionId).play(proj1);
 
                 var proj2 = duel.ToProjection(oponent.Id);
                 Clients.Client(oponent.ConnectionId).play(proj2);
                 return proj1;
             }
+
             return null;
         }
 
@@ -60,6 +63,8 @@ namespace HotScroll.Server.Hubs
 
                 Clients.Client(opponent.ConnectionId).gameOver(false);
                 Clients.Caller.gameOver(true);
+                user.Status = UserStatus.Pending;
+                opponent.Status = UserStatus.Pending;
             }
         }
     }
