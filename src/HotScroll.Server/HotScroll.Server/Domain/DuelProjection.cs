@@ -3,6 +3,6 @@
     public class DuelProjection
     {
         public string Id { get; set; }
-        public User Oponent { get; set; }
+        public User Opponent { get; set; }
     }
 }
