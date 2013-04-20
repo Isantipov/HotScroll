@@ -32,10 +32,20 @@
 
                     if (window.opponentPlayer.points > 0 && window.opponentPlayer.points < 1000) {
                         window.opponentPlayer.element.style.left = (window.opponentPlayer.points / 1000) * 100 + '%';
-                    } else if (window.opponentPlayer.points === 1000) {
-                        'ertwer';
+                    } else if (window.opponentPlayer.points >= 1000) {
+                        // do nothing
                     } else {
                         window.opponentPlayer.element.style.left = 0;
+                    }
+                };
+
+                $.connection.connectHub.client.gameOver = function (resp) {
+                    document.getElementById('game-container').style.display = 'none';
+                    
+                    if (resp == true) {
+                        document.getElementById('you-won').style.display = 'block';
+                    } else {
+                        document.getElementById('you-lost').style.display = 'block';
                     }
                 };
 
@@ -106,8 +116,8 @@
 
                         if (currentPlayer.points > 0 && currentPlayer.points < 1000) {
                             currentPlayer.element.style.left = (currentPlayer.points / 1000) * 100 + '%';
-                        } else if (currentPlayer.points === 1000) {
-                            'ertwer';
+                        } else if (currentPlayer.points >= 1000) {
+                            // do nothing
                         } else {
                             currentPlayer.element.style.left = 0;
                         }
