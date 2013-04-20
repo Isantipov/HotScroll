@@ -3,11 +3,12 @@
 
     WinJS.UI.Pages.define('/game.html', {
         ready: function () {
-            
-            window.onload = function () {
+            //window.onload = function () {
                 var searching = document.querySelector('.searching');
-
+                
                 function startCountDown() {
+                    searching.style.display = 'none';
+                    
                     var countdown = document.getElementById('countdown');
                     countdown.innerHTML = '3';
                     setTimeout(function () {
@@ -24,7 +25,13 @@
                     }, 1000);
                 }
 
-            };
+            $.get('http://localhost:57666/signalr/hubs', function(response) {
+                eval(response);
+                $.connection.hub.url = 'http://localhost:57666/signalr';
+                $.connection.hub.start().done(function() {
+                    startCountDown();
+                });
+            });
         }
     });
 })();
