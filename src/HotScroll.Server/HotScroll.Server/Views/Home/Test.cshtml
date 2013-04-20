@@ -23,40 +23,40 @@
     <script src="~/signalr/hubs"></script>
     <!--SignalR script to update the chat page and send messages.--> 
     <script>
-        $(function () {
+        $(function() {
             // Reference the auto-generated proxy for the hub.  
             var chat = $.connection.connectHub;
             // Create a function that the hub can call back to display messages.
-            chat.client.userConnected = function (user) {
+            chat.client.userConnected = function(user) {
                 // Add the message to the page. 
-                $('#discussion').append('<li><strong>' + htmlEncode(user.Name) 
+                $('#discussion').append('<li><strong>' + htmlEncode(user.Name)
                     + '</strong>: ' + htmlEncode('connected') + '</li>');
             };
 
-            chat.client.play = function (projection) {
-                // Add the message to the page. 
-                alert('projection received' + projection.oponent.Id);
+            chat.client.play = function(projection) {
+                alert('playing now with id=' + projection.Oponent.Id);
             };
             // Get the user name and store it to prepend to messages.
             $('#displayname').val(prompt('Enter your name:', ''));
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
-            $.connection.hub.start().done(function () {
-                $('#sendmessage').click(function () {
+            $.connection.hub.start().done(function() {
+                $('#sendmessage').click(function() {
                     // Call the Send method on the hub. 
                     chat.server.connect({ Name: $('#displayname').val() }).done(
-                        function (user) {
+                        function(user) {
                             alert(user.Id);
                             chat.server.waitPartner(user);
                         });
-                    
+
                     // Clear text box and reset focus for next comment. 
                     $('#message').val('').focus();
                 });
             });
         });
         // This optional function html-encodes messages for display in the page.
+
         function htmlEncode(value) {
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
