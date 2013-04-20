@@ -18,6 +18,12 @@
                 // Restore application state here.
             }
             args.setPromise(WinJS.UI.processAll());
+            
+            var startButton = document.getElementById('start');
+            startButton.onclick = function () {
+                // TODO: send request to the server with user name
+                location.href = '/game.html';
+            };
         }
     };
 
@@ -31,4 +37,5 @@
     };
 
     app.start();
+
 })();
