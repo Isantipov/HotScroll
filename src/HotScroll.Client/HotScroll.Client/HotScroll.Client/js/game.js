@@ -44,9 +44,11 @@
 
             function initializeGame() {
                 window.onmousewheel = function (event) {
-                    currentPlayer.points -= event.wheelDelta;
-                    if (currentPlayer.points > 0) {
+                    currentPlayer.points -= event.wheelDelta / 120;
+                    if (currentPlayer.points > 0 && currentPlayer.points < 1000) {
                         currentPlayer.element.style.left = (currentPlayer.points / 1000) * 100 + '%';
+                    } else if (currentPlayer.points === 1000) {
+                        'ertwer';
                     } else {
                         currentPlayer.element.style.left = 0;
                     }

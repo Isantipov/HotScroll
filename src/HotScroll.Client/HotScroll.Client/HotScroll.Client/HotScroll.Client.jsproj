@@ -59,6 +59,7 @@
     <Content Include="images\arrow-down.png" />
     <Content Include="images\arrow-up.png" />
     <Content Include="images\logo.png" />
+    <Content Include="images\runner.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
