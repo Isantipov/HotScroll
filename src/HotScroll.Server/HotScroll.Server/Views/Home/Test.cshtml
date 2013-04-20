@@ -32,6 +32,15 @@
             chat.client.userConnected = function(user) {
                 addMessage(user, "connected");
             };
+            
+            chat.client.gameOver = function (isWinner) {
+                if (isWinner) {
+                    alert('you win');
+                } else {
+                    alert('you loose');
+
+                }
+            };
 
             chat.client.play = function(projection) {
                 addMessage(User, 'playing now with id =' + projection.Opponent.Id);
