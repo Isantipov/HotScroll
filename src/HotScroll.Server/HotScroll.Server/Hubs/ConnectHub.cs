@@ -12,10 +12,26 @@ namespace HotScroll.Server.Hubs
         
         public User Connect(User user)
         {
+            user.ConnectionId = Context.ConnectionId;
             UserService.AddUser(user);
             Clients.All.userConnected(user);
-
             return user;
+        }
+
+        public void WaitPartner(User user)
+        {
+            var oponent = UserService.GetFreeUser();
+            
+            if (oponent != null)
+            {
+                var duel = DuelService.AddDuel(user, oponent);
+
+                var proj1 = duel.ToProjection(user.Id);
+                Clients.Client(oponent.ConnectionId).play(proj1);
+
+                var proj2 = duel.ToProjection(oponent.Id);
+                Clients.Caller.play(proj2);
+            }
         }
 
         /// <summary>
