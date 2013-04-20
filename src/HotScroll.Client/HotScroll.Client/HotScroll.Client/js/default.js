@@ -19,7 +19,7 @@
             }
             args.setPromise(WinJS.UI.processAll());
 
-            $.get('http://localhost:57666/signalr/hubs', function (response) {
+            $.get('http://hotscroll.azurewebsites.net/signalr/hubs', function (response) {
                 eval(response);
 
                 $.connection.connectHub.client.play = function (resp) {
@@ -27,7 +27,19 @@
                     startCountDown();
                 };
 
-                $.connection.hub.url = 'http://localhost:57666/signalr';
+                $.connection.connectHub.client.receiveStep = function (resp) {
+                    window.opponentPlayer.points = resp.Points;
+
+                    if (window.opponentPlayer.points > 0 && window.opponentPlayer.points < 1000) {
+                        window.opponentPlayer.element.style.left = (window.opponentPlayer.points / 1000) * 100 + '%';
+                    } else if (window.opponentPlayer.points === 1000) {
+                        'ertwer';
+                    } else {
+                        window.opponentPlayer.element.style.left = 0;
+                    }
+                };
+
+                $.connection.hub.url = 'http://hotscroll.azurewebsites.net/signalr';
                 $.connection.hub.start().done(function () {
 
                     var startButton = document.getElementById('start');
@@ -64,7 +76,7 @@
                                 countdown.style.display = 'none';
                                 document.getElementById('game').style.display = 'block';
 
-                                initializeGame(new Player(window.user.Name, window.user.Id, true), new Player(window.duel.Oponent.Name, window.duel.Oponent.Id, false));
+                                initializeGame(new Player(window.user.Name, window.user.Id, true), new Player(window.duel.Opponent.Name, window.duel.Opponent.Id, false));
                             }, 1050);
                         }, 1050);
                     }, 1050);
@@ -85,17 +97,7 @@
                 };
 
                 function initializeGame(currentPlayer, opponentPlayer) {
-                    $.connection.connectHub.client.receiveStep = function (resp) {
-                        opponentPlayer.points = resp.Points;
-
-                        if (opponentPlayer.points > 0 && opponentPlayer.points < 1000) {
-                            opponentPlayer.element.style.left = (opponentPlayer.points / 1000) * 100 + '%';
-                        } else if (opponentPlayer.points === 1000) {
-                            'ertwer';
-                        } else {
-                            opponentPlayer.element.style.left = 0;
-                        }
-                    };
+                    window.opponentPlayer = opponentPlayer;
 
                     window.onmousewheel = function (event) {
                         currentPlayer.points -= event.wheelDelta / 120;
