@@ -17,5 +17,24 @@ namespace HotScroll.Server.Hubs
 
             return user;
         }
+
+        /// <summary>
+        /// Returns duel Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public string Play(string userId)
+        {
+            var player1 = UserService.GetUser(userId);
+            var player2 = UserService.GetFreeUser();
+            if (player1 != null && player2 != null)
+            {
+                player1.Status = UserStatus.Playing;
+                player2.Status = UserStatus.Playing;
+                var duel = DuelService.AddDuel(player1, player2);
+                return duel.Id;
+            }
+            return string.Empty;
+        }
     }
 }
