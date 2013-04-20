@@ -22,7 +22,6 @@ namespace HotScroll.Server.Domain
             set { status = value; }
         }
 
-        [JsonIgnore]
         public string ConnectionId { get; set; }
     }
 
