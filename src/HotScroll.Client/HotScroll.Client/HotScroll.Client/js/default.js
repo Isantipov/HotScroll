@@ -32,6 +32,7 @@
                 };
 
                 $.connection.connectHub.client.receiveStep = function (resp) {
+                    
                     window.opponentPlayer.points = resp.Points;
 
                     if (window.opponentPlayer.points > 0 && window.opponentPlayer.points < 1000) {
@@ -120,7 +121,7 @@
 
                         setTimeout(function () {
                             countdown.innerHTML = '1';
-
+                            
                             setTimeout(function () {
                                 countdown.innerHTML = '';
                                 countdown.style.display = 'none';
@@ -148,18 +149,31 @@
 
                 function initializeGame(currentPlayer, opponentPlayer) {
                     window.opponentPlayer = opponentPlayer;
+                    window.currentPlayer = currentPlayer;
+                    window.opponentPlayer.element.style.backgroundPositionX = 0;
+                    window.currentPlayer.element.style.backgroundPositionX = 0;
+                       window.legsAnimation = setInterval(function () {
+                            var bgPos = parseInt(window.opponentPlayer.element.style.backgroundPositionX, 10);
+                            if (Math.abs(bgPos) >= 676) {
+                                window.opponentPlayer.element.style.backgroundPositionX = 0;
+                                window.currentPlayer.element.style.backgroundPositionX = 0;
+                            } else {
+                                window.opponentPlayer.element.style.backgroundPositionX = bgPos - 169 + 'px';
+                                window.currentPlayer.element.style.backgroundPositionX = bgPos - 169 + 'px';
+                            }
+                        }, 500);
 
                     window.onmousewheel = function (event) {
-                        currentPlayer.points -= event.wheelDelta / 120;
+                        window.currentPlayer.points -= event.wheelDelta / 120;
 
-                        $.connection.connectHub.server.recordStep({ Points: currentPlayer.points, UserId: currentPlayer.id });
+                        $.connection.connectHub.server.recordStep({ Points: window.currentPlayer.points, UserId: window.currentPlayer.id });
 
-                        if (currentPlayer.points > 0 && currentPlayer.points < 1000) {
-                            currentPlayer.element.style.left = (currentPlayer.points / 1000) * 100 + '%';
-                        } else if (currentPlayer.points >= 1000) {
+                        if (window.currentPlayer.points > 0 && window.currentPlayer.points < 1000) {
+                            window.currentPlayer.element.style.left = (window.currentPlayer.points / 1000) * 100 + '%';
+                        } else if (window.currentPlayer.points >= 1000) {
                             // do nothing
                         } else {
-                            currentPlayer.element.style.left = 0;
+                            window.currentPlayer.element.style.left = 0;
                         }
                     };
                 }

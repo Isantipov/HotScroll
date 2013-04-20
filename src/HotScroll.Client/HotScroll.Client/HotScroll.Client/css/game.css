@@ -107,11 +107,11 @@
 
 .track-container .track .player {
     height: 100%;
-    width: 150px;
+    width: 169px;
     position: absolute;
     bottom: 0;
     left: 0;
-    margin-left: -75px;
+    margin-left: -85px;
 }
 
     .track-container .track .player .player-icon {
