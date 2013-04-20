@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HotScroll.Server.Domain;
 using Microsoft.AspNet.SignalR;
 
@@ -16,10 +17,14 @@ namespace HotScroll.Server.Hubs
             get { return UsersInternal; }
         }
 
-        public void Connect(User user)
+        public User Connect(User user)
         {
+            user.Id = Guid.NewGuid().ToString();
+
             UsersInternal.Add(user);
             Clients.All.userConnected(user);
+
+            return user;
         }
     }
 }
