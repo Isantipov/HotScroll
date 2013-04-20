@@ -24,6 +24,8 @@ namespace HotScroll.Server.Hubs
             
             if (oponent != null)
             {
+                user.Status = oponent.Status = UserStatus.Playing;
+                
                 var duel = DuelService.AddDuel(user, oponent);
 
                 var proj1 = duel.ToProjection(user.Id);
