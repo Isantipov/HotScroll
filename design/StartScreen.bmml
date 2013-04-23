@@ -1,0 +1,29 @@
+<mockup version="1.0" skin="sketch" measuredW="1630" measuredH="846" mockupW="1280" mockupH="768">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TextInput" x="796" y="365" w="269" h="-1" measuredW="83" measuredH="29" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>User%20Name</text>
+      </controlProperties>
+    </control>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="795" y="435" w="-1" h="-1" measuredW="55" measuredH="28" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Login</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="878" y="432" w="-1" h="-1" measuredW="150" measuredH="28" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Login%20with%20Facebook</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Image" x="859" y="175" w="-1" h="-1" measuredW="141" measuredH="144" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Logo%20Image</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Canvas" x="340" y="68" w="1280" h="768" measuredW="100" measuredH="70" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>0.25</backgroundAlpha>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
