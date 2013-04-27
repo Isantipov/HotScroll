@@ -10,27 +10,27 @@ namespace HotScroll.Server.Hubs
     public class ConnectHub : Hub
     {
         
-        public Player Connect(Player user)
+        public Player Connect(Player player)
         {
-            user.ConnectionId = Context.ConnectionId;
-            UserService.AddUser(user);
-            Clients.All.userConnected(user);
-            return user;
+            player.ConnectionId = Context.ConnectionId;
+            PlayerService.Add(player);
+            Clients.All.playerConnected(player);
+            return player;
         }
 
-        public DuelProjection WaitPartner(Player user)
+        public DuelProjection WaitPartner(Player player)
         {
-            var serverUser = UserService.GetUser(user.Id);
-            serverUser.Status = UserStatus.WaitingForPartner;
-            var oponent = UserService.GetFreeUser(serverUser);
+            var serverPlayer = PlayerService.Get(player.Id);
+            serverPlayer.Status = PlayerStatus.WaitingForPartner;
+            var oponent = PlayerService.GetFreePlayer(serverPlayer);
             
             if (oponent != null)
             {
-                serverUser.Status = oponent.Status = UserStatus.Playing;
-                var duel = DuelService.AddDuel(serverUser, oponent);
+                serverPlayer.Status = oponent.Status = PlayerStatus.Playing;
+                var duel = DuelService.AddDuel(serverPlayer, oponent);
 
-                var proj1 = duel.ToProjection(serverUser.Id);
-                Clients.Client(serverUser.ConnectionId).play(proj1);
+                var proj1 = duel.ToProjection(serverPlayer.Id);
+                Clients.Client(serverPlayer.ConnectionId).play(proj1);
 
                 var proj2 = duel.ToProjection(oponent.Id);
                 Clients.Client(oponent.ConnectionId).play(proj2);
@@ -47,14 +47,14 @@ namespace HotScroll.Server.Hubs
         /// <returns></returns>
         public void RecordStep(Step step)
         {
-            var user = UserService.GetUser(step.UserId);
-            var duel = DuelService.GetDuelForUser(user.Id);
+            var player = PlayerService.Get(step.PlayerId);
+            var duel = DuelService.GetDuelForPLayer(player.Id);
             if (duel.IsGameOver)
             {
                 return;
             }
 
-            var opponent = duel.GetOpponent(user.Id);
+            var opponent = duel.GetOpponent(player.Id);
             Clients.Client(opponent.ConnectionId).receiveStep(step);
 
             if (DuelService.IsGameOver(step))
@@ -63,8 +63,8 @@ namespace HotScroll.Server.Hubs
 
                 Clients.Client(opponent.ConnectionId).gameOver(false);
                 Clients.Caller.gameOver(true);
-                user.Status = UserStatus.Pending;
-                opponent.Status = UserStatus.Pending;
+                player.Status = PlayerStatus.Pending;
+                opponent.Status = PlayerStatus.Pending;
             }
         }
     }
