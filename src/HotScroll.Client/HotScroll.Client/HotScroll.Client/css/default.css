@@ -10,6 +10,10 @@
     border: none;
 }
 
+.progress-placeholder.hidden {
+    opacity: 1;
+}
+
 .progress-placeholder {
     width: 620px;
     transition: opacity 0.2s ease;
@@ -48,15 +52,16 @@
         height: 90px;
         width: 50%;
         margin: 0 auto;
-        transition: opacity 0.5s ease-in-out 0.5s, transform 0.5s ease-in-out 0.5s;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
         opacity: 0;
-        transform: scale(0.5);
+        transform: translateY(50%);
         transform-origin: 50% 50%;
+        display: none;
     }
 
     .login-container #credentials.visible {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0);
     }
 
 #login {
