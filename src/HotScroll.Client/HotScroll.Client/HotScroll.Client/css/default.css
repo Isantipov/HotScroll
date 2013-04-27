@@ -1,4 +1,9 @@
-﻿.login-container {
+﻿#contenthost {
+    height: 100%;
+    width: 100%;
+}
+
+.login-container {
     margin: -150px 0 0 -310px;
     position: absolute;
     top: 50%;
