@@ -10,7 +10,7 @@ namespace HotScroll.Server.Hubs
     public class ConnectHub : Hub
     {
         
-        public User Connect(User user)
+        public Player Connect(Player user)
         {
             user.ConnectionId = Context.ConnectionId;
             UserService.AddUser(user);
@@ -18,7 +18,7 @@ namespace HotScroll.Server.Hubs
             return user;
         }
 
-        public DuelProjection WaitPartner(User user)
+        public DuelProjection WaitPartner(Player user)
         {
             var serverUser = UserService.GetUser(user.Id);
             serverUser.Status = UserStatus.WaitingForPartner;
