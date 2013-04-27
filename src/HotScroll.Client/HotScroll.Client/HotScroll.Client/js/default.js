@@ -1,208 +1,165 @@
-﻿// For an introduction to the Blank template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkId=232509
-(function () {
-    "use strict";
+﻿(function (window, $) {
+    'use strict';
 
+    var HOST_URL = 'http://hotscroll.azurewebsites.net/',
+
+        app = WinJS.Application,
+        activation = Windows.ApplicationModel.Activation,
+
+        appData = {
+            currentDuel: null,
+            currentPlayer: null,
+            opponentPlayer: null,
+
+            animationInterval: null
+        };
+        
     WinJS.Binding.optimizeBindingReferences = true;
-
-    var app = WinJS.Application;
-    var activation = Windows.ApplicationModel.Activation;
 
     app.onactivated = function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
-            if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
-                // TODO: This application has been newly launched. Initialize
-                // your application here.
-            } else {
-                // TODO: This application has been reactivated from suspension.
-                // Restore application state here.
-            }
             args.setPromise(WinJS.UI.processAll());
 
-            $.get('http://hotscroll.azurewebsites.net/signalr/hubs', function (response) {
-                eval(response);
+            $.get(HOST_URL + 'signalr/hubs', function (hubs) {
+                eval(hubs);
 
                 $.connection.connectHub.client.play = function (resp) {
-                    window.duel = resp;
+                    appData.currentDuel = resp;
                     startCountDown();
                 };
 
                 $.connection.connectHub.client.receiveStep = function (resp) {
-                    
-                    window.opponentPlayer.points = resp.Points;
+                    appData.opponentPlayer.points = resp.Points;
 
-                    if (window.opponentPlayer.points > 0 && window.opponentPlayer.points < 1000) {
-                        window.opponentPlayer.element.style.left = (window.opponentPlayer.points / 1000) * 100 + '%';
-                    } else if (window.opponentPlayer.points >= 1000) {
+                    if (appData.opponentPlayer.points > 0 && appData.opponentPlayer.points < 1000) {
+                        appData.opponentPlayer.element.style.left = (appData.opponentPlayer.points / 1000) * 100 + '%';
+                    } else if (appData.opponentPlayer.points >= 1000) {
                         // do nothing
                     } else {
-                        window.opponentPlayer.element.style.left = 0;
+                        appData.opponentPlayer.element.style.left = 0;
                     }
                 };
 
                 $.connection.connectHub.client.gameOver = function (resp) {
-                    document.getElementById('game-container').style.display = 'none';
+                    $('#game-container').hide();
 
-                    clearInterval(window.legsAnimation);
+                    clearInterval(appData.animationInterval);
                     window.onmousewheel = null;
                     
                     if (resp == true) {
-                        document.getElementById('you-won').style.display = 'block';
+                        $('#you-won').show();
                     } else {
-                        document.getElementById('you-lost').style.display = 'block';
+                        $('#you-lost').show();
                     }
                 };
 
-                $.connection.hub.url = 'http://hotscroll.azurewebsites.net/signalr';
+                $.connection.hub.url = HOST_URL + 'signalr';
                 $.connection.hub.start().done(function () {
-
-                    Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (resp) {
-                        document.getElementById('login').value = resp;
+                    Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (username) {
+                        $('#login').val(username);
                     });
 
-                    var startButton = document.getElementById('start');
-                    startButton.onclick = function () {
-                        var login = document.getElementById('login').value;
+                    $('#start').click(function () {
+                        var login = $('#login').val();
                         if (login !== '') {
-                            $.connection.connectHub.server.connect({ Name: login }).done(function (response) {
-                                window.user = response;
-                                document.getElementById('loginForm').style.display = 'none';
-                                document.getElementById('game-container').style.display = 'block';
-                                
-                                $.connection.connectHub.server.waitPartner(response);
+                            $.connection.connectHub.server.connect({ Name: login }).done(function (resp) {
+                                appData.currentPlayer = resp;
+                                $('#loginForm').hide();
+                                $('#game-container').show();
 
+                                $.connection.connectHub.server.waitPartner(resp);
                             });
                         }
-                    };
+                    });
 
-                    document.querySelectorAll('.exit-button')[0].onclick = function () {
+                    $('.exit-button').click(function () {
                         window.close();
-                    };
-                    document.querySelectorAll('.exit-button')[1].onclick = function () {
-                        window.close();
-                    };
+                    });
+                    $('.retry-button').click(function () {
+                        $('#you-won').hide();
+                        $('#you-lost').hide();
 
-                    document.querySelectorAll('.retry-button')[0].onclick = function () {
-                        document.getElementById('you-won').style.display = 'none';
-                        document.getElementById('you-lost').style.display = 'none';
+                        $('.searching').show();
+                        $('#countdown').show();
 
-                        document.querySelector('.searching').style.display = 'block';
-                        document.getElementById('countdown').style.display = 'block';
+                        $('#game-container').show();
+                        $('#currentPlayer').css('left', 0);
+                        $('#opponentPlayer').css('left', 0);
 
-                        document.getElementById('game-container').style.display = 'block';
-                        document.getElementById('currentPlayer').style.left = '0px';
-                        document.getElementById('opponentPlayer').style.left = '0px';
-
-
-                        $.connection.connectHub.server.waitPartner(window.user);
-                    };
-                    document.querySelectorAll('.retry-button')[1].onclick = function () {
-                        document.getElementById('you-won').style.display = 'none';
-                        document.getElementById('you-lost').style.display = 'none';
-
-                        document.querySelector('.searching').style.display = 'block';
-                        document.getElementById('countdown').style.display = 'block';
-
-                        document.getElementById('game-container').style.display = 'block';
-                        document.getElementById('currentPlayer').style.left = '0px';
-                        document.getElementById('opponentPlayer').style.left = '0px';
-
-                        $.connection.connectHub.server.waitPartner(window.user);
-                    };
-
+                        $.connection.connectHub.server.waitPartner(appData.currentPlayer);
+                    });
                 });
 
-                var searching = document.querySelector('.searching');
-
                 function startCountDown() {
-                    searching.style.display = 'none';
+                    $('.searching').hide();
 
-                    var countdown = document.getElementById('countdown');
-                    countdown.innerHTML = '3';
-                    setTimeout(function () {
-                        countdown.innerHTML = '2';
+                    var countdownSeconds = 3,
+                        countdown = $('#countdown').text(countdownSeconds),
+                        countdownInterval = setInterval(function () {
+                            countdownSeconds--;
+                        
+                            if (countdownSeconds === 0) {
+                                clearInterval(countdownInterval);
 
-                        setTimeout(function () {
-                            countdown.innerHTML = '1';
-                            
-                            setTimeout(function () {
-                                countdown.innerHTML = '';
-                                countdown.style.display = 'none';
-                                document.getElementById('scrollDirection').style.display = 'block';
+                                countdown.text('').hide();
+                                $('#scrollDirection').show();
 
-                                initializeGame(new Player(window.user.Name, window.user.Id, true), new Player(window.duel.Opponent.Name, window.duel.Opponent.Id, false));
-                            }, 1050);
-                        }, 1050);
-                    }, 1050);
+                                initializeGame(new Player(appData.currentPlayer.Name, appData.currentPlayer.Id, true), new Player(appData.currentDuel.Opponent.Name, appData.currentDuel.Opponent.Id, false));
+                            } else {
+                                countdown.text(countdownSeconds);
+                            }
+                        }, 1000);
                 }
 
                 function Player(userName, id, current) {
                     this.name = userName;
                     this.id = id;
                     this.points = 0;
-                    //this.id;
                     this.element = current ? document.getElementById('currentPlayer') : document.getElementById('opponentPlayer');
 
-                    this.element.querySelector('.player-user-name').innerHTML = this.name;
+                    $('.player-user-name', this.element).text(this.name);
+                    $('.player-icon', this.element)[0].style.backgroundPositionX = '0px';
+                    this.element.style.backgroundPositionX = '0px';
                 }
 
-                Player.prototype.setId = function (id) {
-                    this.id = id;
-                };
-
                 function initializeGame(currentPlayer, opponentPlayer) {
-                    window.opponentPlayer = opponentPlayer;
-                    window.currentPlayer = currentPlayer;
-                    window.opponentPlayer.element.style.backgroundPositionX = 0;
-                    window.currentPlayer.element.style.backgroundPositionX = 0;
+                    appData.opponentPlayer = opponentPlayer;
+                    appData.currentPlayer = currentPlayer;
 
-                    var currentIcon = window.currentPlayer.element.querySelector('.player-icon');
-                    var opponentIcon = window.opponentPlayer.element.querySelector('.player-icon');
-                    opponentIcon.style.backgroundPositionX = '0px';
-                    currentIcon.style.backgroundPositionX = '0px';
+                    var currentIcon = $('.player-icon', appData.currentPlayer.element)[0],
+                        opponentIcon = $('.player-icon', appData.opponentPlayer.element)[0];
 
-                    window.legsAnimation = setInterval(function () {
+                    appData.animationInterval = setInterval(function () {
                         var bgPos = parseInt(opponentIcon.style.backgroundPositionX, 10);
 
-                        if (Math.abs(bgPos) >= 676 - 169) {
+                        if (Math.abs(bgPos) >= 507) {
                             opponentIcon.style.backgroundPositionX = '0px';
                             currentIcon.style.backgroundPositionX = '0px';
                         } else {
-                            opponentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
-                            currentIcon.style.backgroundPositionX = bgPos - 169 + 'px';
+                            var totalX = bgPos - 169;
+                            opponentIcon.style.backgroundPositionX = totalX + 'px';
+                            currentIcon.style.backgroundPositionX = totalX + 'px';
                         }
                     }, 130);
 
                     window.onmousewheel = function (event) {
-                        window.currentPlayer.points -= event.wheelDelta / 120;
+                        appData.currentPlayer.points -= event.wheelDelta / 120;
 
-                        $.connection.connectHub.server.recordStep({ Points: window.currentPlayer.points, UserId: window.currentPlayer.id });
+                        $.connection.connectHub.server.recordStep({ Points: appData.currentPlayer.points, UserId: appData.currentPlayer.id });
 
-                        if (window.currentPlayer.points > 0 && window.currentPlayer.points < 1000) {
-                            window.currentPlayer.element.style.left = (window.currentPlayer.points / 1000) * 100 + '%';
-                        } else if (window.currentPlayer.points >= 1000) {
+                        if (appData.currentPlayer.points > 0 && appData.currentPlayer.points < 1000) {
+                            appData.currentPlayer.element.style.left = (appData.currentPlayer.points / 1000) * 100 + '%';
+                        } else if (appData.currentPlayer.points >= 1000) {
                             // do nothing
                         } else {
-                            window.currentPlayer.element.style.left = 0;
+                            appData.currentPlayer.element.style.left = 0;
                         }
                     };
                 }
-
             });
-
-            
         }
-    };
-
-    app.oncheckpoint = function (args) {
-        // TODO: This application is about to be suspended. Save any state
-        // that needs to persist across suspensions here. You might use the
-        // WinJS.Application.sessionState object, which is automatically
-        // saved and restored across suspension. If you need to complete an
-        // asynchronous operation before your application is suspended, call
-        // args.setPromise().
     };
 
     app.start();
 
-})();
+})(this, jQuery);
