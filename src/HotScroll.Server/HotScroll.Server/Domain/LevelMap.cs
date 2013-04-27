@@ -12,7 +12,7 @@ namespace HotScroll.Server.Domain
         protected const int TilesNumber = 15;
 
         // Events
-        protected const int EventsNumber = 10;
+        protected const int EventsNumber = 7;
 
         #endregion
 
@@ -26,14 +26,20 @@ namespace HotScroll.Server.Domain
             Events = new List<LevelEvent>();
         }
 
-        public void GenerateRandom()
+        public void GenerateRandom(Random random)
         {
             // Background
             Background.Clear();
-            var random = new Random();
+            var prev = 0;
+            var current = 0;
             for(var i = 0; i < TilesNumber; i++)
             {
-                Background.Add(random.Next(1, UniqueTilesNumber));
+                while (prev == current)
+                {
+                    current = random.Next(1, UniqueTilesNumber);
+                }
+                Background.Add(current);
+                prev = current;
             }
 
             // Events
@@ -41,7 +47,7 @@ namespace HotScroll.Server.Domain
             for(var i = 0; i < EventsNumber; i++)
             {
                 var evnt = new LevelEvent();
-                evnt.GenerateRandom();
+                evnt.GenerateRandom(random);
                 Events.Add(evnt);
             }
         }
