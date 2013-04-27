@@ -30,9 +30,9 @@ namespace HotScroll.Server.Services
             return DuelsInternal.FirstOrDefault(t => t.Id == id);
         }
 
-        public static Duel GetDuelForUser(string userId)
+        public static Duel GetDuelForPLayer(string playerId)
         {
-            return DuelsInternal.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Id == userId));
+            return DuelsInternal.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Id == playerId));
         }
 
         public static bool IsGameOver(Step step)

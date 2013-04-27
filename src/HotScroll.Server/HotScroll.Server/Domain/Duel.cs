@@ -36,9 +36,9 @@ namespace HotScroll.Server.Domain
                        };
         }
 
-        public Player GetOpponent(string userId)
+        public Player GetOpponent(string playerId)
         {
-            return Players.FirstOrDefault(t => t.Id != userId);
+            return Players.FirstOrDefault(t => t.Id != playerId);
         }
 
         public IEnumerable<Player> GetOpponents(string userId)
