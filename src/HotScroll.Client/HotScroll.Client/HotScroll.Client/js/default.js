@@ -61,7 +61,7 @@
                         setTimeout(function () {
                             $('#loadingIndicator').hide();
                             $('#credentials').show();
-                            $('#loadingIndicator').addClass('visible');
+                            $('#credentials').addClass('visible');
                         }, 300);
                     });
 
