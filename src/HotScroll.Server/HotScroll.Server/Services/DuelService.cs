@@ -16,7 +16,11 @@ namespace HotScroll.Server.Services
 
         public static Duel AddDuel(User player1, User player2)
         {
-            var duel = new Duel {Player1 = player1, Player2 = player2, Id = Guid.NewGuid().ToString()};
+            var duel = new Duel
+                           {
+                               Id = Guid.NewGuid().ToString(),
+                               Players = new List<User> {player1, player2}, 
+                           };
             DuelsInternal.Add(duel);
             return duel;
         }
@@ -28,7 +32,7 @@ namespace HotScroll.Server.Services
 
         public static Duel GetDuelForUser(string userId)
         {
-            return DuelsInternal.FirstOrDefault(t => !t.IsGameOver && (t.Player1.Id == userId || t.Player2.Id == userId));
+            return DuelsInternal.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Id == userId));
         }
 
         public static bool IsGameOver(Step step)
