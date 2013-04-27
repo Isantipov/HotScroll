@@ -64,7 +64,12 @@
     <Content Include="images\storelogo.png" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />
+    <Content Include="js\navigator.js" />
     <Content Include="packages.config" />
+    <Content Include="pages\lobby\lobby.html" />
+    <Content Include="pages\lobby\lobby.js" />
+    <Content Include="pages\login\login.html" />
+    <Content Include="pages\login\login.js" />
     <Content Include="Scripts\jquery-2.0.0.js" />
     <Content Include="Scripts\jquery-2.0.0.min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.1.js" />
