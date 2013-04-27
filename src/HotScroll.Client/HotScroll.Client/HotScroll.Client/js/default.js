@@ -3,10 +3,6 @@
 (function () {
     "use strict";
 
-    // var account = Windows.System.UserProfile.UserInformation.accountPictureChangeEnabled;
-
-
-
     WinJS.Binding.optimizeBindingReferences = true;
 
     var app = WinJS.Application;
