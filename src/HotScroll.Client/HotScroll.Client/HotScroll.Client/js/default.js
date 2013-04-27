@@ -149,7 +149,8 @@
                     }, 130);
 
                     window.onmousewheel = function (event) {
-                        appData.currentPlayer.points -= event.wheelDelta / 120;
+                        var sign = event.wheelDelta > 0 ? -1 : 1;
+                        appData.currentPlayer.points += sign;
 
                         $.connection.connectHub.server.recordStep({ Points: appData.currentPlayer.points, UserId: appData.currentPlayer.id });
 
