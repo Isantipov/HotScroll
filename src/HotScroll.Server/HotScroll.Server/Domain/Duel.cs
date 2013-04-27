@@ -11,6 +11,8 @@ namespace HotScroll.Server.Domain
 
         public List<User> Players { get; set; }
 
+        public LevelMap Level { get; set; }
+
         [JsonIgnore]
         public bool IsGameOver { get; set; }
 
