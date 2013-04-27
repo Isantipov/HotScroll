@@ -26,7 +26,7 @@ namespace HotScroll.Server.Domain
             Events = new List<LevelEvent>();
         }
 
-        protected void GenerateRandom()
+        public void GenerateRandom()
         {
             // Background
             Background.Clear();
