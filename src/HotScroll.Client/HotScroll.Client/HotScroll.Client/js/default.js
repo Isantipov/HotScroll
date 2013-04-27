@@ -1,7 +1,5 @@
 ﻿(function (window, $) {
 
-    'use strict';
-
     var HOST_URL = 'http://hotscroll.azurewebsites.net/',
 
         app = WinJS.Application,
@@ -92,75 +90,75 @@
 
                     connectHub.invoke('waitPartner', appData.currentPlayer);
                 });
-
-                function startCountDown() {
-                    $('.searching').hide();
-
-                    var countdownSeconds = 3,
-                        countdown = $('#countdown').text(countdownSeconds),
-                        countdownInterval = setInterval(function () {
-                            countdownSeconds--;
-
-                            if (countdownSeconds === 0) {
-                                clearInterval(countdownInterval);
-
-                                countdown.text('').hide();
-                                $('#scrollDirection').show();
-
-                                initializeGame(new Player(appData.currentPlayer.Name, appData.currentPlayer.Id, true), new Player(appData.currentDuel.Opponent.Name, appData.currentDuel.Opponent.Id, false));
-                            } else {
-                                countdown.text(countdownSeconds);
-                            }
-                        }, 1000);
-                }
-
-                function Player(userName, id, current) {
-                    this.name = userName;
-                    this.id = id;
-                    this.points = 0;
-                    this.element = current ? document.getElementById('currentPlayer') : document.getElementById('opponentPlayer');
-
-                    $('.player-user-name', this.element).text(this.name);
-                    $('.player-icon', this.element)[0].style.backgroundPositionX = '0px';
-                    this.element.style.backgroundPositionX = '0px';
-                }
-
-                function initializeGame(currentPlayer, opponentPlayer) {
-                    appData.opponentPlayer = opponentPlayer;
-                    appData.currentPlayer = currentPlayer;
-
-                    var currentIcon = $('.player-icon', appData.currentPlayer.element)[0],
-                        opponentIcon = $('.player-icon', appData.opponentPlayer.element)[0];
-
-                    appData.animationInterval = setInterval(function () {
-                        var bgPos = parseInt(opponentIcon.style.backgroundPositionX, 10);
-
-                        if (Math.abs(bgPos) >= 507) {
-                            opponentIcon.style.backgroundPositionX = '0px';
-                            currentIcon.style.backgroundPositionX = '0px';
-                        } else {
-                            var totalX = bgPos - 169;
-                            opponentIcon.style.backgroundPositionX = totalX + 'px';
-                            currentIcon.style.backgroundPositionX = totalX + 'px';
-                        }
-                    }, 130);
-
-                    window.onmousewheel = function (event) {
-                        var sign = event.wheelDelta > 0 ? -1 : 1;
-                        appData.currentPlayer.points += sign;
-
-                        connectHub.invoke('recordStep', { Points: appData.currentPlayer.points, UserId: appData.currentPlayer.id });
-
-                        if (appData.currentPlayer.points > 0 && appData.currentPlayer.points < 1000) {
-                            appData.currentPlayer.element.style.left = (appData.currentPlayer.points / 1000) * 100 + '%';
-                        } else if (appData.currentPlayer.points >= 1000) {
-                            // do nothing
-                        } else {
-                            appData.currentPlayer.element.style.left = 0;
-                        }
-                    };
-                }
             });
+
+            function startCountDown() {
+                $('.searching').hide();
+
+                var countdownSeconds = 3,
+                    countdown = $('#countdown').text(countdownSeconds),
+                    countdownInterval = setInterval(function () {
+                        countdownSeconds--;
+
+                        if (countdownSeconds === 0) {
+                            clearInterval(countdownInterval);
+
+                            countdown.text('').hide();
+                            $('#scrollDirection').show();
+
+                            initializeGame(new Player(appData.currentPlayer.Name, appData.currentPlayer.Id, true), new Player(appData.currentDuel.Opponent.Name, appData.currentDuel.Opponent.Id, false));
+                        } else {
+                            countdown.text(countdownSeconds);
+                        }
+                    }, 1000);
+            }
+
+            function Player(userName, id, current) {
+                this.name = userName;
+                this.id = id;
+                this.points = 0;
+                this.element = current ? document.getElementById('currentPlayer') : document.getElementById('opponentPlayer');
+
+                $('.player-user-name', this.element).text(this.name);
+                $('.player-icon', this.element)[0].style.backgroundPositionX = '0px';
+                this.element.style.backgroundPositionX = '0px';
+            }
+
+            function initializeGame(currentPlayer, opponentPlayer) {
+                appData.opponentPlayer = opponentPlayer;
+                appData.currentPlayer = currentPlayer;
+
+                var currentIcon = $('.player-icon', appData.currentPlayer.element)[0],
+                    opponentIcon = $('.player-icon', appData.opponentPlayer.element)[0];
+
+                appData.animationInterval = setInterval(function () {
+                    var bgPos = parseInt(opponentIcon.style.backgroundPositionX, 10);
+
+                    if (Math.abs(bgPos) >= 507) {
+                        opponentIcon.style.backgroundPositionX = '0px';
+                        currentIcon.style.backgroundPositionX = '0px';
+                    } else {
+                        var totalX = bgPos - 169;
+                        opponentIcon.style.backgroundPositionX = totalX + 'px';
+                        currentIcon.style.backgroundPositionX = totalX + 'px';
+                    }
+                }, 130);
+
+                window.onmousewheel = function (event) {
+                    var sign = event.wheelDelta > 0 ? -1 : 1;
+                    appData.currentPlayer.points += sign;
+
+                    connectHub.invoke('recordStep', { Points: appData.currentPlayer.points, UserId: appData.currentPlayer.id });
+
+                    if (appData.currentPlayer.points > 0 && appData.currentPlayer.points < 1000) {
+                        appData.currentPlayer.element.style.left = (appData.currentPlayer.points / 1000) * 100 + '%';
+                    } else if (appData.currentPlayer.points >= 1000) {
+                        // do nothing
+                    } else {
+                        appData.currentPlayer.element.style.left = 0;
+                    }
+                };
+            }
         }
     };
 
