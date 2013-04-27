@@ -204,6 +204,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Domain\Duel.cs" />
     <Compile Include="Domain\DuelProjection.cs" />
+    <Compile Include="Domain\LevelEvent.cs" />
     <Compile Include="Domain\Step.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />

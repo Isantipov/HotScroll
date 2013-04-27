@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
@@ -8,11 +9,7 @@ namespace HotScroll.Server.Domain
     {
         public string Id { get; set; }
 
-        public User Player1 { get; set; }
-        
-        public User Player2 { get; set; }
-
-        public Direction Direction { get; set; }
+        public List<User> Players { get; set; }
 
         [JsonIgnore]
         public bool IsGameOver { get; set; }
@@ -24,24 +21,28 @@ namespace HotScroll.Server.Domain
         {
             Id = Guid.NewGuid().ToString();
             Steps = new List<Step>();
-            Direction = Direction.Right;
+            Players = new List<User>();
         }
 
         public DuelProjection ToProjection(string userId)
         {
-            return new DuelProjection { Opponent = GetOpponent(userId), Id = Id };
+            return new DuelProjection
+                       {
+                           Id = Id,
+                           Opponent = GetOpponent(userId), 
+                           Opponents = GetOpponents(userId),
+                       };
         }
 
         public User GetOpponent(string userId)
         {
-            return Player1.Id == userId ? Player2 : Player1;
+            return Players.FirstOrDefault(t => t.Id != userId);
         }
 
-    }
-    
-    public enum Direction
-    {
-        Right = 1,
-        Left = 2,
+        public IEnumerable<User> GetOpponents(string userId)
+        {
+            return Players.Where(t => t.Id != userId);
+        }
+
     }
 }
