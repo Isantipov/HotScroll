@@ -207,7 +207,6 @@
     <Compile Include="Domain\Step.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
-    <Compile Include="Game.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
