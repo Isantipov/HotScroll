@@ -13,6 +13,8 @@ namespace HotScroll.Server.Domain
 
         public LevelMap Level { get; set; }
 
+        public Random Random { get; set; }
+
         [JsonIgnore]
         public bool IsGameOver { get; set; }
 
@@ -21,7 +23,8 @@ namespace HotScroll.Server.Domain
             Id = Guid.NewGuid().ToString();
             Players = players;
             Level = new LevelMap();
-            Level.GenerateRandom();
+            Random = new Random();
+            Level.GenerateRandom(Random);
         }
 
         public DuelProjection ToProjection(string userId)

@@ -24,6 +24,7 @@
     <!--SignalR script to update the chat page and send messages.--> 
     <script>
         var Player = null;
+        var Duel = null;
         $(function() {
             // Reference the auto-generated proxy for the hub.  
             var chat = $.connection.connectHub;
@@ -43,6 +44,7 @@
 
             chat.client.play = function(projection) {
                 addMessage(Player, 'playing now with id =' + projection.Opponent.Id);
+                Duel = projection;
             };
             chat.client.receiveStep = function (step) {
                 addMessage(Player, 'nigga moved ' + step.Points);

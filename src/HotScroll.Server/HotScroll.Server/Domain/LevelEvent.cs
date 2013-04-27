@@ -6,6 +6,9 @@ namespace HotScroll.Server.Domain
     {
         #region Constants
 
+        protected const int MaximumScore = 1000;
+        protected const int MinimumScore = 50;
+
         protected const int MaximumDuration = 300;
         protected const int MinimumDuration = 50;
 
@@ -20,10 +23,10 @@ namespace HotScroll.Server.Domain
             Type = EventType.LeftDistractor;
         }
 
-        public void GenerateRandom()
+        public void GenerateRandom(Random random)
         {
-            var random = new Random();
             Duration = random.Next(MinimumDuration, MaximumDuration);
+            Score = random.Next(MinimumScore, MaximumScore);
             var maxEvent = Enum.GetNames(typeof (EventType)).Length;
             Type = (EventType) random.Next(1, maxEvent);
         }
