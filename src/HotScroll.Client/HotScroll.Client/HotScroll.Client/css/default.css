@@ -9,6 +9,18 @@
     transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
     border: none;
 }
+
+.progress-placeholder {
+    width: 620px;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+}
+
+    .progress-placeholder > .win-ring {
+        margin: 20px auto;
+        color: #fff;
+        display: block;
+    }
 #game-container {
     display: none;
 }
