@@ -57,6 +57,12 @@
                 $.connection.hub.start().done(function () {
                     Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (username) {
                         $('#login').val(username);
+                        $('#loadingIndicator').addClass('hidden');
+                        setTimeout(function () {
+                            $('#loadingIndicator').hide();
+                            $('#credentials').show();
+                            $('#loadingIndicator').addClass('visible');
+                        }, 300);
                     });
 
                     $('#start').click(function () {
