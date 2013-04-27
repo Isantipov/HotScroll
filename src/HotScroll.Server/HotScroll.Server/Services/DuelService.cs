@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HotScroll.Server.Domain;
 
@@ -14,13 +13,9 @@ namespace HotScroll.Server.Services
             get { return DuelsInternal; }
         }
 
-        public static Duel AddDuel(Player player1, Player player2)
+        public static Duel AddDuel(List<Player> players)
         {
-            var duel = new Duel
-                           {
-                               Id = Guid.NewGuid().ToString(),
-                               Players = new List<Player> {player1, player2}, 
-                           };
+            var duel = new Duel(players);
             DuelsInternal.Add(duel);
             return duel;
         }

@@ -1,4 +1,5 @@
-﻿using HotScroll.Server.Domain;
+﻿using System.Collections.Generic;
+using HotScroll.Server.Domain;
 using HotScroll.Server.Services;
 using Microsoft.AspNet.SignalR;
 
@@ -27,7 +28,7 @@ namespace HotScroll.Server.Hubs
             if (oponent != null)
             {
                 serverPlayer.Status = oponent.Status = PlayerStatus.Playing;
-                var duel = DuelService.AddDuel(serverPlayer, oponent);
+                var duel = DuelService.AddDuel(new List<Player> {serverPlayer, oponent});
 
                 var proj1 = duel.ToProjection(serverPlayer.Id);
                 Clients.Client(serverPlayer.ConnectionId).play(proj1);

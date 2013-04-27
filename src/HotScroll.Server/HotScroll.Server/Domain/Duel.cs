@@ -16,21 +16,19 @@ namespace HotScroll.Server.Domain
         [JsonIgnore]
         public bool IsGameOver { get; set; }
 
-        [JsonIgnore]
-        public List<Step> Steps { get; set; }
-
-        public Duel()
+        public Duel(List<Player> players)
         {
             Id = Guid.NewGuid().ToString();
-            Steps = new List<Step>();
-            Players = new List<Player>();
+            Players = players;
+            Level = new LevelMap();
+            Level.GenerateRandom();
         }
 
         public DuelProjection ToProjection(string userId)
         {
             return new DuelProjection
                        {
-                           Id = Id,
+                           Level = Level,
                            Opponent = GetOpponent(userId), 
                            Opponents = GetOpponents(userId),
                        };
