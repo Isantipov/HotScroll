@@ -1,4 +1,5 @@
 ﻿(function (window, $) {
+
     'use strict';
 
     var HOST_URL = 'http://hotscroll.azurewebsites.net/',
@@ -20,80 +21,76 @@
         if (args.detail.kind === activation.ActivationKind.launch) {
             args.setPromise(WinJS.UI.processAll());
 
-            $.get(HOST_URL + 'signalr/hubs', function (hubs) {
-                eval(hubs);
+            var connection = $.hubConnection(HOST_URL),
+                connectHub = connection.createHubProxy('connectHub');
 
-                $.connection.connectHub.client.play = function (resp) {
-                    appData.currentDuel = resp;
-                    startCountDown();
-                };
+            connectHub.on('play', function (response) {
+                appData.currentDuel = response;
+                startCountDown();
+            });
+            connectHub.on('receiveStep', function (response) {
+                appData.opponentPlayer.points = response.Points;
 
-                $.connection.connectHub.client.receiveStep = function (resp) {
-                    appData.opponentPlayer.points = resp.Points;
+                if (appData.opponentPlayer.points > 0 && appData.opponentPlayer.points < 1000) {
+                    appData.opponentPlayer.element.style.left = (appData.opponentPlayer.points / 1000) * 100 + '%';
+                } else if (appData.opponentPlayer.points >= 1000) {
+                    // do nothing
+                } else {
+                    appData.opponentPlayer.element.style.left = 0;
+                }
+            });
+            connectHub.on('gameOver', function (response) {
+                $('#game-container').hide();
 
-                    if (appData.opponentPlayer.points > 0 && appData.opponentPlayer.points < 1000) {
-                        appData.opponentPlayer.element.style.left = (appData.opponentPlayer.points / 1000) * 100 + '%';
-                    } else if (appData.opponentPlayer.points >= 1000) {
-                        // do nothing
-                    } else {
-                        appData.opponentPlayer.element.style.left = 0;
+                clearInterval(appData.animationInterval);
+                window.onmousewheel = null;
+
+                if (response == true) {
+                    $('#you-won').show();
+                } else {
+                    $('#you-lost').show();
+                }
+            });
+
+            Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (username) {
+                $('#login').val(username);
+                $('#loadingIndicator').addClass('hidden');
+                setTimeout(function () {
+                    $('#loadingIndicator').hide();
+                    $('#credentials').show();
+                    $('#credentials').addClass('visible');
+                }, 300);
+            });
+
+            connection.start().done(function () {
+                $('#start').click(function () {
+                    var login = $('#login').val();
+                    if (login !== '') {
+                        connectHub.invoke('connect', { Name: login }).done(function (response) {
+                            appData.currentPlayer = response;
+                            $('#loginForm').hide();
+                            $('#game-container').show();
+
+                            connectHub.invoke('waitPartner', response);
+                        });
                     }
-                };
+                });
 
-                $.connection.connectHub.client.gameOver = function (resp) {
-                    $('#game-container').hide();
+                $('.exit-button').click(function () {
+                    window.close();
+                });
+                $('.retry-button').click(function () {
+                    $('#you-won').hide();
+                    $('#you-lost').hide();
 
-                    clearInterval(appData.animationInterval);
-                    window.onmousewheel = null;
-                    
-                    if (resp == true) {
-                        $('#you-won').show();
-                    } else {
-                        $('#you-lost').show();
-                    }
-                };
+                    $('.searching').show();
+                    $('#countdown').show();
 
-                $.connection.hub.url = HOST_URL + 'signalr';
-                $.connection.hub.start().done(function () {
-                    Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (username) {
-                        $('#login').val(username);
-                        $('#loadingIndicator').addClass('hidden');
-                        setTimeout(function () {
-                            $('#loadingIndicator').hide();
-                            $('#credentials').show();
-                            $('#credentials').addClass('visible');
-                        }, 300);
-                    });
+                    $('#game-container').show();
+                    $('#currentPlayer').css('left', 0);
+                    $('#opponentPlayer').css('left', 0);
 
-                    $('#start').click(function () {
-                        var login = $('#login').val();
-                        if (login !== '') {
-                            $.connection.connectHub.server.connect({ Name: login }).done(function (resp) {
-                                appData.currentPlayer = resp;
-                                $('#loginForm').hide();
-                                $('#game-container').show();
-
-                                $.connection.connectHub.server.waitPartner(resp);
-                            });
-                        }
-                    });
-
-                    $('.exit-button').click(function () {
-                        window.close();
-                    });
-                    $('.retry-button').click(function () {
-                        $('#you-won').hide();
-                        $('#you-lost').hide();
-
-                        $('.searching').show();
-                        $('#countdown').show();
-
-                        $('#game-container').show();
-                        $('#currentPlayer').css('left', 0);
-                        $('#opponentPlayer').css('left', 0);
-
-                        $.connection.connectHub.server.waitPartner(appData.currentPlayer);
-                    });
+                    connectHub.invoke('waitPartner', appData.currentPlayer);
                 });
 
                 function startCountDown() {
@@ -103,7 +100,7 @@
                         countdown = $('#countdown').text(countdownSeconds),
                         countdownInterval = setInterval(function () {
                             countdownSeconds--;
-                        
+
                             if (countdownSeconds === 0) {
                                 clearInterval(countdownInterval);
 
@@ -152,7 +149,7 @@
                         var sign = event.wheelDelta > 0 ? -1 : 1;
                         appData.currentPlayer.points += sign;
 
-                        $.connection.connectHub.server.recordStep({ Points: appData.currentPlayer.points, UserId: appData.currentPlayer.id });
+                        connectHub.invoke('recordStep', { Points: appData.currentPlayer.points, UserId: appData.currentPlayer.id });
 
                         if (appData.currentPlayer.points > 0 && appData.currentPlayer.points < 1000) {
                             appData.currentPlayer.element.style.left = (appData.currentPlayer.points / 1000) * 100 + '%';
