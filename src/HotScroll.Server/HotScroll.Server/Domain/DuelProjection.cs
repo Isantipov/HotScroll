@@ -5,7 +5,7 @@ namespace HotScroll.Server.Domain
     public class DuelProjection
     {
         public string Id { get; set; }
-        public User Opponent { get; set; }
-        public IEnumerable<User> Opponents { get; set; }
+        public Player Opponent { get; set; }
+        public IEnumerable<Player> Opponents { get; set; }
     }
 }

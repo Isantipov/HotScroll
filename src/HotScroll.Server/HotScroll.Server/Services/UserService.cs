@@ -7,26 +7,26 @@ namespace HotScroll.Server.Services
 {
     public static class UserService
     {
-        private static readonly List<User> UsersInternal = new List<User>();
+        private static readonly List<Player> UsersInternal = new List<Player>();
 
-        public static List<User> Users
+        public static List<Player> Users
         {
             get { return UsersInternal; }
         }
 
-        public static void AddUser(User user)
+        public static void AddUser(Player user)
         {
             user.Id = Guid.NewGuid().ToString();
 
             UsersInternal.Add(user);
         }
 
-        public static User GetUser(string id)
+        public static Player GetUser(string id)
         {
             return UsersInternal.FirstOrDefault(t => t.Id == id);
         }
 
-        public static User GetFreeUser(User currentUser)
+        public static Player GetFreeUser(Player currentUser)
         {
             return UsersInternal.FirstOrDefault(t => t.Status == UserStatus.WaitingForPartner
                                                      && t.Id != currentUser.Id);

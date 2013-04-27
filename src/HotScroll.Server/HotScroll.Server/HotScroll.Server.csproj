@@ -207,7 +207,7 @@
     <Compile Include="Domain\LevelEvent.cs" />
     <Compile Include="Domain\LevelMap.cs" />
     <Compile Include="Domain\Step.cs" />
-    <Compile Include="Domain\User.cs" />
+    <Compile Include="Domain\Player.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

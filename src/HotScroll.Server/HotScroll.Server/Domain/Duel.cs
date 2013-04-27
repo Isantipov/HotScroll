@@ -9,7 +9,7 @@ namespace HotScroll.Server.Domain
     {
         public string Id { get; set; }
 
-        public List<User> Players { get; set; }
+        public List<Player> Players { get; set; }
 
         public LevelMap Level { get; set; }
 
@@ -23,7 +23,7 @@ namespace HotScroll.Server.Domain
         {
             Id = Guid.NewGuid().ToString();
             Steps = new List<Step>();
-            Players = new List<User>();
+            Players = new List<Player>();
         }
 
         public DuelProjection ToProjection(string userId)
@@ -36,12 +36,12 @@ namespace HotScroll.Server.Domain
                        };
         }
 
-        public User GetOpponent(string userId)
+        public Player GetOpponent(string userId)
         {
             return Players.FirstOrDefault(t => t.Id != userId);
         }
 
-        public IEnumerable<User> GetOpponents(string userId)
+        public IEnumerable<Player> GetOpponents(string userId)
         {
             return Players.Where(t => t.Id != userId);
         }

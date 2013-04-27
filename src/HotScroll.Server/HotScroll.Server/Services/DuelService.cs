@@ -14,12 +14,12 @@ namespace HotScroll.Server.Services
             get { return DuelsInternal; }
         }
 
-        public static Duel AddDuel(User player1, User player2)
+        public static Duel AddDuel(Player player1, Player player2)
         {
             var duel = new Duel
                            {
                                Id = Guid.NewGuid().ToString(),
-                               Players = new List<User> {player1, player2}, 
+                               Players = new List<Player> {player1, player2}, 
                            };
             DuelsInternal.Add(duel);
             return duel;

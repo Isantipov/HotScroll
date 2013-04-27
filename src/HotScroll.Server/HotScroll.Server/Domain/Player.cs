@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
 {
-    public class User
+    public class Player
     {
         private UserStatus status = UserStatus.Pending;
 
