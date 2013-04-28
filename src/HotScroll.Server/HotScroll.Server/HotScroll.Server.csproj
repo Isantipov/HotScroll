@@ -210,7 +210,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\ConnectHub.cs" />
+    <Compile Include="Hubs\GameHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DuelService.cs" />
     <Compile Include="Services\PlayerService.cs" />

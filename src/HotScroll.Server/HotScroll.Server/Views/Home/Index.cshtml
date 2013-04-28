@@ -28,13 +28,13 @@
         var Duel = null;
         $(function() {
             // Reference the auto-generated proxy for the hub.  
-            var chat = $.connection.connectHub;
+            var gameHubProxy = $.connection.gameHub;
             // Create a function that the hub can call back to display messages.
-            chat.client.playerConnected = function(player) {
+            gameHubProxy.client.playerConnected = function(player) {
                 addMessage(player, "connected");
             };
             
-            chat.client.gameOver = function (isWinner) {
+            gameHubProxy.client.gameOver = function (isWinner) {
                 if (isWinner) {
                     alert('you win');
                 } else {
@@ -43,37 +43,37 @@
                 }
             };
 
-            chat.client.play = function(projection) {
+            gameHubProxy.client.play = function(projection) {
                 addMessage(Player, 'playing now with id =' + projection.Opponent.Id);
                 Duel = projection;
             };
-            chat.client.receiveStep = function (step) {
+            gameHubProxy.client.receiveStep = function (step) {
                 addMessage(Player, 'nigga moved ' + step.Points);
             };
 
             $('#displayname').val(prompt('Enter your name:', ''));
 
             $.connection.hub.start().done(function() {
-                chat.server.connect({ Name: $('#displayname').val() }).done(function (player) {
+                gameHubProxy.server.connect({ Name: $('#displayname').val() }).done(function (player) {
                     Player = player;
                 });
             });
             
             $('#playBtn').click(function () {
                 addMessage(Player, "waiting for partener");
-                chat.server.waitPartner(Player);
+                gameHubProxy.server.waitPartner(Player);
             });
             $('#sendbtn').click(function () {
                 var step = { Points: $('#message').val(), PlayerId : Player.Id };
                 addMessage(Player, "moving for " + step.Points);
-                chat.server.recordStep(step);
+                gameHubProxy.server.recordStep(step);
                 $('#message').val('');
                 $('#sendbtn').focus();
             });
             
             $('#winbtn').click(function () {
                 addMessage(Player, "sending win notification ");
-                chat.server.recordFinished();
+                gameHubProxy.server.recordFinished();
                 $('#winbtn').focus();
             });
         });
