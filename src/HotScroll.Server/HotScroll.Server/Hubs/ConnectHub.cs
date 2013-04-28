@@ -70,13 +70,12 @@ namespace HotScroll.Server.Hubs
         }
 
         /// <summary>
-        /// Record finished event. The one, whi sends it first, wins.
-        /// Everyone gets notified.
+        ///     Record finished event. The one, which sends it first, wins.
+        ///     Everyone gets notified.
         /// </summary>
         public void RecordFinished()
         {
-            
+            Player player = PlayerService.GetByConnectionId(Context.ConnectionId);
         }
-
     }
 }
