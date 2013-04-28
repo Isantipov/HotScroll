@@ -31,5 +31,10 @@ namespace HotScroll.Server.Services
             return PlayersInternal.FirstOrDefault(t => t.Status == PlayerStatus.WaitingForPartner
                                                      && t.Id != currentPlayer.Id);
         }
+
+        public static Player GetByConnectionId(string connectionId)
+        {
+            return PlayersInternal.FirstOrDefault(t => t.ConnectionId == connectionId);
+        }
     }
 }
