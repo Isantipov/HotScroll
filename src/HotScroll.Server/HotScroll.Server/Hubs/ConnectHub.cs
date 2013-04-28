@@ -66,6 +66,10 @@ namespace HotScroll.Server.Hubs
         {
             Player player = PlayerService.GetByConnectionId(Context.ConnectionId);
             Duel duel = DuelService.GetDuelForPLayer(player.Id);
+            if (duel == null)
+            {
+                return;
+            }
 
             lock (duel.LockObject)
             {
