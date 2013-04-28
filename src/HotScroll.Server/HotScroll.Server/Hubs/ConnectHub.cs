@@ -83,6 +83,8 @@ namespace HotScroll.Server.Hubs
 
                 Clients.Client(opponent.ConnectionId).gameOver(hasWon: false);
                 Clients.Caller.gameOver(hasWon: true);
+
+                player.Status = opponent.Status = PlayerStatus.Pending;
             }
         }
     }
