@@ -68,5 +68,15 @@ namespace HotScroll.Server.Hubs
                 opponent.Status = PlayerStatus.Pending;
             }
         }
+
+        /// <summary>
+        /// Record finished event. The one, whi sends it first, wins.
+        /// Everyone gets notified.
+        /// </summary>
+        public void RecordFinished()
+        {
+            
+        }
+
     }
 }
