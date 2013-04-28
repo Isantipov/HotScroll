@@ -9,6 +9,7 @@
     <br/>
     <input type="text" id="message" />
     <input type="button" id="sendbtn" value="Step" />
+    <input type="button" id="winbtn" value="Win the Game immediately" />
     <input type="hidden" id="displayname" />
     <ul id="discussion">
     </ul>
@@ -68,6 +69,12 @@
                 chat.server.recordStep(step);
                 $('#message').val('');
                 $('#sendbtn').focus();
+            });
+            
+            $('#winbtn').click(function () {
+                addMessage(Player, "sending win notification ");
+                chat.server.recordFinished();
+                $('#winbtn').focus();
             });
         });
         // This optional function html-encodes messages for display in the page.
