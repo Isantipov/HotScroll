@@ -9,7 +9,7 @@ namespace HotScroll.Server.Domain
         protected const int MaximumScore = 1000;
         protected const int MinimumScore = 50;
 
-        protected const int MaximumDuration = 300;
+        protected const int MaximumDuration = 150;
         protected const int MinimumDuration = 50;
 
         #endregion

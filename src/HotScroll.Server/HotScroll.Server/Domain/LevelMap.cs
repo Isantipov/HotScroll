@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HotScroll.Server.Domain
 {
@@ -46,10 +47,17 @@ namespace HotScroll.Server.Domain
             Events.Clear();
             for(var i = 0; i < EventsNumber; i++)
             {
-                var evnt = new LevelEvent();
-                evnt.GenerateRandom(random);
+                LevelEvent evnt = null;
+                do
+                {
+                    evnt = new LevelEvent();
+                    evnt.GenerateRandom(random);
+                } while (Events.Any(t => (t.Score <= evnt.Score && evnt.Score <= t.Score + t.Duration) ||
+                    (t.Score <= evnt.Score + evnt.Duration && evnt.Score + evnt.Duration <= t.Score + t.Duration)));
+                
                 Events.Add(evnt);
             }
+            Events = Events.OrderBy(t => t.Score).ToList();
         }
     }
 }
