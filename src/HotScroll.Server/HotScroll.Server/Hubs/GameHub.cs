@@ -8,7 +8,7 @@ namespace HotScroll.Server.Hubs
     /// <summary>
     ///     Manage connections.
     /// </summary>
-    public class ConnectHub : Hub
+    public class GameHub : Hub
     {
         public Player Connect(Player player)
         {
