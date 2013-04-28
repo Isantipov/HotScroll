@@ -39,17 +39,12 @@ namespace HotScroll.Server.Hubs
 
             return null;
         }
-
-        /// <summary>
-        /// Returns duel Id
-        /// </summary>
-        /// <param name="step"></param>
-        /// <returns></returns>
+        
         public void RecordStep(Step step)
         {
             var player = PlayerService.Get(step.PlayerId);
             var duel = DuelService.GetDuelForPLayer(player.Id);
-            if (duel.IsGameOver)
+            if (duel == null || duel.IsGameOver)
             {
                 return;
             }
@@ -78,7 +73,7 @@ namespace HotScroll.Server.Hubs
                     return;
                 }
 
-                duel.IsGameOver = true;
+                DuelService.FinishAndRemove(duel);
                 var opponent = duel.GetOpponent(player.Id);
 
                 Clients.Client(opponent.ConnectionId).gameOver(hasWon: false);
