@@ -56,16 +56,6 @@ namespace HotScroll.Server.Hubs
 
             var opponent = duel.GetOpponent(player.Id);
             Clients.Client(opponent.ConnectionId).receiveStep(step);
-
-            if (DuelService.IsGameOver(step))
-            {
-                duel.IsGameOver = true;
-
-                Clients.Client(opponent.ConnectionId).gameOver(false);
-                Clients.Caller.gameOver(true);
-                player.Status = PlayerStatus.Pending;
-                opponent.Status = PlayerStatus.Pending;
-            }
         }
 
         /// <summary>
@@ -83,6 +73,12 @@ namespace HotScroll.Server.Hubs
                 {
                     return;
                 }
+
+                duel.IsGameOver = true;
+                var opponent = duel.GetOpponent(player.Id);
+
+                Clients.Client(opponent.ConnectionId).gameOver(hasWon: false);
+                Clients.Caller.gameOver(hasWon: true);
             }
         }
     }
