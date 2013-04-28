@@ -76,6 +76,7 @@ namespace HotScroll.Server.Hubs
         public void RecordFinished()
         {
             Player player = PlayerService.GetByConnectionId(Context.ConnectionId);
+            Duel duel = DuelService.GetDuelForPLayer(player.Id);
         }
     }
 }
