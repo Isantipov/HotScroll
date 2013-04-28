@@ -8,6 +8,7 @@ namespace HotScroll.Server.Services
     {
         private static readonly List<Duel> DuelsInternal = new List<Duel>();
 
+        // todo: use concurrent collection to prevent race condition errors.
         public static List<Duel> Duels
         {
             get { return DuelsInternal; }
@@ -28,6 +29,18 @@ namespace HotScroll.Server.Services
         public static Duel GetDuelForPLayer(string playerId)
         {
             return DuelsInternal.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Id == playerId));
+        }
+
+        /// <summary>
+        ///     Sets <see cref="Duel.IsGameOver" /> to true
+        ///     and removes duel from the internal storage
+        ///     to prevent memory leaks.
+        /// </summary>
+        /// <param name="duel">Duel to be finished and removed.</param>
+        public static void FinishAndRemove(Duel duel)
+        {
+            duel.IsGameOver = true;
+            DuelsInternal.Remove(duel);
         }
     }
 }
