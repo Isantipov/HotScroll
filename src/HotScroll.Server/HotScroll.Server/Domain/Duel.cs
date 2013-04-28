@@ -7,7 +7,14 @@ namespace HotScroll.Server.Domain
 {
     public class Duel
     {
+        private readonly object lockObject = new object();
+
         public string Id { get; set; }
+
+        public object LockObject
+        {
+            get { return lockObject; }
+        }
 
         public List<Player> Players { get; set; }
 
@@ -46,6 +53,5 @@ namespace HotScroll.Server.Domain
         {
             return Players.Where(t => t.Id != userId);
         }
-
     }
 }
