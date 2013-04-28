@@ -10,7 +10,6 @@ namespace HotScroll.Server.Hubs
     /// </summary>
     public class ConnectHub : Hub
     {
-        
         public Player Connect(Player player)
         {
             player.ConnectionId = Context.ConnectionId;
@@ -77,6 +76,14 @@ namespace HotScroll.Server.Hubs
         {
             Player player = PlayerService.GetByConnectionId(Context.ConnectionId);
             Duel duel = DuelService.GetDuelForPLayer(player.Id);
+
+            lock (duel.LockObject)
+            {
+                if (duel.IsGameOver)
+                {
+                    return;
+                }
+            }
         }
     }
 }
