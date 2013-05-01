@@ -7,7 +7,7 @@
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
 
-    var HOST_URL = 'http://hotscroll.azurewebsites.net/';
+    var HOST_URL = 'http://localhost:57666/';
 
     app.addEventListener("activated", function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
@@ -20,7 +20,26 @@
             }
 
             var connection = $.hubConnection(HOST_URL),
-                gameHub = connection.createHubProxy('connectHub');
+                gameHub = connection.createHubProxy('gameHub');
+
+            gameHub.on('play', function (response) {
+                WinJS.Application.queueEvent({
+                    type: 'play',
+                    detail: response
+                });
+            });
+            gameHub.on('receiveStep', function (response) {
+                WinJS.Application.queueEvent({
+                    type: 'receiveStep',
+                    detail: response
+                });
+            });
+            gameHub.on('gameOver', function (response) {
+                WinJS.Application.queueEvent({
+                    type: 'gameOver',
+                    detail: response
+                });
+            });
 
             var connectionInfo = {
                 connection: connection,
