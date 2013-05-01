@@ -6,14 +6,17 @@
 
     WinJS.UI.Pages.define('/pages/wait/wait.html', {
         ready: function () {
-            var connectionInfo = window.connectionInfo;
+            var that = this;
+            WinJS.Application.addEventListener('play', function (args) {
+                that._start(args.detail);
+            });
 
-            connectionInfo.gameHub.on('play', this._start);
-            connectionInfo.gameHub.invoke('waitForPartner', window.users.currentUser);
+            var connectionInfo = window.connectionInfo;
+            connectionInfo.gameHub.invoke('waitPartner', window.users.currentUser);
         },
 
         _start: function (duel) {
-            window.users.opponentUser = duel.Opponent;
+            window.users.opponentUser = duel.Opponents[0];
             window.duel = duel;
 
             WinJS.Navigation.navigate('/pages/game/game.html');
