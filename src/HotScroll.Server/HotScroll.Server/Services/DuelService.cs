@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HotScroll.Server.Domain;
 
@@ -9,18 +8,15 @@ namespace HotScroll.Server.Services
     {
         private static readonly List<Duel> DuelsInternal = new List<Duel>();
 
+        // todo: use concurrent collection to prevent race condition errors.
         public static List<Duel> Duels
         {
             get { return DuelsInternal; }
         }
 
-        public static Duel AddDuel(User player1, User player2)
+        public static Duel AddDuel(List<Player> players)
         {
-            var duel = new Duel
-                           {
-                               Id = Guid.NewGuid().ToString(),
-                               Players = new List<User> {player1, player2}, 
-                           };
+            var duel = new Duel(players);
             DuelsInternal.Add(duel);
             return duel;
         }
@@ -30,16 +26,21 @@ namespace HotScroll.Server.Services
             return DuelsInternal.FirstOrDefault(t => t.Id == id);
         }
 
-        public static Duel GetDuelForUser(string userId)
+        public static Duel GetDuelForPLayer(string playerId)
         {
-            return DuelsInternal.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Id == userId));
+            return DuelsInternal.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Id == playerId));
         }
 
-        public static bool IsGameOver(Step step)
+        /// <summary>
+        ///     Sets <see cref="Duel.IsGameOver" /> to true
+        ///     and removes duel from the internal storage
+        ///     to prevent memory leaks.
+        /// </summary>
+        /// <param name="duel">Duel to be finished and removed.</param>
+        public static void FinishAndRemove(Duel duel)
         {
-            const int pointToWin = 1000;
-
-            return step.Points >= pointToWin;
+            duel.IsGameOver = true;
+            DuelsInternal.Remove(duel);
         }
     }
 }
