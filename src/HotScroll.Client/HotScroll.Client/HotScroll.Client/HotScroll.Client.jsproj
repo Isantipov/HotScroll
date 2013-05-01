@@ -70,6 +70,8 @@
     <Content Include="pages\lobby\lobby.js" />
     <Content Include="pages\login\login.html" />
     <Content Include="pages\login\login.js" />
+    <Content Include="pages\wait\wait.html" />
+    <Content Include="pages\wait\wait.js" />
     <Content Include="Scripts\jquery-2.0.0.js" />
     <Content Include="Scripts\jquery-2.0.0.min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.1.js" />

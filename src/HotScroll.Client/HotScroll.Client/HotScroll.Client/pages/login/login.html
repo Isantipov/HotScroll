@@ -3,6 +3,80 @@
 <head>
     <meta charset="utf-8" />
     <title>HotScroll</title>
+
+    <style>
+        .login-container {
+            margin: -150px 0 0 -310px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 0;
+            width: 620px;
+            height: 300px;
+            transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
+            border: none;
+        }
+
+        .login-container.expanded {
+            height: 390px;
+            margin: -180px 0 0 -310px;
+        }
+
+        .login-container #credentials {
+            height: 90px;
+            width: 50%;
+            margin: 0 auto;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            opacity: 0;
+            transform: translateY(50%);
+            transform-origin: 50% 50%;
+            display: none;
+        }
+
+        .login-container #credentials.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #login {
+            height: 35px;
+            font-size: 16px;
+            line-height: 20px;
+            margin: 0 0 20px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #start {
+            height: 35px;
+            width: 100%;
+            display: block;
+            margin: 0;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        #startLogo {
+            width: 620px;
+            height: 300px;
+        }
+
+        .progress-placeholder.hidden {
+            opacity: 1;
+        }
+
+        .progress-placeholder {
+            width: 620px;
+            transition: opacity 0.2s ease;
+            opacity: 1;
+        }
+
+        .progress-placeholder > .win-ring {
+            margin: 20px auto;
+            color: #fff;
+            display: block;
+        }
+    </style>
+
     <script src="/pages/login/login.js"></script>
 </head>
 <body>

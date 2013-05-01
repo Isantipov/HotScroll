@@ -32,13 +32,6 @@
                 storage.values.currentUser = user;
 
                 WinJS.Navigation.navigate('/pages/lobby/lobby.html');
-
-                /*connectHub.invoke('connect', { Name: login }).done(function (response) {
-                    appData.currentPlayer = response;
-                    
-
-                    connectHub.invoke('waitPartner', response);
-                });*/
             }
         }
     });
