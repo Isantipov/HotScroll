@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
 {
-    public class User
+    public class Player
     {
-        private UserStatus status = UserStatus.Pending;
+        private PlayerStatus status = PlayerStatus.Pending;
 
         public string Name { get; set; }
 
@@ -16,7 +16,7 @@ namespace HotScroll.Server.Domain
         public int Score { get; set; }
 
         [JsonIgnore]
-        public UserStatus Status
+        public PlayerStatus Status
         {
             get { return status; }
             set { status = value; }
@@ -25,7 +25,7 @@ namespace HotScroll.Server.Domain
         public string ConnectionId { get; set; }
     }
 
-    public enum UserStatus
+    public enum PlayerStatus
     {
         Pending = 1,
         WaitingForPartner = 2,

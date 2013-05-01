@@ -7,44 +7,51 @@ namespace HotScroll.Server.Domain
 {
     public class Duel
     {
+        private readonly object lockObject = new object();
+
         public string Id { get; set; }
 
-        public List<User> Players { get; set; }
+        public object LockObject
+        {
+            get { return lockObject; }
+        }
+
+        public List<Player> Players { get; set; }
 
         public LevelMap Level { get; set; }
+
+        public Random Random { get; set; }
 
         [JsonIgnore]
         public bool IsGameOver { get; set; }
 
-        [JsonIgnore]
-        public List<Step> Steps { get; set; }
-
-        public Duel()
+        public Duel(List<Player> players)
         {
             Id = Guid.NewGuid().ToString();
-            Steps = new List<Step>();
-            Players = new List<User>();
+            Players = players;
+            Level = new LevelMap();
+            Random = new Random();
+            Level.GenerateRandom(Random);
         }
 
         public DuelProjection ToProjection(string userId)
         {
             return new DuelProjection
                        {
-                           Id = Id,
+                           Level = Level,
                            Opponent = GetOpponent(userId), 
                            Opponents = GetOpponents(userId),
                        };
         }
 
-        public User GetOpponent(string userId)
+        public Player GetOpponent(string playerId)
         {
-            return Players.FirstOrDefault(t => t.Id != userId);
+            return Players.FirstOrDefault(t => t.Id != playerId);
         }
 
-        public IEnumerable<User> GetOpponents(string userId)
+        public IEnumerable<Player> GetOpponents(string userId)
         {
             return Players.Where(t => t.Id != userId);
         }
-
     }
 }
