@@ -7,6 +7,8 @@
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
 
+    var HOST_URL = 'http://hotscroll.azurewebsites.net/';
+
     app.addEventListener("activated", function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
@@ -16,6 +18,15 @@
                 // TODO: This application has been reactivated from suspension.
                 // Restore application state here.
             }
+
+            var connection = $.hubConnection(HOST_URL),
+                gameHub = connection.createHubProxy('connectHub');
+
+            var connectionInfo = {
+                connection: connection,
+                gameHub: gameHub
+            };
+            window.connectionInfo = connectionInfo;
 
             if (app.sessionState.history) {
                 nav.history = app.sessionState.history;
