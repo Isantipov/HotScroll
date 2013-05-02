@@ -6,6 +6,10 @@
 
     WinJS.UI.Pages.define('/pages/game/game.html', {
         ready: function () {
+            WinJS.Application.addEventListener('gameOver', function (args) {
+                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.detail });
+            });
+
             this._prepareLevel(window.duel.Level);
             this._startCountdown(3);
         },
