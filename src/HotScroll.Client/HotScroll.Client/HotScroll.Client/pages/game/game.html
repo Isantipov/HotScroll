@@ -21,22 +21,21 @@
         #track1 {
             position: absolute;
             left: 0;
-            top: 0;
-            height: 50%;
-            width: 100%;
+            top: 25%;
+            width: 4500px;
         }
         #track2 {
             position: absolute;
             left: 0;
-            top: 50%;
-            height: 50%;
-            width: 100%;
+            top: 75%;
+            width: 4500px;
         }
         .track-part {
             display: inline-block;
             vertical-align: bottom;
+            white-space: nowrap;
             height: 50px;
-            width: 100px;
+            width: 300px;
         }
         .track-part_1 {
             background-color: #fff;
@@ -53,6 +52,10 @@
         .track-part_5 {
             background-color: #0094ff;
         }
+
+        .cat {
+
+        }
     </style>
 
     <script src="/pages/game/game.js"></script>
@@ -60,8 +63,14 @@
 <body>
     <div id="countdown"></div>
     <div id="tracks">
-        <div id="track1"></div>
-        <div id="track2"></div>
+        <div id="track1">
+            <div class="parts"></div>
+            <div class="cat"></div>
+        </div>
+        <div id="track2">
+            <div class="parts"></div>
+            <div class="cat"></div>
+        </div>
     </div>
 </body>
 </html>

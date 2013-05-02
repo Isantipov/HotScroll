@@ -11,8 +11,8 @@
         },
 
         _prepareLevel: function (levelData) {
-            var track1 = $('#track1'),
-                track2 = $('#track2');
+            var track1 = $('#track1 > .parts'),
+                track2 = $('#track2 > .parts');
 
             var html = [];
             for (var i = 0; i < levelData.Background.length; i++) {
