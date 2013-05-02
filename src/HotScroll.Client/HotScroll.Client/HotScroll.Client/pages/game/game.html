@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>HotScroll</title>
+
+    <style>
+        #countdown {
+            background-color: rgba(0,0,0,0.3);
+            color: #FFF;
+            font-size: 160px;
+            height: 100%;
+            padding-top: 100px;
+            text-align: center;
+            width: 100%;
+        }
+        #tracks {
+            height: 100%;
+            position: relative;
+        }
+        #track1 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 50%;
+            width: 100%;
+        }
+        #track2 {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            height: 50%;
+            width: 100%;
+        }
+        .track-part {
+            display: inline-block;
+            vertical-align: bottom;
+            height: 50px;
+            width: 100px;
+        }
+        .track-part_1 {
+            background-color: #fff;
+        }
+        .track-part_2 {
+            background-color: #F00;
+        }
+        .track-part_3 {
+            background-color: #ffd800;
+        }
+        .track-part_4 {
+            background-color: #b6ff00;
+        }
+        .track-part_5 {
+            background-color: #0094ff;
+        }
+    </style>
+
+    <script src="/pages/game/game.js"></script>
+</head>
+<body>
+    <div id="countdown"></div>
+    <div id="tracks">
+        <div id="track1"></div>
+        <div id="track2"></div>
+    </div>
+</body>
+</html>
