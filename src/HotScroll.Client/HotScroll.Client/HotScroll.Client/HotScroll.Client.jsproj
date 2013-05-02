@@ -66,6 +66,8 @@
     <Content Include="css\default.css" />
     <Content Include="js\navigator.js" />
     <Content Include="packages.config" />
+    <Content Include="pages\game\game.html" />
+    <Content Include="pages\game\game.js" />
     <Content Include="pages\lobby\lobby.html" />
     <Content Include="pages\lobby\lobby.js" />
     <Content Include="pages\login\login.html" />
