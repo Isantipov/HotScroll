@@ -6,16 +6,28 @@
 
     <style>
         #lobby {
-            margin: -225px 0 0 -310px;
+            margin: -200px 0 0 -200px;
             position: absolute;
             top: 50%;
             left: 50%;
             padding: 0;
-            width: 620px;
+            width: 400px;
             height: 450px;
             text-align: center;
             transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
         }
+            #lobby #avatar {
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                width: 200px;
+                height: 200px;
+                box-sizing: border-box;
+                border-radius: 100%;
+                border: 4px solid #ef456b;
+                margin: 0 auto;    
+            }
+
         #lobby h2 {
             margin: 50px auto;
         }
@@ -33,8 +45,8 @@
 </head>
 <body>
     <section id="lobby">
-        <img src="" alt="" />
-        <h2></h2>
+        <div id="avatar"></div>
+        <h2>Welcome nejgheighweigthwe</h2>
         <button id="quick">Quick game</button>
         <button id="friend">Play with friend</button>
     </section>

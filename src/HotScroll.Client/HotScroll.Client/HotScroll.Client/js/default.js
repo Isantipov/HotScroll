@@ -7,7 +7,7 @@
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
 
-    var HOST_URL = 'http://localhost:57666/';
+    var HOST_URL = 'http://hotscroll.azurewebsites.net/';
 
     app.addEventListener("activated", function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
