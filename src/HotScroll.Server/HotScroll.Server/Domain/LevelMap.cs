@@ -9,21 +9,20 @@ namespace HotScroll.Server.Domain
         #region Constants
 
         // Tiles
-        protected const int UniqueTilesNumber = 5;
-        protected const int TilesNumber = 15;
+        protected const int BackgoundsNumber = 150;
 
         // Events
         protected const int EventsNumber = 7;
 
         #endregion
 
-        public List<int> Background { get; set; }
+        public List<BackgroundObject> Background { get; set; }
 
         public List<LevelEvent> Events { get; set; }
 
         public LevelMap()
         {
-            Background = new List<int>();
+            Background = new List<BackgroundObject>();
             Events = new List<LevelEvent>();
         }
 
@@ -33,11 +32,11 @@ namespace HotScroll.Server.Domain
             Background.Clear();
             var prev = 0;
             var current = 0;
-            for(var i = 0; i < TilesNumber; i++)
+            for (var i = 0; i < BackgoundsNumber; i++)
             {
                 while (prev == current)
                 {
-                    current = random.Next(1, UniqueTilesNumber);
+                    current = random.Next(1, UniqueBackgroundsNumber);
                 }
                 Background.Add(current);
                 prev = current;

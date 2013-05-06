@@ -201,6 +201,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Domain\Attributes\BackgroundAttribute.cs" />
+    <Compile Include="Domain\BackgroundObject.cs" />
     <Compile Include="Domain\Duel.cs" />
     <Compile Include="Domain\DuelProjection.cs" />
     <Compile Include="Domain\LevelEvent.cs" />
