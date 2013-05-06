@@ -4,18 +4,26 @@
     <meta charset="utf-8" />
     <title>HotScroll</title>
 
-    <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet">
-    <link href="/css/default.css" rel="stylesheet">
-    <link href="/css/game.css" rel="stylesheet">
+    <link href="//Microsoft.WinJS.1.0/css/ui-light.css" rel="stylesheet">
+
+    <style>
+        #contenthost {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 
     <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
     <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
     <script src="/Scripts/jquery-2.0.0.js"></script>
     <script src="/Scripts/jquery.signalR-1.0.1.js"></script>
+
+    <script src="/js/navigator.js"></script>
     <script src="/js/default.js"></script>
 </head>
 <body>
-    <fieldset class="login-container" id="loginForm">
+    <div id="contenthost" data-win-control="Application.PageControlNavigator" data-win-options="{home: '/pages/login/login.html'}"></div>
+    <!--<fieldset class="login-container" id="loginForm">
         <img id="Image1" src="images/splashscreen.png" alt="HotScroll">
         <div id="loadingIndicator" class="progress-placeholder">
             <progress class="win-ring win-large"></progress>
@@ -60,6 +68,6 @@
         <h1>You loose!</h1>
         <button class="retry-button">Retry</button>
         <button class="exit-button">Exit</button>
-    </div>
+    </div>-->
 </body>
 </html>
