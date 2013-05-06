@@ -7,20 +7,20 @@ namespace HotScroll.Server.Domain
 {
     public class Duel
     {
-        private readonly object lockObject = new object();
+        private readonly object _lockObject = new object();
 
         public string Id { get; set; }
 
         public object LockObject
         {
-            get { return lockObject; }
+            get { return _lockObject; }
         }
 
         public List<Player> Players { get; set; }
 
         public LevelMap Level { get; set; }
 
-        public Random Random { get; set; }
+        protected Random Random { get; set; }
 
         [JsonIgnore]
         public bool IsGameOver { get; set; }
