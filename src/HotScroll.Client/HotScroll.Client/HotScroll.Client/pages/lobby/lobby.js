@@ -6,7 +6,7 @@
 
     WinJS.UI.Pages.define('/pages/lobby/lobby.html', {
         ready: function () {
-            $('#lobby > img').attr('src', storage.values.currentUser.picture);
+            $('#avatar').css('background-image', 'url("' + storage.values.currentUser.picture + '")');
             $('#lobby > h2').text('Welcome, ' + storage.values.currentUser.name + '!');
 
             $('#quick').click(this._quickPlay);
