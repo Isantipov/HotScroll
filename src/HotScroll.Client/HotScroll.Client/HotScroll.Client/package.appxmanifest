@@ -16,7 +16,7 @@
   <Applications>
     <Application Id="App" StartPage="default.html">
       <VisualElements DisplayName="HotScroll" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="HotScroll Game" ForegroundText="light" BackgroundColor="#ffffff">
-        <DefaultTile ShowName="allLogos" WideLogo="images\logo.png" />
+        <DefaultTile ShowName="allLogos" WideLogo="images\widelogo.png" />
         <SplashScreen Image="images\splashscreen.png" />
         <InitialRotationPreference>
           <Rotation Preference="landscape" />

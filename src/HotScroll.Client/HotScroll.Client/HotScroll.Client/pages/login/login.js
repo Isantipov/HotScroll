@@ -20,7 +20,7 @@
                 }, 300);
             });
 
-            $('#start').click(this._login);
+            $('#play').click(this._login);
         },
 
         _login: function () {
