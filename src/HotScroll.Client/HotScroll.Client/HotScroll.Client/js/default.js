@@ -8,6 +8,7 @@
     var nav = WinJS.Navigation;
 
     var HOST_URL = 'http://hotscroll.azurewebsites.net/';
+    window.TOTAL_SCORE = 1000;
 
     app.addEventListener("activated", function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
