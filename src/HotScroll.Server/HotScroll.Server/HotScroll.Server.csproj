@@ -204,6 +204,7 @@
     <Compile Include="Domain\BackgroundObject.cs" />
     <Compile Include="Domain\Duel.cs" />
     <Compile Include="Domain\DuelProjection.cs" />
+    <Compile Include="Domain\DuelStatus.cs" />
     <Compile Include="Domain\LevelEvent.cs" />
     <Compile Include="Domain\LevelMap.cs" />
     <Compile Include="Domain\PlayerStatus.cs" />

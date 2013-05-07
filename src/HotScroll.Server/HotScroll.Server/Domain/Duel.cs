@@ -23,7 +23,13 @@ namespace HotScroll.Server.Domain
         protected Random Random { get; set; }
 
         [JsonIgnore]
-        public bool IsGameOver { get; set; }
+        public bool IsGameOver
+        {
+            get { return Status == DuelStatus.GameOver; }
+        }
+
+        [JsonIgnore]
+        public DuelStatus Status { get; set; }
 
         public Duel(List<Player> players)
         {
