@@ -76,6 +76,7 @@
     <Content Include="images\text_friend.png" />
     <Content Include="images\text_or.png" />
     <Content Include="images\text_random.png" />
+    <Content Include="images\validation_label.png" />
     <Content Include="images\widelogo.png" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />
@@ -85,8 +86,6 @@
     <Content Include="pages\finish\finish.js" />
     <Content Include="pages\game\game.html" />
     <Content Include="pages\game\game.js" />
-    <Content Include="pages\lobby\lobby.html" />
-    <Content Include="pages\lobby\lobby.js" />
     <Content Include="pages\login\login.html" />
     <Content Include="pages\login\login.js" />
     <Content Include="pages\wait\wait.html" />
