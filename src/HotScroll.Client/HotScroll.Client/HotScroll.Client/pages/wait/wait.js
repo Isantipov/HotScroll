@@ -11,7 +11,7 @@
                 that._start(args.detail);
             });
 
-            var connectionInfo = window.connectionInfo;
+            var connectionInfo = game.connectionInfo;
             connectionInfo.gameHub.invoke('waitPartner', window.users.currentUser);
         },
 

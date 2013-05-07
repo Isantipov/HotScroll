@@ -50,7 +50,7 @@
             document.body.addEventListener('mousewheel', function (event) {
                 var direction = event.wheelDelta < 0 ? 1 : -1,
                     newScore = that.currentPlayer.score + direction;
-                if (newScore < window.TOTAL_SCORE) {
+                if (newScore < game.TOTAL_SCORE) {
                     that.currentPlayer.setScore(that.currentPlayer.score + direction);
                 }
             });
