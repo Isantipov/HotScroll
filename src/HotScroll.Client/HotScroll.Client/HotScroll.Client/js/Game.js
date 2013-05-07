@@ -9,8 +9,10 @@
     var nav = WinJS.Navigation;
     
     this.TOTAL_SCORE = 1000;
-    this.connectionInfo = null;
-
+    
+    this.hub = null;
+    this.connection = null;
+    
     app.addEventListener("activated", onActivated);
     app.oncheckpoint = onCheckpoint;
     
@@ -60,34 +62,29 @@
         WinJS.Binding.optimizeBindingReferences = true;
 
         // signalR init
-        var connection = $.hubConnection(HOST_URL),
-            gameHub = connection.createHubProxy('gameHub');
+        this.connection = $.hubConnection(HOST_URL);
+        this.hub = this.connection.createHubProxy('gameHub');
 
-        gameHub.on('play', function(response) {
+        this.hub.on('play', function(response) {
             WinJS.Application.queueEvent({
                 type: 'play',
                 detail: response
             });
         });
 
-        gameHub.on('receiveStep', function(response) {
+        this.hub.on('receiveStep', function(response) {
             WinJS.Application.queueEvent({
                 type: 'receiveStep',
                 detail: response
             });
         });
 
-        gameHub.on('gameOver', function(response) {
+        this.hub.on('gameOver', function(response) {
             WinJS.Application.queueEvent({
                 type: 'gameOver',
                 detail: response
             });
         });
-
-        this.connectionInfo = {
-            connection: connection,
-            gameHub: gameHub
-        };
 
         if (app.sessionState.history) {
             nav.history = app.sessionState.history;

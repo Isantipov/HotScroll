@@ -23,7 +23,7 @@
         },
 
         _menu: function () {
-            game.connectionInfo.connection.hub.stop();
+            game.connection.hub.stop();
             WinJS.Navigation.navigate('/pages/login/login.html');
         }
     });

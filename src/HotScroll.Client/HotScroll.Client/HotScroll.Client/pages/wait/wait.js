@@ -11,8 +11,7 @@
                 that._start(args.detail);
             });
 
-            var connectionInfo = game.connectionInfo;
-            connectionInfo.gameHub.invoke('waitPartner', window.users.currentUser);
+            game.hub.invoke('waitPartner', window.users.currentUser);
         },
 
         _start: function (duel) {
