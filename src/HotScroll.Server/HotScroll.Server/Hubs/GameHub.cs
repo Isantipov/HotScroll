@@ -40,6 +40,7 @@ namespace HotScroll.Server.Hubs
             {
                 if (duel.Status != DuelStatus.WaitingForPlayers)
                 {
+                    // todo: return error message here.
                     return null;
                 }
 
