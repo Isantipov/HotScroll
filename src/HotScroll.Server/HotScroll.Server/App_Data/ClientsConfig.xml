@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<clients>
+  <client>
+    <backgound>
+      <bg-types>
+        <bg-type id="1" name="Bench" width="341" overlap="false" margin="5"/>
+        <bg-type id="2" name="Small Tree" width="235"/>
+        <bg-type id="3" name="Big Tree" width="337"/>
+        <bg-type id="4" name="Hydrand" width="89" overlap="false" margin="5"/>
+        <bg-type id="5" name="Flower yellow" width="64"/>
+      </bg-types>
+    </backgound>
+  </client>
+</clients>
