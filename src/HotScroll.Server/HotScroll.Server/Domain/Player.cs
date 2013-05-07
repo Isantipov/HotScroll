@@ -1,16 +1,14 @@
-﻿
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
 {
     public class Player
     {
-        private PlayerStatus status = PlayerStatus.Pending;
+        private PlayerStatus _status = PlayerStatus.Pending;
 
         public string Name { get; set; }
 
-        public string Id { get; set; }
+        public string ConnectionId { get; set; }
 
         [JsonIgnore]
         public int Score { get; set; }
@@ -18,11 +16,9 @@ namespace HotScroll.Server.Domain
         [JsonIgnore]
         public PlayerStatus Status
         {
-            get { return status; }
-            set { status = value; }
+            get { return _status; }
+            set { _status = value; }
         }
-
-        public string ConnectionId { get; set; }
     }
 
     public enum PlayerStatus
