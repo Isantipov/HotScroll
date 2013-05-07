@@ -34,17 +34,7 @@
                     var user = new Windows.Storage.ApplicationDataCompositeValue();
                     user.name = login;
                     storage.values.currentUser = user;
-
-                    game.connection.start().done(function () {
-                        game.hub.invoke('connect', { Name: login }).done(function (response) {
-
-                            window.users = {
-                                currentUser: response
-                            };
-
-                            WinJS.Navigation.navigate('/pages/wait/wait.html');
-                        });
-                    });
+                    game.login(login);
                 });
             } else {
                 $('#validation-message').show();
