@@ -31,7 +31,20 @@
                 user.name = login;
                 storage.values.currentUser = user;
 
-                WinJS.Navigation.navigate('/pages/lobby/lobby.html');
+                var connectionInfo = window.connectionInfo;
+
+                connectionInfo.connection.start().done(function () {
+                    connectionInfo.gameHub.invoke('connect', { Name: login }).done(function (response) {
+
+                        window.users = {
+                            currentUser: response
+                        };
+
+                        WinJS.Navigation.navigate('/pages/wait/wait.html');
+                    });
+                });
+            } else {
+                $('#validation-message').show();
             }
         }
     });

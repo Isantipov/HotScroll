@@ -60,17 +60,27 @@
             transform: translateY(0);
         }
 
+        #validation-message {
+            display: none;
+            position: absolute;
+            top: -60px;
+            left: -180px;
+        }
+
         #login {
             border-radius: 20px;
             border: 4px solid #54bdc4;
             color: #f7931e;
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
             padding: 10px 30px;
             margin: 0 auto;
             margin-bottom: 50px;
             width: 700px;
             box-sizing: border-box;
+        }
+        #login:-ms-input-placeholder {
+            color: #d1e9eb;
         }
 
 
@@ -129,7 +139,7 @@
             <progress class="win-ring win-large"></progress>
         </div>
         <div id="credentials">
-            <input type="text" id="login" placeholder="Login" autofocus>
+            <input type="text" id="login" placeholder="Enter your name" autofocus>
 
             <div class="play">
                 <button id="play"></button>
@@ -138,6 +148,7 @@
             <div class="invite">
                 <button id="invite"></button>
             </div>
+            <img src="/images/validation_label.png" alt="" id="validation-message" />
         </div>
     </div>
 </body>
