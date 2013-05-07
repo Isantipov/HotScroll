@@ -23,7 +23,12 @@ namespace HotScroll.Server.Hubs
 
         public Duel CreateDuel(Player player)
         {
-            throw new NotImplementedException();
+            Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
+            
+            var duel = new Duel(new List<Player> {serverPlayer});
+            game.DuelService.Add(duel);
+
+            return duel;
         }
 
         public Duel JoinDuel(Player player, string duelId)
