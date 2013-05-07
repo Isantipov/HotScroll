@@ -7,21 +7,24 @@
     WinJS.UI.Pages.define('/pages/finish/finish.html', {
         ready: function (options) {
             if (options.hasWon === true) {
-                $('h1').text('Congratulations! You win!').addClass('win');
+                $('#finish-container').addClass('win');
+                $('h1').text('You win!');
             } else {
-                $('h1').text('Looser!').addClass('loose');
+                $('#finish-container').addClass('lose');
+                $('h1').text('You lose!');
             }
 
-            $('.exit').click(this._exit);
-            $('.retry').click(this._retry);
+            $('#menu').click(this._menu);
+            $('#retry').click(this._retry);
         },
 
         _retry: function () {
             WinJS.Navigation.navigate('/pages/wait/wait.html');
         },
 
-        _exit: function () {
-            window.close();
+        _menu: function () {
+            window.connectionInfo.connection.hub.stop();
+            WinJS.Navigation.navigate('/pages/login/login.html');
         }
     });
 
