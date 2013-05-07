@@ -6,26 +6,26 @@ namespace HotScroll.Server.Services
 {
     public class DuelService
     {
-        private ConcurrentDictionary<string, Duel> _duels = new ConcurrentDictionary<string, Duel>();
+        private readonly ConcurrentDictionary<string, Duel> duelsStorage = new ConcurrentDictionary<string, Duel>();
         
         public DuelService()
         {
-            _duels = new ConcurrentDictionary<string, Duel>();
+            duelsStorage = new ConcurrentDictionary<string, Duel>();
         }
 
         public void Add(Duel duel)
         {
-            _duels.TryAdd(duel.Id, duel);
+            duelsStorage.TryAdd(duel.Id, duel);
         }
 
         public Duel Get(string id)
         {
-            return _duels[id];
+            return duelsStorage[id];
         }
 
         public Duel GetDuelForPLayer(string playerId)
         {
-            return _duels.Values.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.ConnectionId == playerId));
+            return duelsStorage.Values.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.ConnectionId == playerId));
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace HotScroll.Server.Services
         {
             duel.IsGameOver = true;
             Duel d;
-            _duels.TryRemove(duel.Id, out d);
+            duelsStorage.TryRemove(duel.Id, out d);
         }
     }
 }
