@@ -2,17 +2,18 @@
 
     'use strict';
 
-    var storage = Windows.Storage.ApplicationData.current.localSettings,
-        accountPicture;
+    var storage = Windows.Storage.ApplicationData.current.localSettings;
     
     WinJS.UI.Pages.define('/pages/login/login.html', {
         ready: function () {
-            $.when(Windows.System.UserProfile.UserInformation.getDisplayNameAsync(), 
-                    Windows.System.UserProfile.UserInformation.getAccountPicture(Windows.System.UserProfile.AccountPictureKind.largeImage)).then(function (username, picture) {
-                
-                accountPicture = picture;
+            Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (username) {
 
-                $('#login').val(username.operation.getResults());
+                if (storage.values.currentUser) {
+                    $('#login').val(storage.values.currentUser.name);
+                } else {
+                    $('#login').val(username);
+                }
+                
                 $('#loadingIndicator').addClass('hidden');
                 setTimeout(function () {
                     $('#loadingIndicator').hide();
@@ -20,33 +21,51 @@
                 }, 300);
             });
 
-            $('#play').click(this._login);
+            var that = this;
+            $('#play').click(function () {
+                that._login();
+            });
         },
 
         _login: function () {
             var login = $('#login').val();
             if (login !== '') {
-                var user = new Windows.Storage.ApplicationDataCompositeValue();
-                user.picture = URL.createObjectURL(accountPicture);
-                user.name = login;
-                storage.values.currentUser = user;
+                this._showHelp(function () {
+                    var user = new Windows.Storage.ApplicationDataCompositeValue();
+                    user.name = login;
+                    storage.values.currentUser = user;
 
-                var connectionInfo = window.connectionInfo;
+                    var connectionInfo = window.connectionInfo;
 
-                connectionInfo.connection.start().done(function () {
-                    connectionInfo.gameHub.invoke('connect', { Name: login }).done(function (response) {
+                    connectionInfo.connection.start().done(function () {
+                        connectionInfo.gameHub.invoke('connect', { Name: login }).done(function (response) {
 
-                        window.users = {
-                            currentUser: response
-                        };
+                            window.users = {
+                                currentUser: response
+                            };
 
-                        WinJS.Navigation.navigate('/pages/wait/wait.html');
+                            WinJS.Navigation.navigate('/pages/wait/wait.html');
+                        });
                     });
                 });
             } else {
                 $('#validation-message').show();
             }
+        },
+
+        _showHelp: function (callback) {
+            if (!storage.values.helpSeen) {
+                $('#help').fadeIn();
+                $('#help-close').click(function () {
+                    storage.values.helpSeen = 'true';
+                    $('#help').fadeOut();
+                    callback();
+                });
+            } else {
+                callback();
+            }
         }
+
     });
 
 })();
