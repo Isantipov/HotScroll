@@ -128,6 +128,33 @@
             width: 70px;
             vertical-align: top;
         }
+
+        #help {
+            background: rgba(0, 109, 143, 0.6);
+            position: absolute;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: none;
+            text-align: center;
+        }
+        #help .help-content {
+            margin: 200px auto 0;
+            width: 1600px;
+            position: relative;
+        }
+        #help-close {
+            background: url("/images/btn_close.png") no-repeat 0 0 transparent;
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            cursor: pointer;
+            width: 58px;
+            height: 58px;
+        }
+        #help-close:hover {
+            background: url("/images/btn_close_selected.png") no-repeat 0 0 transparent;
+        }
     </style>
 
     <script src="/pages/login/login.js"></script>
@@ -149,6 +176,14 @@
                 <button id="invite"></button>
             </div>
             <img src="/images/validation_label.png" alt="" id="validation-message" />
+        </div>
+    </div>
+    <div id="help">
+        <div class="help-content">
+            <img src="/images/help_1.png" alt="" />
+            <img src="/images/help_2.png" alt="" />
+            <img src="/images/help_3.png" alt="" />
+            <div id="help-close"></div>
         </div>
     </div>
 </body>
