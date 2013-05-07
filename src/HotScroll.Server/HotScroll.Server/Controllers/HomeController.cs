@@ -8,5 +8,17 @@ namespace HotScroll.Server.Controllers
         {
             return View();
         }
+
+        public ActionResult JoinDuel(string id)
+        {
+            var applicatioLink = GetApplicatioLink(id);
+            
+            return Redirect(applicatioLink);
+        }
+
+        private string GetApplicatioLink(string id)
+        {
+            return string.Format("scrollcat:joinduel-{0}", id);
+        }
     }
 }
