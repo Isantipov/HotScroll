@@ -70,7 +70,7 @@ namespace HotScroll.Server.Hubs
                 var duel = new Duel(new List<Player> {serverPlayer, oponent});
                 game.DuelService.Add(duel);
 
-                StartDuel(duel, serverPlayer, oponent);
+                StartDuel(duel);
             }
         }
 
@@ -124,17 +124,15 @@ namespace HotScroll.Server.Hubs
         ///     participating players.
         /// </summary>
         /// <param name="duel">Duel to start.</param>
-        /// <param name="serverPlayer">First player.</param>
-        /// <param name="oponent">Second player.</param>
-        private void StartDuel(Duel duel, Player serverPlayer, Player oponent)
+        private void StartDuel(Duel duel)
         {
             duel.Status = DuelStatus.InProgress;
 
-            DuelProjection proj1 = duel.ToProjection(serverPlayer.ConnectionId);
-            Clients.Client(serverPlayer.ConnectionId).play(proj1);
-
-            DuelProjection proj2 = duel.ToProjection(oponent.ConnectionId);
-            Clients.Client(oponent.ConnectionId).play(proj2);
+            foreach (var player in duel.Players)
+            {
+                DuelProjection proj = duel.ToProjection(player.ConnectionId);
+                Clients.Client(player.ConnectionId).play(proj);
+            }
         }
 
         #endregion
