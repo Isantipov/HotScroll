@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using HotScroll.Server.Controllers;
 using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
@@ -58,6 +61,13 @@ namespace HotScroll.Server.Domain
         public IEnumerable<Player> GetOpponents(string userId)
         {
             return Players.Where(t => t.ConnectionId != userId);
+        }
+
+        public string ToJoinLink()
+        {
+            var helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+            return helper.Action("JoinDuel", "Home", new {Id}, "http");
         }
     }
 }
