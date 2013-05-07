@@ -8,23 +8,18 @@ namespace HotScroll.Server.Domain
         #region Constants
 
         protected const int MaximumOffset = 1000;
+        protected const int MaximumType = 7;
 
         #endregion
 
-        public BackgroundType Type { get; set; }
+        public int Type { get; set; }
         public int Offset { get; set; }
 
-        [JsonIgnore]
-        public int LeftBorder { get; private set; }
-        public int RightBorder { get; private set; }
-
-        private static readonly int MaximumBackgroundNumberHidden = Enum.GetNames(typeof(BackgroundType)).Length;
-        protected int MaximumBackgroundNumber { get { return MaximumBackgroundNumberHidden; } }
 
         public void GenerateRandom(Random random)
         {
             Offset = random.Next(0, MaximumOffset);
-            Type = (BackgroundType) random.Next(1, MaximumBackgroundNumber);
+            Type = random.Next(1, MaximumType);
         }
     }
 }
