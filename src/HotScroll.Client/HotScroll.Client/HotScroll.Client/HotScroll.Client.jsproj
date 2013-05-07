@@ -104,6 +104,7 @@
     <Content Include="images\win_cat2.png" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />
+    <Content Include="js\Game.js" />
     <Content Include="js\navigator.js" />
     <Content Include="js\Player.js" />
     <Content Include="packages.config" />

@@ -8,5 +8,5 @@ function Player (name, isOpponent) {
 
 Player.prototype.setScore = function (score) {
     this.score = score;
-    this.icon.style.left = (this.score / window.TOTAL_SCORE) * 100 + '%';
+    this.icon.style.left = (this.score / game.TOTAL_SCORE) * 100 + '%';
 };
