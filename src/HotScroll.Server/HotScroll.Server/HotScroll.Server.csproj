@@ -206,6 +206,7 @@
     <Compile Include="Domain\DuelProjection.cs" />
     <Compile Include="Domain\LevelEvent.cs" />
     <Compile Include="Domain\LevelMap.cs" />
+    <Compile Include="Domain\PlayerStatus.cs" />
     <Compile Include="Domain\Step.cs" />
     <Compile Include="Domain\Player.cs" />
     <Compile Include="Game.cs" />
