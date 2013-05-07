@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HotScroll.Server.Domain;
 using Microsoft.AspNet.SignalR;
 
@@ -17,6 +18,16 @@ namespace HotScroll.Server.Hubs
         public GameHub(Game game)
         {
             _game = game;
+        }
+
+        public Duel CreateDuel(Player player)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Duel JoinDuel(Player player, string duelId)
+        {
+            throw new NotImplementedException();
         }
 
         public Player Connect(Player player)
