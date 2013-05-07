@@ -37,7 +37,7 @@ namespace HotScroll.Server.Services
         /// <param name="duel">Duel to be finished and removed.</param>
         public void FinishAndRemove(Duel duel)
         {
-            duel.IsGameOver = true;
+            duel.Status = DuelStatus.GameOver;
             Duel d;
             duelsStorage.TryRemove(duel.Id, out d);
         }
