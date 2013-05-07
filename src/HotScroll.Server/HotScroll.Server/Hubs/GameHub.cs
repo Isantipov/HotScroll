@@ -67,7 +67,6 @@ namespace HotScroll.Server.Hubs
 
             if (oponent != null)
             {
-                serverPlayer.Status = oponent.Status = PlayerStatus.Playing;
                 var duel = new Duel(new List<Player> {serverPlayer, oponent});
                 game.DuelService.Add(duel);
 
@@ -131,6 +130,8 @@ namespace HotScroll.Server.Hubs
 
             foreach (var player in duel.Players)
             {
+                player.Status = PlayerStatus.Playing;
+
                 DuelProjection proj = duel.ToProjection(player.ConnectionId);
                 Clients.Client(player.ConnectionId).play(proj);
             }
