@@ -7,7 +7,7 @@ namespace HotScroll.Server.Services
     public class DuelService
     {
         private readonly ConcurrentDictionary<string, Duel> duelsStorage = new ConcurrentDictionary<string, Duel>();
-        
+
         public DuelService()
         {
             duelsStorage = new ConcurrentDictionary<string, Duel>();
@@ -25,7 +25,8 @@ namespace HotScroll.Server.Services
 
         public Duel GetDuelForPLayer(string playerId)
         {
-            return duelsStorage.Values.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.ConnectionId == playerId));
+            return
+                duelsStorage.Values.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.ConnectionId == playerId));
         }
 
         /// <summary>
