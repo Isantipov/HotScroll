@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>HotScroll</title>
 
     <style>
@@ -14,65 +14,105 @@
             z-index: 1;
         }
 
-            #gameContainer #game {
-                z-index: 2;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border-bottom: 165px solid #ffffff;
-                background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
-                background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
-                box-sizing: border-box;
-            }
+        #gameContainer #game {
+            z-index: 2;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-bottom: 165px solid #ffffff;
+            background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
+            background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
+            box-sizing: border-box;
+        }
 
-            #gameContainer #progressBar {
-                z-index: 3;
-                position: absolute;
-                height: 165px;
-                width: 100%;
-                background-color: #ffffff;
-                bottom: 0;
-                left: 0;
-                padding: 0;
-                margin: 0;
-                box-sizing: border-box;
-                border-style: solid;
-                border-color: #ffffff;
-                border-width: 0 112px 25px 40px;    
-            }
+        #gameContainer #progressBar {
+            z-index: 3;
+            position: absolute;
+            height: 165px;
+            width: 100%;
+            background-color: #ffffff;
+            bottom: 0;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            border-style: solid;
+            border-color: #ffffff;
+            border-width: 0 112px 25px 40px;
+        }
 
-                #gameContainer #progressBar #startIcon {
-                    width: 106px;
-                    height: 96px;
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    margin-left: -10px;
-                }
+        #gameContainer #progressBar #startIcon {
+            width: 106px;
+            height: 96px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            margin-left: -10px;
+            z-index: 1;
+        }
 
-                #gameContainer #progressBar #finishIcon {
-                    width: 143px;
-                    height: 77px;
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                    z-index: 3;
-                    margin: 0 -91px -4px 0;
-                }
+        #gameContainer #progressBar #finishIcon {
+            width: 143px;
+            height: 77px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 3;
+            margin: 0 -91px -4px 0;
+        }
 
-                #gameContainer #progressBar #progressTrackContainer {
-                    position: absolute;
-                    width: 100%;
-                    bottom: 0;
-                    height: 10px;
-                    overflow: visible;
-                    background: url('../../images/progress/Progress_timeline_pattern.png') repeat-x;
-                }
+        #gameContainer #progressBar #progressTrackContainer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            height: 10px;
+            overflow: visible;
+            background: url('../../images/progress/Progress_timeline_pattern.png') repeat-x;
+        }
+
+        #gameContainer #progressBar #progressTrackContainer #progressTrack {
+            width: 100%;
+            box-sizing: border-box;
+            border-left: 42px solid transparent;
+            border-right: 27px solid transparent;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 10px;
+        }
+
+        .progress-icon {
+            height: 97px;
+            background-size: cover;
+            background: no-repeat center;
+            z-index: 4;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            transition: left 0.1s linear;
+        }
+
+        #currentIcon {
+            z-index: 5;
+        }
+
+        .progress-icon.green-cat {
+            background-image: url("../../images/progress/cat_2.png");
+            width: 85px;
+            margin: 0 -42px -5px -42px;
+        }
+
+        .progress-icon.pink-cat {
+            background-image: url("../../images/progress/cat_1.png");
+            width: 66px;
+            margin: 0 -33px -5px -33px;
+        }
 
         #countdown {
-            background-color: rgba(0,0,0,0.3);
+            background-color: rgba(0, 0, 0, 0.3);
             color: #FFF;
             font-size: 160px;
             height: 100%;
@@ -80,22 +120,26 @@
             text-align: center;
             width: 100%;
         }
+
         #tracks {
             height: 100%;
             position: relative;
         }
+
         #track1 {
             position: absolute;
             left: 0;
             top: 25%;
             width: 4500px;
         }
+
         #track2 {
             position: absolute;
             left: 0;
             top: 75%;
             width: 4500px;
         }
+
         .track-part {
             display: inline-block;
             vertical-align: bottom;
@@ -103,18 +147,23 @@
             height: 50px;
             width: 300px;
         }
+
         .track-part_1 {
             background-color: #fff;
         }
+
         .track-part_2 {
             background-color: #F00;
         }
+
         .track-part_3 {
             background-color: #ffd800;
         }
+
         .track-part_4 {
             background-color: #b6ff00;
         }
+
         .track-part_5 {
             background-color: #0094ff;
         }
@@ -127,36 +176,36 @@
     <script src="/pages/game/game.js"></script>
 </head>
 <body>
-    <div id="gameContainer">
-        <div id="game">
-            <div id="environment"></div>
-            <div id="players"></div>
-            <div id=""></div>
-        </div>
-        <div id="progressBar">
+<div id="gameContainer">
+    <div id="game">
+        <div id="environment"></div>
+        <div id="players"></div>
+        <div id=""></div>
+    </div>
+    <div id="progressBar">
+        <div id="progressTrackContainer">
             <img id="startIcon" alt="Start" src="../../images/progress/progress_start.png"/>
             <img id="finishIcon" alt="Finish" src="../../images/progress/progress_box.png"/>
-            <div id="progressTrackContainer">
-                <div id="progressTrack">
-                    <figure id="currentIcon" class="progress-icon">
-                        <img />
-                        <span class="point"></span>
-                    </figure>
-                    <figure id="opponentIcon" class="progress-icon"></figure>
-                </div>
+
+            <div id="progressTrack">
+                <figure id="currentIcon" class="progress-icon green-cat">
+                </figure>
+                <figure id="opponentIcon" class="progress-icon pink-cat">
+                </figure>
             </div>
         </div>
     </div>
-    <div id="countdown"></div>
-    <div id="tracks">
-        <div id="track1">
-            <div class="parts"></div>
-            <div class="cat"></div>
-        </div>
-        <div id="track2">
-            <div class="parts"></div>
-            <div class="cat"></div>
-        </div>
+</div>
+<div id="countdown"></div>
+<div id="tracks">
+    <div id="track1">
+        <div class="parts"></div>
+        <div class="cat"></div>
     </div>
+    <div id="track2">
+        <div class="parts"></div>
+        <div class="cat"></div>
+    </div>
+</div>
 </body>
 </html>

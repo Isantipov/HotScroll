@@ -11,6 +11,7 @@
             });
 
             this._prepareLevel(window.duel.Level);
+            this.currentPlayer = new Player(window.users.currentUser.Name, false);
             this._startCountdown(3);
         },
 
@@ -44,8 +45,19 @@
             }, 1000);
         },
 
-        _startGame: function () {
+        _enableWheelEvent: function () {
+            var that = this;
+            document.body.addEventListener('mousewheel', function (event) {
+                var direction = event.wheelDelta < 0 ? 1 : -1,
+                    newScore = that.currentPlayer.score + direction;
+                if (newScore < window.TOTAL_SCORE) {
+                    that.currentPlayer.setScore(that.currentPlayer.score + direction);
+                }
+            });
+        },
 
+        _startGame: function () {
+            this._enableWheelEvent();
         }
     });
 
