@@ -90,4 +90,17 @@
             nav.history = app.sessionState.history;
         }
     };
+
+    Game.prototype.login = function(login) {
+        _this.connection.start().done(function () {
+            _this.hub.invoke('connect', { Name: login }).done(function (response) {
+
+                window.users = {
+                    currentUser: response
+                };
+
+                WinJS.Navigation.navigate('/pages/wait/wait.html');
+            });
+        });
+    };
 }
