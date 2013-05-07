@@ -21,14 +21,14 @@ namespace HotScroll.Server.Hubs
             this.game = game;
         }
 
-        public Duel CreateDuel(Player player)
+        public string CreateDuel(Player player)
         {
             Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
             
             var duel = new Duel(new List<Player> {serverPlayer});
             game.DuelService.Add(duel);
-
-            return duel;
+            
+            return duel.ToJoinLink();
         }
 
         public Duel JoinDuel(Player player, string duelId)
