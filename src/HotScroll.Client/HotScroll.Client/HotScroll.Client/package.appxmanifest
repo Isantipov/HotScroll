@@ -23,6 +23,14 @@
           <Rotation Preference="landscapeFlipped" />
         </InitialRotationPreference>
       </VisualElements>
+      <Extensions>
+        <Extension Category="windows.protocol">
+          <Protocol Name="scrollcat">
+            <Logo>images\logo.png</Logo>
+            <DisplayName>Scroll Cat</DisplayName>
+          </Protocol>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
