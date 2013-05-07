@@ -33,6 +33,19 @@ namespace HotScroll.Server.Hubs
 
         public Duel JoinDuel(Player player, string duelId)
         {
+            Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
+
+            var duel = game.DuelService.Get(duelId);
+            lock (duel.LockObject)
+            {
+                if (duel.Status != DuelStatus.WaitingForPlayers)
+                {
+                    return null;
+                }
+                
+                duel.Players.Add(serverPlayer);
+            }
+
             throw new NotImplementedException();
         }
 
