@@ -12,6 +12,8 @@
     
     this.hub = null;
     this.connection = null;
+    this.player = null;
+    this.opponent = null;
     
     app.addEventListener("activated", onActivated);
     app.oncheckpoint = onCheckpoint;
@@ -94,11 +96,7 @@
     Game.prototype.login = function(login) {
         _this.connection.start().done(function () {
             _this.hub.invoke('connect', { Name: login }).done(function (response) {
-
-                window.users = {
-                    currentUser: response
-                };
-
+                _this.player = response;
                 WinJS.Navigation.navigate('/pages/wait/wait.html');
             });
         });

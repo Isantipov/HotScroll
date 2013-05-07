@@ -11,11 +11,11 @@
                 that._start(args.detail);
             });
 
-            game.hub.invoke('waitPartner', window.users.currentUser);
+            game.hub.invoke('waitPartner', game.player);
         },
 
         _start: function (duel) {
-            window.users.opponentUser = duel.Opponents[0];
+            game.opponent = duel.Opponents[0];
             window.duel = duel;
 
             WinJS.Navigation.navigate('/pages/game/game.html');
