@@ -128,6 +128,8 @@ namespace HotScroll.Server.Hubs
         /// <param name="oponent">Second player.</param>
         private void StartDuel(Duel duel, Player serverPlayer, Player oponent)
         {
+            duel.Status = DuelStatus.InProgress;
+
             DuelProjection proj1 = duel.ToProjection(serverPlayer.ConnectionId);
             Clients.Client(serverPlayer.ConnectionId).play(proj1);
 
