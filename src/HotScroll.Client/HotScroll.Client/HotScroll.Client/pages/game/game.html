@@ -21,7 +21,8 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                border-top: 165px solid #ffffff;
+                border-bottom: 165px solid #ffffff;
+                background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
                 background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
                 box-sizing: border-box;
             }
@@ -32,8 +33,10 @@
                 height: 165px;
                 width: 100%;
                 background-color: #ffffff;
-                top: 0;
+                bottom: 0;
                 left: 0;
+                padding: 0;
+                margin: 0;
                 box-sizing: border-box;
                 border-style: solid;
                 border-color: #ffffff;
@@ -42,18 +45,21 @@
 
                 #gameContainer #progressBar #startIcon {
                     width: 106px;
-                    height: auto;
+                    height: 96px;
                     position: absolute;
-                    bottom: 25px;
-                    left: 30px;
+                    bottom: 0;
+                    left: 0;
+                    margin-left: -10px;
                 }
 
                 #gameContainer #progressBar #finishIcon {
-                    width: 106px;
-                    height: auto;
+                    width: 143px;
+                    height: 77px;
                     position: absolute;
-                    bottom: 25px;
-                    right: 30px;
+                    bottom: 0;
+                    right: 0;
+                    z-index: 3;
+                    margin: 0 -91px -4px 0;
                 }
 
                 #gameContainer #progressBar #progressTrackContainer {
@@ -62,7 +68,7 @@
                     bottom: 0;
                     height: 10px;
                     overflow: visible;
-                    background-image: url('../../images/gameplay/track-bg.png');
+                    background: url('../../images/progress/Progress_timeline_pattern.png') repeat-x;
                 }
 
         #countdown {
@@ -122,9 +128,14 @@
 </head>
 <body>
     <div id="gameContainer">
+        <div id="game">
+            <div id="environment"></div>
+            <div id="players"></div>
+            <div id=""></div>
+        </div>
         <div id="progressBar">
-            <img id="startIcon" alt="Start" src="../../images/gameplay/start.png"/>
-            <img id="finishIcon" alt="Finish" src="../../images/gameplay/start.png"/>
+            <img id="startIcon" alt="Start" src="../../images/progress/progress_start.png"/>
+            <img id="finishIcon" alt="Finish" src="../../images/progress/progress_box.png"/>
             <div id="progressTrackContainer">
                 <div id="progressTrack">
                     <figure id="currentIcon" class="progress-icon">
@@ -134,11 +145,6 @@
                     <figure id="opponentIcon" class="progress-icon"></figure>
                 </div>
             </div>
-        </div>
-        <div id="game">
-            <div id="environment"></div>
-            <div id="players"></div>
-            <div id=""></div>
         </div>
     </div>
     <div id="countdown"></div>
