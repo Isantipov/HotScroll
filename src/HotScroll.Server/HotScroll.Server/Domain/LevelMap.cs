@@ -30,16 +30,14 @@ namespace HotScroll.Server.Domain
         {
             // Background
             Background.Clear();
-            var prev = 0;
-            var current = 0;
             for (var i = 0; i < BackgoundsNumber; i++)
             {
-                while (prev == current)
+                var bg = new BackgroundObject();
+                do
                 {
-                    current = random.Next(1, UniqueBackgroundsNumber);
-                }
-                Background.Add(current);
-                prev = current;
+                    bg.GenerateRandom(random);
+                } while (false);
+                Background.Add(bg);
             }
 
             // Events
