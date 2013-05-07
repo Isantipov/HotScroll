@@ -42,11 +42,12 @@ namespace HotScroll.Server.Hubs
                 {
                     return null;
                 }
-                
-                duel.Players.Add(serverPlayer);
-            }
 
-            throw new NotImplementedException();
+                duel.Players.Add(serverPlayer);
+                StartDuel(duel);
+                
+                return duel;
+            }
         }
 
         public Player Connect(Player player)
