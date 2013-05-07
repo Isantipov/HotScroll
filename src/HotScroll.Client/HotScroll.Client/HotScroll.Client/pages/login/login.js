@@ -35,10 +35,8 @@
                     user.name = login;
                     storage.values.currentUser = user;
 
-                    var connectionInfo = game.connectionInfo;
-
-                    connectionInfo.connection.start().done(function () {
-                        connectionInfo.gameHub.invoke('connect', { Name: login }).done(function (response) {
+                    game.connection.start().done(function () {
+                        game.hub.invoke('connect', { Name: login }).done(function (response) {
 
                             window.users = {
                                 currentUser: response
