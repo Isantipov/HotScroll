@@ -58,7 +58,7 @@ namespace HotScroll.Server.Hubs
             return player;
         }
 
-        public DuelProjection WaitPartner(Player player)
+        public void WaitPartner(Player player)
         {
             Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
             serverPlayer.Status = PlayerStatus.WaitingForPartner;
@@ -70,15 +70,8 @@ namespace HotScroll.Server.Hubs
                 var duel = new Duel(new List<Player> {serverPlayer, oponent});
                 game.DuelService.Add(duel);
 
-                DuelProjection proj1 = duel.ToProjection(serverPlayer.ConnectionId);
-                Clients.Client(serverPlayer.ConnectionId).play(proj1);
-
-                DuelProjection proj2 = duel.ToProjection(oponent.ConnectionId);
-                Clients.Client(oponent.ConnectionId).play(proj2);
-                return proj1;
+                StartDuel(duel, serverPlayer, oponent);
             }
-
-            return null;
         }
 
         public void RecordStep(Step step)
@@ -123,5 +116,25 @@ namespace HotScroll.Server.Hubs
                 player.Status = opponent.Status = PlayerStatus.Pending;
             }
         }
+
+        #region [Help Methods]
+
+        /// <summary>
+        ///     Starts the duel and sends Play notifications to
+        ///     participating players.
+        /// </summary>
+        /// <param name="duel">Duel to start.</param>
+        /// <param name="serverPlayer">First player.</param>
+        /// <param name="oponent">Second player.</param>
+        private void StartDuel(Duel duel, Player serverPlayer, Player oponent)
+        {
+            DuelProjection proj1 = duel.ToProjection(serverPlayer.ConnectionId);
+            Clients.Client(serverPlayer.ConnectionId).play(proj1);
+
+            DuelProjection proj2 = duel.ToProjection(oponent.ConnectionId);
+            Clients.Client(oponent.ConnectionId).play(proj2);
+        }
+
+        #endregion
     }
 }
