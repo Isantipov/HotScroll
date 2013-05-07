@@ -20,11 +20,4 @@ namespace HotScroll.Server.Domain
             set { _status = value; }
         }
     }
-
-    public enum PlayerStatus
-    {
-        Pending = 1,
-        WaitingForPartner = 2,
-        Playing = 3,
-    }
 }
