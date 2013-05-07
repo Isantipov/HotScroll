@@ -11,7 +11,7 @@
             });
 
             this._prepareLevel(window.duel.Level);
-            this.currentPlayer = new Player(window.users.currentUser.Name, false);
+            this.currentPlayer = new Player(game.player.Name, false);
             this._startCountdown(3);
         },
 
