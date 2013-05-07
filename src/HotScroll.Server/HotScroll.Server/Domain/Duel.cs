@@ -46,12 +46,12 @@ namespace HotScroll.Server.Domain
 
         public Player GetOpponent(string playerId)
         {
-            return Players.FirstOrDefault(t => t.Id != playerId);
+            return Players.FirstOrDefault(t => t.ConnectionId != playerId);
         }
 
         public IEnumerable<Player> GetOpponents(string userId)
         {
-            return Players.Where(t => t.Id != userId);
+            return Players.Where(t => t.ConnectionId != userId);
         }
     }
 }

@@ -1,40 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using HotScroll.Server.Domain;
 
 namespace HotScroll.Server.Services
 {
-    public static class PlayerService
+    public class PlayerService
     {
-        private static readonly List<Player> PlayersInternal = new List<Player>();
+        private ConcurrentDictionary<string, Player> _players;
 
-        public static List<Player> Players
+        public PlayerService()
         {
-            get { return PlayersInternal; }
+            _players = new ConcurrentDictionary<string, Player>();
         }
 
-        public static void Add(Player player)
+        public void Add(Player player)
         {
-            player.Id = Guid.NewGuid().ToString();
-
-            PlayersInternal.Add(player);
+            _players.TryAdd(player.ConnectionId, player);
         }
 
-        public static Player Get(string id)
+
+        public void Remove(Player player)
         {
-            return PlayersInternal.FirstOrDefault(t => t.Id == id);
+            Player p;
+            _players.TryRemove(player.ConnectionId, out p);
         }
 
-        public static Player GetFreePlayer(Player currentPlayer)
+        public Player Get(string connectionId)
         {
-            return PlayersInternal.FirstOrDefault(t => t.Status == PlayerStatus.WaitingForPartner
-                                                     && t.Id != currentPlayer.Id);
+            return _players[connectionId];
         }
 
-        public static Player GetByConnectionId(string connectionId)
+        public Player GetFreePlayer(Player currentPlayer)
         {
-            return PlayersInternal.FirstOrDefault(t => t.ConnectionId == connectionId);
+            return _players.Values.FirstOrDefault(t => t.Status == PlayerStatus.WaitingForPartner
+                                                     && t.ConnectionId != currentPlayer.ConnectionId);
         }
     }
 }

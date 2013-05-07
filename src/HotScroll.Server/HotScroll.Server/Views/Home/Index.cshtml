@@ -44,7 +44,7 @@
             };
 
             gameHubProxy.client.play = function(projection) {
-                addMessage(Player, 'playing now with id =' + projection.Opponent.Id);
+                addMessage(Player, 'playing now with id =' + projection.Opponent.ConnectionId);
                 Duel = projection;
             };
             gameHubProxy.client.receiveStep = function (step) {
@@ -64,7 +64,7 @@
                 gameHubProxy.server.waitPartner(Player);
             });
             $('#sendbtn').click(function () {
-                var step = { Points: $('#message').val(), PlayerId : Player.Id };
+                var step = { Points: $('#message').val(), PlayerId: Player.ConnectionId };
                 addMessage(Player, "moving for " + step.Points);
                 gameHubProxy.server.recordStep(step);
                 $('#message').val('');
@@ -80,7 +80,7 @@
         // This optional function html-encodes messages for display in the page.
 
         function addMessage(player, msg) {
-            $('#discussion').append('<li><strong>' + htmlEncode(player.Name + ' (' + player.Id + ')')
+            $('#discussion').append('<li><strong>' + htmlEncode(player.Name + ' (' + player.ConnectionId + ')')
                 + '</strong>: ' + htmlEncode(msg) + '</li>');
         }
 
