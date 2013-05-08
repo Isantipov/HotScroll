@@ -10,7 +10,7 @@
                 WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.detail });
             });
 
-            this._prepareLevel(window.duel.Level);
+            this._prepareLevel(game.duel.Level);
             this.currentPlayer = new Player(game.player.Name, false);
             this._startCountdown(3);
         },

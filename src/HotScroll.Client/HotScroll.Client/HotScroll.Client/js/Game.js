@@ -14,6 +14,7 @@
     this.connection = null;
     this.player = null;
     this.opponent = null;
+    this.duel = null;
     
     app.addEventListener("activated", onActivated);
     app.oncheckpoint = onCheckpoint;
@@ -93,12 +94,27 @@
         }
     };
 
-    Game.prototype.login = function(login) {
+    this.login = function(login) {
         _this.connection.start().done(function () {
             _this.hub.invoke('connect', { Name: login }).done(function (response) {
                 _this.player = response;
                 WinJS.Navigation.navigate('/pages/wait/wait.html');
             });
         });
+    };
+
+    this.waitRandomGame = function() {
+        WinJS.Application.addEventListener('play', function (args) {
+            _this.startRandomGame(args.detail);
+        });
+
+        _this.hub.invoke('waitPartner', _this.player);
+    };
+
+    this.startRandomGame = function (duel) {
+        this.opponent = duel.Opponents[0];
+        this.duel = duel;
+
+        WinJS.Navigation.navigate('/pages/game/game.html');
     };
 }
