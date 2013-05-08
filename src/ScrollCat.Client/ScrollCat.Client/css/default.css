@@ -1,14 +1,22 @@
-﻿body {
+﻿#contenthost {
+    height: 100%;
+    width: 100%;
 }
 
-@media screen and (-ms-view-state: fullscreen-landscape) {
+#game-container {
+    display: none;
 }
-
-@media screen and (-ms-view-state: filled) {
+#you-won {
+    display: none;
+    color: green;
+    margin: 200px auto;
+    text-align: center;
+    width: 300px;
 }
-
-@media screen and (-ms-view-state: snapped) {
-}
-
-@media screen and (-ms-view-state: fullscreen-portrait) {
+#you-lost {
+    display: none;
+    color: red;
+    margin: 200px auto;
+    text-align: center;
+    width: 300px;
 }
