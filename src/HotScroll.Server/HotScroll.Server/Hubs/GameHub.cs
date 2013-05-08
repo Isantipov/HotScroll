@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HotScroll.Server.Domain;
 using Microsoft.AspNet.SignalR;
 
@@ -24,10 +23,10 @@ namespace HotScroll.Server.Hubs
         public string CreateDuel(Player player)
         {
             Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
-            
+
             var duel = new Duel(new List<Player> {serverPlayer});
             game.DuelService.Add(duel);
-            
+
             return duel.ToJoinLink();
         }
 
@@ -35,7 +34,7 @@ namespace HotScroll.Server.Hubs
         {
             Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
 
-            var duel = game.DuelService.Get(duelId);
+            Duel duel = game.DuelService.Get(duelId);
             lock (duel.LockObject)
             {
                 if (duel.Status != DuelStatus.WaitingForPlayers)
@@ -46,7 +45,7 @@ namespace HotScroll.Server.Hubs
 
                 duel.Players.Add(serverPlayer);
                 StartDuel(duel);
-                
+
                 return duel;
             }
         }
@@ -129,7 +128,7 @@ namespace HotScroll.Server.Hubs
         {
             duel.Status = DuelStatus.InProgress;
 
-            foreach (var player in duel.Players)
+            foreach (Player player in duel.Players)
             {
                 player.Status = PlayerStatus.Playing;
 
