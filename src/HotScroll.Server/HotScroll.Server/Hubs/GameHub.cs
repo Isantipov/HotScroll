@@ -9,6 +9,13 @@ namespace HotScroll.Server.Hubs
     /// </summary>
     public class GameHub : Hub
     {
+        #region [Constants]
+
+        const string DuelHasAlreadyStartedError =
+                "Duel has already been started with another player";
+
+        #endregion
+
         private readonly Game game;
 
         public GameHub() : this(Game.Instance)
@@ -30,7 +37,7 @@ namespace HotScroll.Server.Hubs
             return duel.ToJoinLink();
         }
 
-        public Duel JoinDuel(Player player, string duelId)
+        public string JoinDuel(Player player, string duelId)
         {
             Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
 
@@ -39,14 +46,13 @@ namespace HotScroll.Server.Hubs
             {
                 if (duel.Status != DuelStatus.WaitingForPlayers)
                 {
-                    // todo: return error message here.
-                    return null;
+                    return DuelHasAlreadyStartedError;
                 }
 
                 duel.Players.Add(serverPlayer);
                 StartDuel(duel);
 
-                return duel;
+                return null;
             }
         }
 
