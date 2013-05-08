@@ -66,7 +66,6 @@
     <Content Include="images\btn_menu_selected.png" />
     <Content Include="images\btn_play.png" />
     <Content Include="images\btn_play_selected.png" />
-    <Content Include="images\gameplay\Background_gradient.png" />
     <Content Include="images\gameplay\bench.png" />
     <Content Include="images\gameplay\big_tree.png" />
     <Content Include="images\gameplay\bush.png" />
