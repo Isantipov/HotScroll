@@ -55,6 +55,7 @@
     </AppxManifest>
     <Content Include="css\game.css" />
     <Content Include="default.html" />
+    <Content Include="fonts\Ubuntu-Bold.ttf" />
     <Content Include="images\arrow-down.png" />
     <Content Include="images\arrow-up.png" />
     <Content Include="images\btn_close.png" />
@@ -65,6 +66,18 @@
     <Content Include="images\btn_menu_selected.png" />
     <Content Include="images\btn_play.png" />
     <Content Include="images\btn_play_selected.png" />
+    <Content Include="images\gameplay\Background_gradient.png" />
+    <Content Include="images\gameplay\bench.png" />
+    <Content Include="images\gameplay\big_tree.png" />
+    <Content Include="images\gameplay\bush.png" />
+    <Content Include="images\gameplay\Clouds_pattern.png" />
+    <Content Include="images\gameplay\Fireplug.png" />
+    <Content Include="images\gameplay\Ground_pattern.png" />
+    <Content Include="images\gameplay\Mountain_pattern.png" />
+    <Content Include="images\gameplay\purple_flower.png" />
+    <Content Include="images\gameplay\small_tree.png" />
+    <Content Include="images\gameplay\start.png" />
+    <Content Include="images\gameplay\yellow_flower.png" />
     <Content Include="images\help_1.png" />
     <Content Include="images\help_2.png" />
     <Content Include="images\help_3.png" />
