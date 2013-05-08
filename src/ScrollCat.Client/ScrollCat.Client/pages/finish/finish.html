@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Scroll Cat</title>
+
+    <style>
+        #finish-container {
+            height: 100%;
+            text-align: center;
+            padding-top: 10%;
+            width: 100%;
+        }
+        #finish-container.lose {
+            background: url("/images/paws_pattern.png") repeat, linear-gradient(to bottom, #ad4089 0%, #723256 100%) no-repeat;
+        }
+        #finish-container.lose .sun {
+            display: none;
+        }
+        #finish-container.win {
+            background: url("/images/paws_pattern.png") repeat 0 0, linear-gradient(to bottom, #0094bd 0%, #095a82 100%) no-repeat 0 0;
+        }
+        #finish-container.win .sun {
+            background: url("/images/rays_rotate.png") no-repeat 50% 50%;
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin-top: -70px;
+            animation-name: rotate;
+            animation-duration: 30s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            z-index: 0;
+        }
+        @keyframes rotate {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+
+        #finish-container .content {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 1;
+        }
+
+        #finish-container h1 {
+            color: #FFF;
+            font-size: 72px;
+            font-weight: bold;
+            text-shadow: -2px 5px 2px #333;
+        }
+        #timer {
+            background: url("/images/timer_icon.png") no-repeat 0 0 transparent;
+            padding-left: 45px;
+            padding-top: 5px;
+            padding-bottom: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFF;
+            display: block;
+            margin: 20px auto;
+            width: 100px;
+        }
+
+        #cat {
+            height: 400px;
+            margin: 0 auto;
+            width: 500px;
+        }
+        .win #cat.cat1 {
+            background: url("/images/win_cat1.png") no-repeat 0 0;
+        }
+        .win #cat.cat2 {
+            background: url("/images/win_cat2.png") no-repeat 0 0;
+        }
+        .lose #cat.cat1 {
+            background: url("/images/lose_cat1.png") no-repeat 0 0;
+        }
+        .lose #cat.cat2 {
+            background: url("/images/lose_cat2.png") no-repeat 0 0;
+        }
+
+        #finish-container .menu {
+            margin: 20px auto;
+            width: 670px;
+        }
+        #menu {
+            background: url("/images/btn_menu.png") no-repeat 0 0;
+            border: 0;
+            width: 276px;
+            height: 104px;
+            cursor: pointer;
+        }
+        #menu:hover {
+            background: url("/images/btn_menu_selected.png") no-repeat 0 0;
+        }
+        #retry {
+            background: url("/images/btn_try.png") no-repeat 0 0;
+            border: 0;
+            width: 313px;
+            height: 109px;
+            cursor: pointer;
+            float: right;
+        }
+        #retry:hover {
+            background: url("/images/btn_try_selected.png") no-repeat 0 0;
+        }
+
+    </style>
+    <script src="/js/Game.js"></script>
+    <script src="/pages/finish/finish.js"></script>
+</head>
+<body>
+    <div id="finish-container" class="win">
+        <div class="sun"></div>
+        <div class="content">
+            <h1></h1>
+            <div id="timer"></div>
+            <div id="cat" class="cat1"></div>
+            <div class="menu">
+                <button id="menu"></button>
+                <button id="retry"></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

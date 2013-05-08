@@ -53,7 +53,9 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="css\game.css" />
     <Content Include="default.html" />
+    <Content Include="fonts\Ubuntu-Bold.ttf" />
     <Content Include="images\arrow-down.png" />
     <Content Include="images\arrow-up.png" />
     <Content Include="images\btn_close.png" />
@@ -122,6 +124,19 @@
     <Content Include="images\win_cat2.png" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />
+    <Content Include="js\Environment.js" />
+    <Content Include="js\Game.js" />
+    <Content Include="js\navigator.js" />
+    <Content Include="js\Player.js" />
+    <Content Include="packages.config" />
+    <Content Include="pages\finish\finish.html" />
+    <Content Include="pages\finish\finish.js" />
+    <Content Include="pages\game\game.html" />
+    <Content Include="pages\game\game.js" />
+    <Content Include="pages\login\login.html" />
+    <Content Include="pages\login\login.js" />
+    <Content Include="pages\wait\wait.html" />
+    <Content Include="pages\wait\wait.js" />
     <Content Include="Scripts\jquery-2.0.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.0.js" />
     <Content Include="Scripts\jquery-2.0.0.min.js" />
