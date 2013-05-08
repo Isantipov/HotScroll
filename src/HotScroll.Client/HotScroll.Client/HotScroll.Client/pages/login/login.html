@@ -128,7 +128,7 @@
             width: 70px;
             vertical-align: top;
         }
-
+        .help-container{}
         #help {
             background: rgba(0, 109, 143, 0.6);
             position: absolute;
@@ -159,6 +159,37 @@
         #help-close:hover {
             background: url("/images/btn_close_selected.png") no-repeat 0 0 transparent;
         }
+
+        
+        .wait-container {
+            width: 100%;
+            height: 100%;
+            background: url("/images/menu_pattern.png") repeat #FFF;
+            display: none;
+        }
+
+        #wait {
+            margin: -225px 0 0 -400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 0;
+            width: 800px;
+            height: 450px;
+            text-align: center;
+            transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
+        }
+        #wait .win-ring {
+            margin: 50px auto;
+            color: #fff;
+            display: block;
+        }
+
+        #wait h1 {
+            font-weight: bold;
+            font-size: 62px;
+            color: #429499;
+        }
     </style>
     
     
@@ -184,13 +215,19 @@
             <img src="/images/validation_label.png" alt="" id="validation-message" />
         </div>
     </div>
-    <div id="help">
+    <div class="help-container" id="help">
         <div class="help-content">
             <img src="/images/help_1.png" alt="" />
             <img src="/images/help_2.png" alt="" />
             <img src="/images/help_3.png" alt="" />
             <div id="help-close"></div>
         </div>
+    </div>
+    <div class="wait-container">
+        <section id="wait">
+            <h1>Searching for opponents...</h1>
+            <progress class="win-ring win-large"></progress>
+        </section>
     </div>
 </body>
 </html>

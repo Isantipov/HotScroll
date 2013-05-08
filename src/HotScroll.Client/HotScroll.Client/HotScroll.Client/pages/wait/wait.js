@@ -6,7 +6,7 @@
 
     WinJS.UI.Pages.define('/pages/wait/wait.html', {
         ready: function () {
-            game.waitRandomGame();
+            //game.waitRandomGame();
         },
     });
 
