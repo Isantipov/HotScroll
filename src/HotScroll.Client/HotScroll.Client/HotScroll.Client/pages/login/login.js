@@ -25,6 +25,9 @@
             $('#play').click(function () {
                 that._login();
             });
+            $('#invite').click(function () {
+                that._invite();
+            });
         },
 
         _login: function () {
@@ -45,6 +48,10 @@
             } else {
                 $('#validation-message').show();
             }
+        },
+        
+        _invite: function() {
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
         },
 
         _showHelp: function (callback) {
