@@ -286,6 +286,14 @@
     <None Include="Properties\PublishProfiles\hotscroll - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hotscroll - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Images\btn_invite.png" />
+    <Content Include="Images\btn_invite_selected.png" />
+    <Content Include="Images\btn_play.png" />
+    <Content Include="Images\btn_play_selected.png" />
+    <Content Include="Images\menu_pattern.png" />
+    <Content Include="Images\splashscreen-transparent.png" />
+    <Content Include="Images\text_or.png" />
+    <Content Include="Images\text_random.png" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
