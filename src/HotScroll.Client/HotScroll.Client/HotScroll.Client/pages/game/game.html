@@ -4,7 +4,30 @@
     <meta charset="utf-8"/>
     <title>Scroll Cat</title>
 
-    <style>
+    <style >
+        @font-face {
+            font-family: 'Ubuntu Bold';
+            src: url("../../fonts/Ubuntu-Bold.ttf");
+        }
+
+        @keyframes countdown {
+            from {
+                transform: scale(0.4);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes clouds {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: -750px 0;
+            }
+        }
+
         #gameContainer {
             position: absolute;
             width: 100%;
@@ -21,7 +44,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border-bottom: 165px solid #ffffff;
+            border-bottom: 171px solid #6dc9cf;
             background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
             background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
             box-sizing: border-box;
@@ -112,13 +135,56 @@
         }
 
         #countdown {
-            background-color: rgba(0, 0, 0, 0.3);
-            color: #FFF;
-            font-size: 160px;
-            height: 100%;
-            padding-top: 100px;
-            text-align: center;
+            z-index: 999;
+            position: absolute;
             width: 100%;
+            height: 768px;
+            line-height: 768px;
+            left: 0;
+            top: 50%;
+            margin-top: -384px;
+            background-color: transparent;
+            color: #FFF;
+            font-family: 'Ubuntu Bold', sans-serif;
+            text-shadow: 0 4px 0 #db7c09;
+            font-size: 350px;
+            text-align: center;
+            transform-origin: 50% 50%;
+        }
+
+        #countdown.started {
+            animation: countdown 1s cubic-bezier(0.1,0.9,0,0.8) infinite;
+        }
+
+        #environment {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+        }
+
+        #environment #clouds {
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 211px;
+            margin-top: 6.5%;
+            background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
+            animation: clouds 60s linear infinite;
+        }
+
+        #environment #mountains {
+            z-index: 2;
+            width: 100%;
+            height: 341px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
+            margin-bottom: 170px;
+            transition: background-position 0.1s linear;
         }
 
         #tracks {
@@ -172,13 +238,16 @@
 
         }
     </style>
-    <script src="/js/Game.js"></script>
-    <script src="/pages/game/game.js"></script>
+    <script src="../../js/Game.js"></script>
+    <script src="../../pages/game/game.js"></script>
 </head>
 <body>
 <div id="gameContainer">
     <div id="game">
-        <div id="environment"></div>
+        <div id="environment">
+            <div id="clouds"></div>
+            <div id="mountains"></div>
+        </div>
         <div id="players"></div>
         <div id=""></div>
     </div>

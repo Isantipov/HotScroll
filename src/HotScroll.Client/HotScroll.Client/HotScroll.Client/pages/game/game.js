@@ -30,17 +30,24 @@
 
         _startCountdown: function (seconds) {
             var count = seconds,
-                that = this;
+                that = this,
+                elem = $('#countdown');
 
-            $('#countdown').text(count);
+            elem.text(count);
+            elem.addClass('started');
 
             var interval = setInterval(function () {
-                count--;
-                if (count === 0) {
-                    $('#countdown').fadeOut('fast');
-                    that._startGame();
+                if (!isNaN(count)) {
+                    count--;
+                }
+                if (count === 'GO!') {
+                    elem.remove();
                 } else {
-                    $('#countdown').text(count);
+                    if (count === 0) {
+                        count = 'GO!';
+                        that._startGame();
+                    }
+                    elem.text(count);
                 }
             }, 1000);
         },
@@ -50,8 +57,10 @@
             document.body.addEventListener('mousewheel', function (event) {
                 var direction = event.wheelDelta < 0 ? 1 : -1,
                     newScore = that.currentPlayer.score + direction;
-                if (newScore < game.TOTAL_SCORE) {
+                if (newScore < game.TOTAL_SCORE && newScore >= 0) {
                     that.currentPlayer.setScore(that.currentPlayer.score + direction);
+                } else if (newScore === game.TOTAL_SCORE) {
+
                 }
             });
         },
