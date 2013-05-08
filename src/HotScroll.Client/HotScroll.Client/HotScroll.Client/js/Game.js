@@ -15,10 +15,11 @@
     this.player = null;
     this.opponent = null;
     this.duel = null;
+    this.duelUrl = null;
     
     app.addEventListener("activated", onActivated);
     app.oncheckpoint = onCheckpoint;
-    
+
     app.start();
     
     function onActivated(args) {
@@ -62,6 +63,21 @@
         app.sessionState.history = nav.history;
     };
 
+    this._onLoginShareDataRequested = function (e) {
+        if (_this.duelUrl) {
+            var request = e.request;
+            request.data.properties.title = "Someone invites you to play in Scroll Cat";
+            var userName = "Someone";
+            if (_this.player && _this.player.Name) {
+                userName = _this.player.Name;
+            }
+            request.data.properties.description = userName + " has just created a Scroll Cat duel and is now waiting for you to join!";
+            request.data.setUri(new Windows.Foundation.Uri(_this.duelUrl));
+        } else {
+            // TODO: add logic to say something when no duel created
+        }
+    };
+
     this._initConnection = function() {
         // WinJS environment init
         WinJS.Binding.optimizeBindingReferences = true;
@@ -98,14 +114,31 @@
 
     this.loginAndWaitRandom = function(login) {
         _this.hub.invoke('connect', { Name: login }).done(function (response) {
+            WinJS.Application.addEventListener('play', _this.onStartRandomGame);
             _this.player = response;
-            _this.waitRandomGame();
+            _this.hub.invoke('waitPartner', _this.player);
         });
     };
 
-    this.waitRandomGame = function() {
-        WinJS.Application.addEventListener('play', _this.onStartRandomGame);
-        _this.hub.invoke('waitPartner', _this.player);
+    this.onStartRandomGame = function (args) {
+        WinJS.Application.removeEventListener('play', _this.onStartRandomGame);
+        var duel = args.detail;
+        _this.opponent = duel.Opponents[0];
+        _this.duel = duel;
+
+        WinJS.Navigation.navigate('/pages/game/game.html');
+    };
+    
+
+    this.loginAndWaitFriend = function (login) {
+        _this.hub.invoke('connect', { Name: login }).done(function (player) {
+            WinJS.Application.addEventListener('play', _this.onStartRandomGame);
+            _this.player = player;
+            _this.hub.invoke('createDuel', _this.player).done(function(duelUrl) {
+                _this.duelUrl = duelUrl;
+                Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
+            });
+        });
     };
 
     this.onStartRandomGame = function (args) {
