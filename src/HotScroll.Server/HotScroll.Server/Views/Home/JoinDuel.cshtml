@@ -189,11 +189,15 @@
             <div id="message"><span id="opponentName">@Model.OpponentName</span> invites you to play Scroll Cat</div>
 
             <div class="play">
-                <button id="play"></button>
+                <form action="@Model.LaunchScrollCatUrl">
+                    <input type="submit" value=""  id="play" />
+                </form>
             </div>
             <div class="or"></div>
             <div class="invite">
-                <button id="invite"></button>
+                <form action="@Model.BuyFromStorURL">
+                    <input type="submit" value="" id="invite" />
+                </form>
             </div>
         </div>
     </div></body>
