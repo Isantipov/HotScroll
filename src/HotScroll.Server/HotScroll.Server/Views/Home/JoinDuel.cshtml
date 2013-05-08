@@ -1,0 +1,24 @@
+﻿@model HotScroll.Server.ViewModels.JoinDuelViewModel
+
+@{
+    ViewBag.Title = "JoinDuel";
+}
+
+<h2>JoinDuel</h2>
+
+<div class="login-container" id="loginForm">
+        <img src="../../images/splashscreen-transparent.png" alt="HotScroll">       
+       
+        <div id="credentials" class="visible">
+            <input type="text" id="login" placeholder="Enter your name" autofocus>
+
+            <div class="play">
+                <button id="play"></button>
+            </div>
+            <div class="or"></div>
+            <div class="invite">
+                <button id="invite"></button>
+            </div>
+            <img src="../../images/validation_label.png" alt="" id="validation-message" />
+        </div>
+    </div>

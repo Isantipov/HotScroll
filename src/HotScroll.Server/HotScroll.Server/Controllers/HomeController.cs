@@ -12,8 +12,8 @@ namespace HotScroll.Server.Controllers
         public ActionResult JoinDuel(string id)
         {
             var applicatioLink = GetApplicatioLink(id);
-            
-            return Redirect(applicatioLink);
+
+            return View();
         }
 
         private string GetApplicatioLink(string id)
