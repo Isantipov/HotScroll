@@ -44,7 +44,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border-bottom: 171px solid #6dc9cf;
+            border-bottom: 165px solid #6dc9cf;
             background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
             background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
             box-sizing: border-box;
@@ -157,6 +157,7 @@
         }
 
         #environment {
+            z-index: 1;
             position: absolute;
             width: 100%;
             height: 100%;
@@ -172,7 +173,7 @@
             height: 211px;
             margin-top: 6.5%;
             background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
-            animation: clouds 60s linear infinite;
+            animation: clouds 45s linear infinite;
         }
 
         #environment #mountains {
@@ -183,8 +184,58 @@
             bottom: 0;
             left: 0;
             background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
-            margin-bottom: 170px;
+            margin-bottom: 176px;
             transition: background-position 0.1s linear;
+        }
+
+        #environment #ground {
+            z-index: 3;
+            width: 100%;
+            height: 189px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: url("../../images/gameplay/Ground_pattern.png") repeat-x 0 0;
+            transition: background-position 0.1s linear;
+        }
+
+        #players {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        #players .player {
+            position: absolute;
+            width: 350px;
+            height: 310px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            left: 50%;
+            bottom: 0;
+            margin-left: -150px;
+        }
+
+        .player.pink {
+            background-image: url("../../images/gameplay/pink-cat.png");
+        }
+
+        .player.green {
+            background-image: url("../../images/gameplay/green-cat.png");
+        }
+
+        #currentPlayer {
+            z-index: 2;
+            margin-bottom: 80px;
+        }
+
+        #opponentPlayer {
+            z-index: 1;
+            margin-bottom: 140px;
         }
 
         #tracks {
@@ -247,8 +298,12 @@
         <div id="environment">
             <div id="clouds"></div>
             <div id="mountains"></div>
+            <div id="ground"></div>
         </div>
-        <div id="players"></div>
+        <div id="players">
+            <figure class="player pink" id="opponentPlayer"></figure>
+            <figure class="player green" id="currentPlayer"></figure>
+        </div>
         <div id=""></div>
     </div>
     <div id="progressBar">

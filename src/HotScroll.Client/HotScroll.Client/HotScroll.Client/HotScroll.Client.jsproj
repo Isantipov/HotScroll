@@ -71,8 +71,10 @@
     <Content Include="images\gameplay\bush.png" />
     <Content Include="images\gameplay\Clouds_pattern.png" />
     <Content Include="images\gameplay\Fireplug.png" />
+    <Content Include="images\gameplay\green-cat.png" />
     <Content Include="images\gameplay\Ground_pattern.png" />
     <Content Include="images\gameplay\Mountain_pattern.png" />
+    <Content Include="images\gameplay\pink-cat.png" />
     <Content Include="images\gameplay\purple_flower.png" />
     <Content Include="images\gameplay\small_tree.png" />
     <Content Include="images\gameplay\start.png" />
@@ -118,6 +120,7 @@
     <Content Include="images\win_cat2.png" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />
+    <Content Include="js\Environment.js" />
     <Content Include="js\Game.js" />
     <Content Include="js\navigator.js" />
     <Content Include="js\Player.js" />
