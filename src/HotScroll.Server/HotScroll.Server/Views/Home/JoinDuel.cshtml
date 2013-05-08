@@ -82,22 +82,22 @@
             box-sizing: border-box;
         }
 
-        .play {
-            background: url("/images/text_random.png") bottom left no-repeat transparent;
+        .join {
+            background: url("/images/text_competition.png") bottom left no-repeat transparent;
             display: inline-block;
             width: 330px;
             height: 170px;
             vertical-align: top;
         }
-        #play {
-            background: url("/images/btn_play.png") 0 0 no-repeat transparent;
+        #join {
+            background: url("/images/btn_join.png") 0 0 no-repeat transparent;
             border: 0;
             height: 116px;
             width: 276px;
             cursor: pointer;
         }
-        #play:hover {
-            background: url("/images/btn_play_selected.png") 0 0 no-repeat transparent;
+        #join:hover {
+            background: url("/images/btn_join_selected.png") 0 0 no-repeat transparent;
         }
 
         .invite {
@@ -188,9 +188,9 @@
         <div id="credentials" class="visible">
             <div id="message"><span id="opponentName">@Model.OpponentName</span> invites you to play Scroll Cat</div>
 
-            <div class="play">
+            <div class="join">
                 <form action="@Model.LaunchScrollCatUrl">
-                    <input type="submit" value=""  id="play" />
+                    <input type="submit" value=""  id="join" />
                 </form>
             </div>
             <div class="or"></div>
