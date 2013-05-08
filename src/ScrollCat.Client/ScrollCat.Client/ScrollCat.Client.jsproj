@@ -74,6 +74,10 @@
     <Content Include="images\widelogo.scale-80.png" />
     <Content Include="js\default.js" />
     <Content Include="css\default.css" />
+    <Content Include="Scripts\jquery-2.0.0.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.0.js" />
+    <Content Include="Scripts\jquery-2.0.0.min.js" />
+    <Content Include="Scripts\jquery-2.0.0.min.map" />
     <None Include="ScrollCat.Client_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
