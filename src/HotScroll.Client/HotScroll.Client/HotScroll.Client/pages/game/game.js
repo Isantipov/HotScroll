@@ -11,6 +11,7 @@
             });
 
             this._prepareLevel(game.duel.Level);
+            Environment.initialize();
             this.currentPlayer = new Player(game.player.Name, false);
             this._startCountdown(3);
         },
@@ -59,6 +60,7 @@
                     newScore = that.currentPlayer.score + direction;
                 if (newScore < game.TOTAL_SCORE && newScore >= 0) {
                     that.currentPlayer.setScore(that.currentPlayer.score + direction);
+                    that.currentPlayer.playAnimation(event, direction);
                 } else if (newScore === game.TOTAL_SCORE) {
 
                 }
