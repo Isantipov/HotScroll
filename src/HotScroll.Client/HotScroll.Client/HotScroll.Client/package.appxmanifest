@@ -17,7 +17,7 @@
     <Application Id="App" StartPage="default.html">
       <VisualElements DisplayName="Scroll Cat" Logo="images\icons\scrollcat_icon_150x150.png" SmallLogo="images\icons\scrollcat_icon_30x30.png" Description="Scroll Cat Funny Game" ForegroundText="light" BackgroundColor="#ffc040" ToastCapable="false">
         <DefaultTile ShowName="allLogos" WideLogo="images\icons\scrollcat_icon_310x150.png" ShortName="Scroll Cat" />
-        <SplashScreen Image="images\splashscreen.png" BackgroundColor="#ffffff" />
+        <SplashScreen Image="images\splashscreen.png" BackgroundColor="#45352d" />
         <InitialRotationPreference>
           <Rotation Preference="landscape" />
           <Rotation Preference="landscapeFlipped" />
