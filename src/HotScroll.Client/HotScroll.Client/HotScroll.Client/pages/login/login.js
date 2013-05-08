@@ -31,10 +31,16 @@
             var login = $('#login').val();
             if (login !== '') {
                 this._showHelp(function () {
+
+                    $('.login-container').hide();
+                    $('.wait-container').show();
+
                     var user = new Windows.Storage.ApplicationDataCompositeValue();
                     user.name = login;
                     storage.values.currentUser = user;
-                    game.login(login);
+
+                    game.login(login, game.waitRandomGame);
+                    
                 });
             } else {
                 $('#validation-message').show();
