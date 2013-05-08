@@ -106,6 +106,8 @@
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen-transparent.png" />
     <Content Include="images\splashscreen.png" />
+    <Content Include="images\splashscreen_1116x540.png" />
+    <Content Include="images\splashscreen_868x420.png" />
     <Content Include="images\storelogo.png" />
     <Content Include="images\text_friend.png" />
     <Content Include="images\text_or.png" />
