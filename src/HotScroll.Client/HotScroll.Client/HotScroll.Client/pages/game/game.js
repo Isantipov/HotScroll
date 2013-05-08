@@ -2,8 +2,6 @@
 
     'use strict';
 
-    var storage = Windows.Storage.ApplicationData.current.localSettings;
-
     WinJS.UI.Pages.define('/pages/game/game.html', {
         ready: function () {
             WinJS.Application.addEventListener('gameOver', function (args) {

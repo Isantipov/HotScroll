@@ -1,9 +1,7 @@
 ﻿(function () {
 
     'use strict';
-
-    var storage = Windows.Storage.ApplicationData.current.localSettings;
-
+    
     WinJS.UI.Pages.define('/pages/finish/finish.html', {
         ready: function (options) {
             if (options.hasWon === true) {

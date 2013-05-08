@@ -2,28 +2,20 @@
 
     'use strict';
 
-    var storage = Windows.Storage.ApplicationData.current.localSettings;
-    
     WinJS.UI.Pages.define('/pages/login/login.html', {
         ready: function () {
 
             var dataTransferManager = Windows.ApplicationModel.DataTransfer.DataTransferManager.getForCurrentView();
             dataTransferManager.addEventListener("datarequested", game._onLoginShareDataRequested);
 
-            Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (username) {
 
-                if (storage.values.currentUser) {
-                    $('#login').val(storage.values.currentUser.name);
-                } else {
-                    $('#login').val(username);
-                }
+            $('#login').val(game.player.Name);
                 
-                $('#loadingIndicator').addClass('hidden');
-                setTimeout(function () {
-                    $('#loadingIndicator').hide();
-                    $('#credentials').show().addClass('visible');
-                }, 300);
-            });
+            $('#loadingIndicator').addClass('hidden');
+            setTimeout(function () {
+                $('#loadingIndicator').hide();
+                $('#credentials').show().addClass('visible');
+            }, 300);
 
             var that = this;
             $('#play').click(function () {
@@ -40,14 +32,8 @@
 
                     $('.login-container').hide();
                     $('.wait-container').show();
-
-                    var user = storage.values.currentUser;
-                    if (!user) {
-                        user = new Windows.Storage.ApplicationDataCompositeValue();
-                        
-                        storage.values.currentUser = user;
-                    }
-                    user.name = login;
+                    
+                    game.setPlayerName(login);
                     afterLoginCallBack(login);
 
                 });
@@ -64,10 +50,10 @@
         },
 
         _showHelp: function (callback) {
-            if (!storage.values.helpSeen) {
+            if (!game.getHelpShown()) {
                 $('#help').fadeIn();
                 $('#help-close').click(function () {
-                    storage.values.helpSeen = 'true';
+                    game.setHelpShown(true);
                     $('#help').fadeOut();
                     callback();
                 });
