@@ -6,6 +6,10 @@
     
     WinJS.UI.Pages.define('/pages/login/login.html', {
         ready: function () {
+
+            var dataTransferManager = Windows.ApplicationModel.DataTransfer.DataTransferManager.getForCurrentView();
+            dataTransferManager.addEventListener("datarequested", game._onLoginShareDataRequested);
+
             Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (username) {
 
                 if (storage.values.currentUser) {
@@ -23,14 +27,13 @@
 
             var that = this;
             $('#play').click(function () {
-                that._login();
+                that._play();
             });
             $('#invite').click(function () {
                 that._invite();
             });
         },
-
-        _login: function () {
+        _loginAndWait: function(afterLoginCallBack) {
             var login = $('#login').val();
             if (login !== '') {
                 this._showHelp(function () {
@@ -38,20 +41,26 @@
                     $('.login-container').hide();
                     $('.wait-container').show();
 
-                    var user = new Windows.Storage.ApplicationDataCompositeValue();
+                    var user = storage.values.currentUser;
+                    if (!user) {
+                        user = new Windows.Storage.ApplicationDataCompositeValue();
+                        
+                        storage.values.currentUser = user;
+                    }
                     user.name = login;
-                    storage.values.currentUser = user;
+                    afterLoginCallBack(login);
 
-                    game.loginAndWaitRandom(login);
-                    
                 });
             } else {
                 $('#validation-message').show();
             }
         },
+        _play: function () {
+            this._loginAndWait(game.loginAndWaitRandom);
+        },
         
-        _invite: function() {
-            Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
+        _invite: function () {
+            this._loginAndWait(game.loginAndWaitFriend);
         },
 
         _showHelp: function (callback) {
