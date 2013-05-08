@@ -114,25 +114,15 @@
 
     this.loginAndWaitRandom = function(login) {
         _this.hub.invoke('connect', { Name: login }).done(function (response) {
-            WinJS.Application.addEventListener('play', _this.onStartRandomGame);
+            WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = response;
             _this.hub.invoke('waitPartner', _this.player);
         });
     };
 
-    this.onStartRandomGame = function (args) {
-        WinJS.Application.removeEventListener('play', _this.onStartRandomGame);
-        var duel = args.detail;
-        _this.opponent = duel.Opponents[0];
-        _this.duel = duel;
-
-        WinJS.Navigation.navigate('/pages/game/game.html');
-    };
-    
-
     this.loginAndWaitFriend = function (login) {
         _this.hub.invoke('connect', { Name: login }).done(function (player) {
-            WinJS.Application.addEventListener('play', _this.onStartRandomGame);
+            WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = player;
             _this.hub.invoke('createDuel', _this.player).done(function(duelUrl) {
                 _this.duelUrl = duelUrl;
@@ -141,12 +131,13 @@
         });
     };
 
-    this.onStartRandomGame = function (args) {
-        WinJS.Application.removeEventListener('play', _this.onStartRandomGame);
+    this.onDuelStart = function (args) {
+        WinJS.Application.removeEventListener('play', _this.onDuelStart);
         var duel = args.detail;
         _this.opponent = duel.Opponents[0];
         _this.duel = duel;
 
         WinJS.Navigation.navigate('/pages/game/game.html');
     };
+
 }
