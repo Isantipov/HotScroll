@@ -72,7 +72,7 @@
 
         #message {
             border-radius: 20px;
-            color: #f7931e;
+            color: #429398;
             padding: 10px 30px;
             font-size: 36px;
             font-weight: bold;
@@ -175,6 +175,10 @@
             font-size: 62px;
             color: #429499;
         }
+
+        #opponentName {
+            color: rgb(84, 188, 195)
+        }
     </style>
 </head>
 <body>
@@ -182,7 +186,7 @@
         <img src="../../images/splashscreen-transparent.png" alt="HotScroll">       
        
         <div id="credentials" class="visible">
-            <div id="message">Vasia has invited U</div>
+            <div id="message"><span id="opponentName">@Model.OpponentName</span> invites you to play Scroll Cat</div>
 
             <div class="play">
                 <button id="play"></button>
