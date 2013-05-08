@@ -96,10 +96,10 @@
         }
     };
 
-    this.login = function(login, onconnected) {
+    this.loginAndWaitRandom = function(login) {
         _this.hub.invoke('connect', { Name: login }).done(function (response) {
             _this.player = response;
-            onconnected();
+            _this.waitRandomGame();
         });
     };
 

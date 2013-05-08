@@ -39,7 +39,7 @@
                     user.name = login;
                     storage.values.currentUser = user;
 
-                    game.login(login, game.waitRandomGame);
+                    game.loginAndWaitRandom(login);
                     
                 });
             } else {
