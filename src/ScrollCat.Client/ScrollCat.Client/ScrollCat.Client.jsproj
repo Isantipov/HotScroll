@@ -71,6 +71,7 @@
     <Content Include="images\gameplay\bench.png" />
     <Content Include="images\gameplay\big_tree.png" />
     <Content Include="images\gameplay\bush.png" />
+    <Content Include="images\gameplay\butterfly.png" />
     <Content Include="images\gameplay\Clouds_pattern.png" />
     <Content Include="images\gameplay\Fireplug.png" />
     <Content Include="images\gameplay\green-cat.png" />

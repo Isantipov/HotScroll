@@ -10,9 +10,13 @@ function Player (name, isOpponent) {
 
 Player.prototype.setScore = function (score) {
     this.score = score;
-    var scorePercent = (this.score / game.TOTAL_SCORE) * 100;
+    var scorePercent = ((this.score / game.TOTAL_SCORE) * 100).toFixed(5);
     this.icon.style.left = scorePercent + '%';
     Environment.move(scorePercent);
+    // 428 - Ground-pattern inage width in px.
+    var bgPercent = parseFloat(Environment.ground.style.backgroundPosition);
+    var opponentBgPercent = (game.opponentPlayer.score / game.TOTAL_SCORE) * 100 * 14;
+    game.opponentPlayer.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428)+ (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
 };
 
 Player.prototype.animateCat = function (timeout, direction) {

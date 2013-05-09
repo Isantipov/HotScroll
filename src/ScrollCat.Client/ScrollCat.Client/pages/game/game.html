@@ -10,6 +10,36 @@
             src: url("../../fonts/Ubuntu-Bold.ttf");
         }
 
+        @keyframes butterfly {
+            from {
+                transform: scaleX(1);
+            }
+            50% {
+                transform: scaleX(0.1);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        @keyframes butterfly-movement {
+            from {
+                transform: translateY(-50px) rotate(-90deg);
+            }
+            25% {
+                transform: translateY(0) rotate(-135deg);
+            }
+            50% {
+                transform: translateY(50px) rotate(-90deg);
+            }
+            75% {
+                transform: translateY(0) rotate(-45deg);
+            }
+            to {
+                transform: translateY(-50px) rotate(-90deg);
+            }
+        }
+
         @keyframes countdown {
             from {
                 transform: scale(0.4);
@@ -220,6 +250,25 @@
             margin-left: -150px;
         }
 
+        #butterflyContainer {
+            z-index: 3;
+            width: 68px;
+            height: 58px;
+            position: absolute;
+            transform-origin: 50% 50%;
+            bottom: 320px;
+            left: 25%;
+            animation: butterfly-movement 1s ease-in-out infinite;
+        }
+
+        #butterfly {
+            width: 68px;
+            height: 58px;
+            position: absolute;
+            transform-origin: 50% 50%;
+            animation: butterfly 0.16s ease-in-out infinite;
+        }
+
         .player.pink {
             background-image: url("../../images/gameplay/pink-cat.png");
         }
@@ -236,6 +285,7 @@
         #opponentPlayer {
             z-index: 1;
             margin-bottom: 140px;
+            transition: left 0.1s linear;
         }
 
         #tracks {
@@ -304,7 +354,9 @@
             <figure class="player pink" id="opponentPlayer"></figure>
             <figure class="player green" id="currentPlayer"></figure>
         </div>
-        <div id=""></div>
+        <div id="butterflyContainer">
+            <img src="../../images/gameplay/butterfly.png" alt="" id="butterfly">
+        </div>
     </div>
     <div id="progressBar">
         <div id="progressTrackContainer">

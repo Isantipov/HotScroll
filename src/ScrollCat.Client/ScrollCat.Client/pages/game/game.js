@@ -4,6 +4,7 @@
 
     WinJS.UI.Pages.define('/pages/game/game.html', {
         ready: function () {
+            var that = this;
             WinJS.Application.addEventListener('gameOver', function (args) {
                 WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.detail });
             });
@@ -11,7 +12,15 @@
             this._prepareLevel(game.duel.Level);
             Environment.initialize();
             this.currentPlayer = new Player(game.player.Name, false);
+            game.opponentPlayer = new Player(game.opponent.Name, true);
             this._startCountdown(3);
+
+            WinJS.Application.addEventListener('receiveStep', function (args) {
+                game.opponentPlayer.score = args.detail.Points;
+                var bgPercent = parseFloat(Environment.ground.style.backgroundPosition);
+                var opponentBgPercent = (game.opponentPlayer.score / game.TOTAL_SCORE) * 100 * 14;
+                game.opponentPlayer.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
+            });
         },
 
         _prepareLevel: function (levelData) {
