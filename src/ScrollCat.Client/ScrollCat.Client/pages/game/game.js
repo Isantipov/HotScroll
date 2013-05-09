@@ -22,7 +22,6 @@
                 game.opponentPlayer.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
             });
         },
-
         _prepareLevel: function (levelData) {
             var track1 = $('#track1 > .parts'),
                 track2 = $('#track2 > .parts');
