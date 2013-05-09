@@ -19,7 +19,7 @@ namespace HotScroll.Server.Domain
         public void GenerateRandom(Random random)
         {
             Offset = random.Next(0, MaximumOffset);
-            Type = random.Next(1, MaximumType);
+            Type = random.Next(1, MaximumType + 1);
         }
     }
 }
