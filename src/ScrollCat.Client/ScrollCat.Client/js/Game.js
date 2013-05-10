@@ -2,7 +2,7 @@
 
     var _this = this;
     
-    var HOST_URL = 'http://scrollcat.azurewebsites.net/';
+    var HOST_URL = 'http://localhost:57666/';
     
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
@@ -95,12 +95,7 @@
     }
     
     function proceedToJoin() {
-        if (nav.location) {
-            nav.history.current.initialPlaceholder = true;
-            return nav.navigate(nav.location, nav.state);
-        } else {
-            return nav.navigate(Application.navigator.join);
-        }
+        return WinJS.Navigation.navigate('/pages/join/join.html');
     }
     
     function onCheckpoint(args) {
@@ -183,10 +178,21 @@
         _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = player;
-            _this.hub.invoke('joinDuel', _this.duel.Id);
+            _this.hub.invoke('joinDuel', _this.duel.Id).done(function(response) {
+                if (response) {
+                    _this._showError(response, function() {
+                        WinJS.Navigation.navigate('/pages/login/login.html');
+                    });
+                }
+            });
         });
     };
 
+    this._showError = function (msg, shownPopup) {
+        var md = new Windows.UI.Popups.MessageDialog(msg);
+        md.showAsync().then(shownPopup);
+    };
+    
     this.loginAndWaitFriend = function (login) {
         _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
