@@ -4,6 +4,7 @@
     
     WinJS.UI.Pages.define('/pages/finish/finish.html', {
         ready: function (element, options) {
+            $('#cat').addClass(options.templateClass);
             if (options.hasWon === true) {
                 $('#finish-container').addClass('win');
                 $('h1').text('You win!');
