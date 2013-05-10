@@ -16,13 +16,13 @@ namespace HotScroll.Server.Domain
 
         #endregion
 
-        public List<BackgroundObject> Background { get; set; }
+        public List<BgItem> Background { get; set; }
 
         public List<LevelEvent> Events { get; set; }
 
         public LevelMap()
         {
-            Background = new List<BackgroundObject>();
+            Background = new List<BgItem>();
             Events = new List<LevelEvent>();
         }
 
@@ -32,7 +32,7 @@ namespace HotScroll.Server.Domain
             Background.Clear();
             for (var i = 0; i < BackgoundsNumber; i++)
             {
-                var bg = new BackgroundObject();
+                var bg = new BgItem();
                 do
                 {
                     bg.GenerateRandom(random);
