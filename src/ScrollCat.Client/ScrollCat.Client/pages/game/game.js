@@ -7,19 +7,19 @@
             var that = this;
             document.querySelector('#mainTheme').play();
             WinJS.Application.addEventListener('gameOver', function (args) {
-                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.details, templateClass: that.currentPlayer.templateClass });
+                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.details, templateClass: game.currentPlayer.templateClass });
             });
 
             this._prepareLevel(game.duel.Level);
             Environment.initialize();
             Butterfly.initialize(game.duel.Level.Events);
-            this.currentPlayer = new Player(game.player.Name, false, game.duel.PlayerTemplate);
+            game.currentPlayer = new Player(game.player.Name, false, game.duel.PlayerTemplate);
 
             // todo: refactor to receive opponent template from Server. 
             var opponentTemplate = game.duel.PlayerTemplate == 0 ? 1 : 0;
             game.opponentPlayer = new Player(game.opponent.Name, true, opponentTemplate);
 
-            this.currentPlayer.initializeCat();
+            game.currentPlayer.initializeCat();
             game.opponentPlayer.initializeCat();
 
             WinJS.Application.addEventListener('play', function() {
@@ -28,22 +28,21 @@
 
             game.readyToPlay();
 
-
             WinJS.Application.addEventListener('receiveStep', function (args) {
                 var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
                 game.opponentPlayer.score = args.detail.Points;
+                Butterfly.matchScore(game.opponentPlayer.score, game.opponentPlayer);
                 game.opponentPlayer.setScore(game.opponentPlayer.score);
-                game.opponentPlayer.playAnimation({timestamp: new Date().getTime()}, direction);
+                game.opponentPlayer.playAnimation({timestamp: new Date().getTime() - 5}, direction)
             });
 
             this._eventProcessor = function (event) {
                 var direction = event.wheelDelta < 0 ? 1 : -1,
-                    newScore = that.currentPlayer.score + direction;
+                    newScore = game.currentPlayer.score + direction * Butterfly.direction;
                 if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
-                    that.currentPlayer.setScore(that.currentPlayer.score + direction);
-                    that.currentPlayer.playAnimation(event, direction);
-                } else if (newScore === game.TOTAL_SCORE) {
-
+                    Butterfly.matchScore(game.currentPlayer.score, game.currentPlayer);
+                    game.currentPlayer.setScore(newScore);
+                    game.currentPlayer.playAnimation(event, direction);
                 }
             };
         },
