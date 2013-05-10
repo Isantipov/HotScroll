@@ -61,8 +61,13 @@ namespace HotScroll.Server.Hubs
                     return DuelHasAlreadyStartedError;
                 }
 
+<<<<<<< HEAD
                 duel.Players.Add(player);
                 PrepareDuel(duel);
+=======
+                duel.AddPlayer(player);
+                StartDuel(duel);
+>>>>>>> use DuelPlayer to store playeraTemplate
 
                 return null;
             }
@@ -205,10 +210,12 @@ namespace HotScroll.Server.Hubs
         {
             duel.Status = DuelStatus.IsPreparing;
 
-            foreach (var player in duel.Players)
+            foreach (DuelPlayer duelPlayer in duel.Players)
             {
-                var proj = duel.ToProjection(player.ConnectionId);
-                Clients.Client(player.ConnectionId).prepare(proj);
+                var player = duelPlayer.Player;
+
+                DuelProjection proj = duel.ToProjection(player.ConnectionId);
+                Clients.Client(player.ConnectionId).prepare(proj);;
             }
         }
 
