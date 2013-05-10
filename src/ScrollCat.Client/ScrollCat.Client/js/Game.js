@@ -1,4 +1,4 @@
-﻿function Game() {
+﻿function Game () {
 
     var _this = this;
     
@@ -23,7 +23,7 @@
 
     app.start();
     
-    function onActivated(args) {
+    function onActivated (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
                 // TODO: This application has been newly launched. Initialize
@@ -50,13 +50,13 @@
                     break;
             }
         }
-    };
+    }
 
-    this.getHelpShown = function() {
+    this.getHelpShown = function () {
         return storage.values.helpShown || false;
     };
 
-    this.setHelpShown = function(value) {
+    this.setHelpShown = function (value) {
         storage.values.helpShown = value + '';
     };
 
@@ -85,7 +85,7 @@
         }
     }
     
-    function proceedToLogin() {
+    function proceedToGame () {
         if (nav.location) {
             nav.history.current.initialPlaceholder = true;
             return nav.navigate(nav.location, nav.state);
@@ -109,7 +109,7 @@
         // complete an asynchronous operation before your application is 
         // suspended, call args.setPromise().
         app.sessionState.history = nav.history;
-    };
+    }
 
     this.setPlayerName = function (playerName) {
         if (!this.player) {
@@ -134,7 +134,7 @@
         }
     };
 
-    this._initConnection = function(connectedCallBack, failedCallBack) {
+    this._initConnection = function (connectedCallBack, failedCallBack) {
         // WinJS environment init
         WinJS.Binding.optimizeBindingReferences = true;
 
@@ -167,7 +167,11 @@
         }
     };
 
-    this.loginAndWaitRandom = function(login) {
+    this.recordStep = function (score) {
+        _this.hub.invoke('recordStep', {Points: score});
+    };
+
+    this.loginAndWaitRandom = function (login) {
         _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = player;
