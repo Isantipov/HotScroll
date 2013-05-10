@@ -106,7 +106,7 @@ namespace HotScroll.Server.Hubs
 
         public void WaitPartner(Player player)
         {
-            Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
+            Player serverPlayer = game.PlayerService.Get(Context.ConnectionId);
             serverPlayer.Status = PlayerStatus.WaitingForPartner;
             Player oponent = game.PlayerService.GetFreePlayer(serverPlayer);
 
