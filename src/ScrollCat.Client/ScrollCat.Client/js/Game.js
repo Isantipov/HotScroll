@@ -2,7 +2,7 @@
 
     var _this = this;
     
-    var HOST_URL = 'http://hotscroll.azurewebsites.net/';
+    var HOST_URL = 'http://scrollcat.azurewebsites.net/';
     
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
@@ -32,15 +32,20 @@
                 // TODO: This application has been reactivated from suspension.
                 // Restore application state here.
             }
-            _this._initConnection();
-            args.setPromise(WinJS.UI.processAll().then(loadGame));
+            
+            args.setPromise(prepareGame(proceedToGame));
         } else if (args.detail.kind === activation.ActivationKind.protocol) {
-            var p = args.detail.uri.path.split("-");
+            var p = args.detail.uri.path.split("/");
             var cmd = p[0];
             switch (cmd) {
                 case 'joinduel':
                     if (p.length > 0) {
-                        var dueildId = p[1];
+                        var dueiId = p[1];
+                        if (!_this.duel) {
+                            _this.duel = {};
+                        }
+                        _this.duel.Id = dueiId;
+                        args.setPromise(prepareGame().then(proceedToGame));
                     }
                     break;
             }
@@ -55,24 +60,26 @@
         storage.values.helpShown = value + '';
     };
     
-    function loadGame() {
-        try {
-            _this.connection.start().done(function () {
-                loadPlayerName(proceedToGame);
+    function prepareGame(gamePrepared) {
+        loadGameData(function() {
+            _this._initConnection(function() {
+                WinJS.UI.processAll().then(gamePrepared);
             });
-        } catch (e) {
-            alert("Network connection problems occured. Application requires connection to internet and won't run without it");
-        }
+        });
     }
     
-    function loadPlayerName(afterLoading) {
+    function loadGameData(dataLoaded) {
+        loadPlayerName(dataLoaded);
+    }
+    
+    function loadPlayerName(nameLoaded) {
         if (storage.values.PlayerName) {
             _this.setPlayerName(storage.values.PlayerName);
-            afterLoading();
+            nameLoaded();
         } else {
             Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (playerName) {
                 _this.setPlayerName(playerName);
-                afterLoading();
+                nameLoaded();
             });
         }
     }
@@ -117,50 +124,64 @@
         }
     };
 
-    this._initConnection = function() {
+    this._initConnection = function(connectedCallBack, failedCallBack) {
         // WinJS environment init
         WinJS.Binding.optimizeBindingReferences = true;
 
         // signalR init
         this.connection = $.hubConnection(HOST_URL);
         this.hub = this.connection.createHubProxy('gameHub');
+        this.connection.start().then(
+            function onConnectionDone() {
+                _this.hub.on('play', function(response) {
+                    app.queueEvent({
+                        type: 'play',
+                        detail: response
+                    });
+                });
 
-        this.hub.on('play', function(response) {
-            WinJS.Application.queueEvent({
-                type: 'play',
-                detail: response
+                _this.hub.on('receiveStep', function(response) {
+                    app.queueEvent({
+                        type: 'receiveStep',
+                        detail: response
+                    });
+                });
+
+                _this.hub.on('gameOver', function(response) {
+                    app.queueEvent({
+                        type: 'gameOver',
+                        detail: response
+                    });
+                });
+                connectedCallBack();
+            },
+            function onConnectionFailed() {
+                alert("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
+                failedCallBack();
             });
-        });
-
-        this.hub.on('receiveStep', function(response) {
-            WinJS.Application.queueEvent({
-                type: 'receiveStep',
-                detail: response
-            });
-        });
-
-        this.hub.on('gameOver', function(response) {
-            WinJS.Application.queueEvent({
-                type: 'gameOver',
-                detail: response
-            });
-        });
-
         if (app.sessionState.history) {
             nav.history = app.sessionState.history;
         }
     };
 
     this.loginAndWaitRandom = function(login) {
-        _this.hub.invoke('changeName', login).done(function (response) {
+        _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
-            _this.player = response;
+            _this.player = player;
             _this.hub.invoke('waitPartner', _this.player);
         });
     };
 
+    this.loginAndJoinDuel = function (login) {
+        _this.hub.invoke('changeName', login).done(function (player) {
+            WinJS.Application.addEventListener('play', _this.onDuelStart);
+            _this.player = player;
+            _this.hub.invoke('joinDuel', _this.duel.Id);
+        });
+    };
+
     this.loginAndWaitFriend = function (login) {
-        _this.hub.invoke('connect', { Name: login }).done(function (player) {
+        _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = player;
             _this.hub.invoke('createDuel').done(function (duelUrl) {
@@ -182,5 +203,4 @@
 
         WinJS.Navigation.navigate('/pages/game/game.html');
     };
-
 }
