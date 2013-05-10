@@ -17,8 +17,10 @@
             this._startCountdown(3);
 
             WinJS.Application.addEventListener('receiveStep', function (args) {
+                var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
                 game.opponentPlayer.score = args.detail.Points;
                 game.opponentPlayer.setScore(game.opponentPlayer.score);
+                game.opponentPlayer.playAnimation({timestamp: new Date().getTime()}, direction)
             });
 
             this._eventProcessor = function (event) {
