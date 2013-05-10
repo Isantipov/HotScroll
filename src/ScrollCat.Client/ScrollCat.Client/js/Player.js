@@ -1,4 +1,4 @@
-function Player (name, isOpponent) {
+function Player (name, isOpponent, template) {
 
     this.name = name;
     this.isOpponent = isOpponent;
@@ -7,6 +7,7 @@ function Player (name, isOpponent) {
     this.element.style.backgroundPosition = '0 0';
     this.icon = document.querySelector(isOpponent ? '#opponentIcon' : '#currentIcon');
     this.timestamp = new Date().getTime();
+    this.templateClass = template == 0 ? 'pink' : 'green';
 }
 
 Player.prototype.setScore = function (score) {
@@ -48,4 +49,8 @@ Player.prototype.playAnimation = function (event, direction) {
     clearTimeout(this.interval);
     this.animateCat(event.timeStamp - this.timestamp, direction);
     window.timestamp = event.timeStamp;
+};
+
+Player.prototype.initializeCat = function () {
+    $(this.element).addClass(this.templateClass);
 };
