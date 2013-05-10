@@ -26,7 +26,7 @@ namespace HotScroll.Server.Services
         public Duel GetDuelForPLayer(string playerId)
         {
             return
-                duelsStorage.Values.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.ConnectionId == playerId));
+                duelsStorage.Values.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Player.ConnectionId == playerId));
         }
 
         /// <summary>

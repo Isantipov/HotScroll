@@ -14,7 +14,7 @@ namespace HotScroll.Server.ViewModels
 
         public string OpponentName
         {
-            get { return duel.Players.First().Name; }
+            get { return duel.Players.First().Player.Name; }
         }
 
         public string LaunchScrollCatUrl

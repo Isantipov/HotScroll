@@ -18,7 +18,7 @@ namespace HotScroll.Server.Domain
             get { return _lockObject; }
         }
 
-        public List<Player> Players { get; private set; }
+        public List<DuelPlayer> Players { get; private set; }
 
         public LevelMap Level { get; set; }
 
@@ -36,7 +36,7 @@ namespace HotScroll.Server.Domain
         public Duel(List<Player> players)
         {
             Id = Guid.NewGuid().ToString();
-            Players = new List<Player>();
+            Players = new List<DuelPlayer>();
             AddPlayers(players);
             Level = new LevelMap();
             Random = new Random();
@@ -56,12 +56,12 @@ namespace HotScroll.Server.Domain
 
         public Player GetOpponent(string playerId)
         {
-            return Players.FirstOrDefault(t => t.ConnectionId != playerId);
+            return Players.FirstOrDefault(t => t.Player.ConnectionId != playerId).Player;
         }
 
         public IEnumerable<Player> GetOpponents(string connectionId)
         {
-            return Players.Where(t => t.ConnectionId != connectionId);
+            return Players.Where(t => t.Player.ConnectionId != connectionId).Select(i => i.Player);
         }
 
         public string ToJoinLink()
@@ -89,9 +89,20 @@ namespace HotScroll.Server.Domain
             }
         }
 
-        private void AddPlayer(Player player)
+        public void AddPlayer(Player player)
         {
-            Players.Add(player);
+            var duelPlayer = new DuelPlayer(player, GetPlayerTemplate());
+            Players.Add(duelPlayer);
+        }
+
+        private PlayerTemplate GetPlayerTemplate()
+        {
+            if (Players.Any(i => i.Template == PlayerTemplate.GreenCat))
+            {
+                return PlayerTemplate.PinkCat;
+            }
+
+            return PlayerTemplate.GreenCat;
         }
     }
 }
