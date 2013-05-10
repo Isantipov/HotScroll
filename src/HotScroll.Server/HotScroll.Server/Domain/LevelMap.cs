@@ -7,9 +7,8 @@ namespace HotScroll.Server.Domain
     public class LevelMap
     {
         #region Constants
-
-        // Tiles
-        protected const int BackgoundsNumber = 150;
+        // Bg Items
+        protected const int BackgroundMaxSize = 1010;
 
         // Events
         protected const int EventsNumber = 7;
@@ -29,16 +28,7 @@ namespace HotScroll.Server.Domain
         public void GenerateRandom(Random random)
         {
             // Background
-            Background.Clear();
-            for (var i = 0; i < BackgoundsNumber; i++)
-            {
-                var bg = new BgItem();
-                do
-                {
-                    bg.GenerateRandom(random);
-                } while (false);
-                Background.Add(bg);
-            }
+            Background = BgItem.GenerateRandomList(random, BackgroundMaxSize);
 
             // Events
             Events.Clear();

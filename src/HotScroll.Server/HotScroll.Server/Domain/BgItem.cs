@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
@@ -8,11 +9,17 @@ namespace HotScroll.Server.Domain
     {
         #region Constants
 
-        protected const int MaximumOffset = 1000;
+        protected const int MaximumInnerOffset = 10;
+        protected const int MinimumInnerOffset = 3;
+
+        protected const int MaximumPatternOffset = 45;
+        protected const int MinimumPatternOffset = 20;
 
         #endregion
 
+        [JsonIgnore]
         public BgItemType Type { get; set; }
+
         public string Code { get; set; }
         public int Offset { get; set; }
 
@@ -27,10 +34,46 @@ namespace HotScroll.Server.Domain
                 new BgItemType{Code = "yellow_flower", Name = "Yellow Flower", IsOverlapping = false, IsReplicable = true, WidthPx = 53},
             };
 
-        public void GenerateRandom(Random random)
+        public static List<List<string>> BgPatterns = new List<List<string>>
+            {
+                new List<String>{"bush","small_tree","big_tree","small_tree"},
+                new List<String>{"small_tree","big_tree","small_tree"},
+                new List<String>{"small_tree","big_tree","bush"},
+                new List<String>{"big_tree","bush","small_tree"},
+                new List<String>{"purple_flower","bench","yellow_flower"},
+                new List<String>{"yellow_flower","bench","purple_flower"},
+                new List<String>{"small_tree","bench","yellow_flower"},
+                new List<String>{"yellow_flower","bench","big_tree"},
+                new List<String>{"purple_flower","fireplug","yellow_flower"},
+                new List<String>{"yellow_flower","fireplug","purple_flower"},
+                new List<String>{"bench"},
+                new List<String>{"bush"},
+                new List<String>{"big_tree"},
+                new List<String>{"small_tree"},
+                new List<String>{"fireplug"},
+                new List<String>{"purple_flower"},
+                new List<String>{"yellow_flower"},
+
+            };
+
+        public static List<BgItem> GenerateRandomList(Random random, int maxSize)
         {
-            Offset = random.Next(0, MaximumOffset);
-            Type = BgItemTypes[random.Next(0, BgItemTypes.Count)];
+            var list = new List<BgItem>();
+            var lastItem = new BgItem();
+            do
+            {
+                var pOffset = random.Next(MinimumPatternOffset, MaximumPatternOffset + 1);
+                var pattern = BgPatterns[random.Next(0, BgPatterns.Count)];
+                lastItem = new BgItem {Code = pattern[0], Offset = lastItem.Offset + pOffset};
+                list.Add(lastItem);
+                foreach (var bgType in pattern.Skip(1))
+                {
+                    var iOffset = random.Next(MinimumInnerOffset, MaximumInnerOffset + 1);
+                    lastItem = new BgItem { Code = bgType, Offset = lastItem.Offset + iOffset };
+                    list.Add(lastItem);
+                }
+            } while (lastItem.Offset <= maxSize);
+            return list;
         }
     }
 }
