@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Scroll Cat</title>
+    <link href="/css/default.css" rel="stylesheet">
+    <script src="/js/Game.js"></script>
+    <script src="/pages/join/join.js"></script>
+</head>
+<body>
+    <div class="login-container" id="loginForm">
+        <img src="../../images/splashscreen-transparent.png" alt="HotScroll">
+        <div id="loadingIndicator" class="progress-placeholder">
+            <progress class="win-ring win-large"></progress>
+        </div>
+        <div id="credentials">
+            <input type="text" id="login" placeholder="Enter your name" autofocus>
+
+            <div class="play">
+                <button id="play"></button>
+            </div>
+            <img src="../../images/validation_label.png" alt="" id="validation-message" />
+        </div>
+    </div>
+    <div class="help-container" id="help">
+        <div class="help-content">
+            <img src="../../images/help_1.png" alt="" />
+            <img src="../../images/help_2.png" alt="" />
+            <img src="../../images/help_3.png" alt="" />
+            <div id="help-close"></div>
+        </div>
+    </div>
+    <div class="wait-container">
+        <section id="wait">
+            <h1>Searching for opponents...</h1>
+            <progress class="win-ring win-large"></progress>
+        </section>
+    </div>
+    <audio id="mainTheme" loop="loop"><source src="/sounds/main.mp3"/> </audio>
+</body>
+</html>
