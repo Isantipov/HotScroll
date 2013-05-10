@@ -5,8 +5,6 @@ namespace HotScroll.Server.Domain
     public class LevelEvent
     {
         #region Constants
-
-        protected const int MaximumScore = 1000;
         protected const int MinimumScore = 50;
 
         protected const int MaximumDuration = 150;
@@ -18,8 +16,18 @@ namespace HotScroll.Server.Domain
         public EventType Type { get; set; }
         public int Duration { get; set; }
 
-        private static readonly int MaximumEventNumberHidden = Enum.GetNames(typeof(EventType)).Length;
-        protected int ExclusiveUpperBoundForEventNumber { get { return MaximumEventNumberHidden + 1; } }
+        private static readonly int MaximumEventNumberHidden = Enum.GetNames(typeof (EventType)).Length;
+
+        protected int ExclusiveUpperBoundForEventNumber
+        {
+            get { return MaximumEventNumberHidden + 1; }
+        }
+
+        private int MaximumScore
+        {
+            get { return LevelMap.MaximumScore; }
+        }
+
 
         public LevelEvent()
         {
