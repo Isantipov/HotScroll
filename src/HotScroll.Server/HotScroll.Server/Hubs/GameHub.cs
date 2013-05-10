@@ -63,6 +63,7 @@ namespace HotScroll.Server.Hubs
                 return null;
             }
         }
+
         public override Task OnConnected()
         {
             game.PlayerService.New(Context.ConnectionId);
