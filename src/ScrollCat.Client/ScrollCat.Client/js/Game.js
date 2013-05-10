@@ -2,7 +2,7 @@
 
     var _this = this;
     
-    var HOST_URL = 'http://localhost:57666/';
+    var HOST_URL = 'http://hotscroll.azurewebsites.net/';
     
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
@@ -163,9 +163,13 @@
         _this.hub.invoke('connect', { Name: login }).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = player;
-            _this.hub.invoke('createDuel', _this.player).done(function(duelUrl) {
-                _this.duelUrl = duelUrl;
-                Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
+            _this.hub.invoke('createDuel').done(function (duelUrl) {
+                if (duelUrl) {
+                    _this.duelUrl = duelUrl;
+                    Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
+                } else {
+                    alert("Server can't create private game at the moment. Try restarting the application.");
+                }
             });
         });
     };

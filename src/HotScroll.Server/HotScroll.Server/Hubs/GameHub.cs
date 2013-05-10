@@ -29,21 +29,27 @@ namespace HotScroll.Server.Hubs
             this.game = game;
         }
 
-        public string CreateDuel(Player player)
+        public string CreateDuel()
         {
-            Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
-
-            var duel = new Duel(new List<Player> {serverPlayer});
+            var player = game.PlayerService.Get(Context.ConnectionId);
+            if (player == null)
+            {
+                return string.Empty;
+            }
+            var duel = new Duel(new List<Player> {player});
             game.DuelService.Add(duel);
 
             return duel.ToJoinLink();
         }
 
-        public string JoinDuel(Player player, string duelId)
+        public string JoinDuel(string duelId)
         {
-            Player serverPlayer = game.PlayerService.Get(player.ConnectionId);
-
-            Duel duel = game.DuelService.Get(duelId);
+            var player = game.PlayerService.Get(Context.ConnectionId);
+            if (player == null)
+            {
+                return;
+            }
+            var duel = game.DuelService.Get(duelId);
             lock (duel.LockObject)
             {
                 if (duel.Status != DuelStatus.WaitingForPlayers)
@@ -51,7 +57,7 @@ namespace HotScroll.Server.Hubs
                     return DuelHasAlreadyStartedError;
                 }
 
-                duel.Players.Add(serverPlayer);
+                duel.Players.Add(player);
                 StartDuel(duel);
 
                 return null;
