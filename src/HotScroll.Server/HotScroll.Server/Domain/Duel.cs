@@ -58,9 +58,9 @@ namespace HotScroll.Server.Domain
             return Players.FirstOrDefault(t => t.ConnectionId != playerId);
         }
 
-        public IEnumerable<Player> GetOpponents(string userId)
+        public IEnumerable<Player> GetOpponents(string connectionId)
         {
-            return Players.Where(t => t.ConnectionId != userId);
+            return Players.Where(t => t.ConnectionId != connectionId);
         }
 
         public string ToJoinLink()

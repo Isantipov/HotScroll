@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HotScroll.Server.Domain;
 using Microsoft.AspNet.SignalR;
+using System.Threading.Tasks;
 
 namespace HotScroll.Server.Hubs
 {
@@ -54,6 +56,21 @@ namespace HotScroll.Server.Hubs
 
                 return null;
             }
+        }
+
+        public override Task OnDisconnected()
+        {
+            var player = game.PlayerService.Get(Context.ConnectionId);
+            Duel duel;
+            if (player != null && (duel = game.DuelService.GetDuelForPLayer(player.ConnectionId)) != null)
+            {
+                foreach (var opp in duel.GetOpponents(player.ConnectionId))
+                {
+                    Clients.Client(opp.ConnectionId).opponentDisconnected();
+                }
+                game.DuelService.FinishAndRemove(duel);
+            }
+            return base.OnDisconnected();
         }
 
         public Player Connect(Player player)
