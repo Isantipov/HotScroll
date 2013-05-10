@@ -77,8 +77,7 @@ namespace HotScroll.Server.Hubs
         {
             player.ConnectionId = Context.ConnectionId;
             game.PlayerService.Add(player);
-            Clients.All.playerConnected(player);
-
+            //Clients.All.playerConnected(player);
             return player;
         }
 
