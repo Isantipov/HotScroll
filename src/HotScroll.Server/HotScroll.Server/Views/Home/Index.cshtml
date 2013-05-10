@@ -69,7 +69,7 @@
             });
             $('#playWithFriendBtn').click(function () {
                 addMessage(Player, "Sent Create Duel Request");
-                gameHubProxy.server.createDuel(Player).done(function (urlToShare) {
+                gameHubProxy.server.createDuel().done(function (urlToShare) {
                     addMessage(Player, "Join Duel Link:" + urlToShare);
                 });
             });
