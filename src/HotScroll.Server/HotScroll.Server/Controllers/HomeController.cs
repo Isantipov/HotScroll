@@ -24,9 +24,13 @@ namespace HotScroll.Server.Controllers
         public ActionResult JoinDuel(string id)
         {
             var duel = game.DuelService.Get(id);
-            var joinDuelModel = new JoinDuelViewModel(duel);
+            if (duel != null)
+            {
+                var joinDuelModel = new JoinDuelViewModel(duel);
 
-            return View(joinDuelModel);
+                return View(joinDuelModel);
+            }
+            return Content("No such duel");
         }
 
         private string GetApplicatioLink(string id)
