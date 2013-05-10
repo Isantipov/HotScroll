@@ -131,6 +131,7 @@
     <Content Include="js\Game.js" />
     <Content Include="js\navigator.js" />
     <Content Include="js\Player.js" />
+    <Content Include="js\settings.js" />
     <Content Include="packages.config" />
     <Content Include="pages\finish\finish.html" />
     <Content Include="pages\finish\finish.js" />
@@ -140,6 +141,7 @@
     <Content Include="pages\join\join.js" />
     <Content Include="pages\login\login.html" />
     <Content Include="pages\login\login.js" />
+    <Content Include="pages\settings\privacy.html" />
     <Content Include="pages\wait\wait.html" />
     <Content Include="pages\wait\wait.js" />
     <Content Include="Scripts\jquery-2.0.0.intellisense.js" />
