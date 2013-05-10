@@ -121,7 +121,7 @@ namespace HotScroll.Server.Hubs
 
         public void RecordStep(Step step)
         {
-            Player player = game.PlayerService.Get(step.PlayerId);
+            Player player = game.PlayerService.Get(Context.ConnectionId);
             Duel duel = game.DuelService.GetDuelForPLayer(player.ConnectionId);
             if (duel == null || duel.IsGameOver)
             {
