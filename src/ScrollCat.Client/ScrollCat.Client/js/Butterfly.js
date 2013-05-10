@@ -11,8 +11,15 @@ var Butterfly = {
         for (var index in this.events) {
             if (this.events.hasOwnProperty(index)) {
                 var event = this.events[index];
-                if (score >= event.Score && score <= event.Score + event.Duration) {
-                    out = this.events[index];
+                if (event.Type === 1) {
+                    if (score >= event.Score - event.Duration && score <= event.Score) {
+                        out = this.events[index];
+                    }
+                }
+                if (event.Type === 2) {
+                    if (score >= event.Score && score <= event.Score + event.Duration) {
+                        out = this.events[index];
+                    }
                 }
             }
         }
