@@ -20,7 +20,7 @@
 
     app.addEventListener("activated", onActivated);
     app.oncheckpoint = onCheckpoint;
-
+    WinJS.Promise.onerror = errorPromiseHandler;
     app.start();
     
     function onActivated (args) {
@@ -52,6 +52,14 @@
         }
     }
 
+    function errorPromiseHandler(event) {
+        _this.networkErrorMessage();
+    }
+
+    this.networkErrorMessage = function() {
+        _this._showError("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
+    };
+    
     this.getHelpShown = function () {
         return storage.values.helpShown || false;
     };
@@ -60,15 +68,17 @@
         storage.values.helpShown = value + '';
     };
 
-    this._prepareGame = function(args, gamePrepared) {
+    this._prepareGame = function (args, gamePrepared) {
+        try {
+            args.setPromise(_this._initConnection());
+            args.setPromise(_this.connection.start().fail(_this.networkErrorMessage));
 
-        args.setPromise(_this._initConnection());
-        args.setPromise(_this.connection.start().then(null,
-            function onConnectionFailed() {
-                alert("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
-            }));
-        args.setPromise(loadGameData());
-        args.setPromise(WinJS.UI.processAll().then(gamePrepared));
+            args.setPromise(loadGameData());
+            args.setPromise(WinJS.UI.processAll().then(gamePrepared));
+            
+        } catch(e) {
+            _this.networkErrorMessage();
+        }
     };
 
     function loadGameData() {
@@ -209,7 +219,7 @@
                     _this.duelUrl = duelUrl;
                     Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
                 } else {
-                    alert("Server can't create private game at the moment. Try restarting the application.");
+                    _this._showError("Server can't create private game at the moment. Try restarting the application.");
                 }
             });
         });
