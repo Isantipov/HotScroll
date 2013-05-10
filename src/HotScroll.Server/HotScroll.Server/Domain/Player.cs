@@ -19,5 +19,11 @@ namespace HotScroll.Server.Domain
             get { return _status; }
             set { _status = value; }
         }
+
+        public Player(string connectionId, string name)
+        {
+            ConnectionId = connectionId;
+            Name = name;
+        }
     }
 }

@@ -57,30 +57,38 @@ namespace HotScroll.Server.Hubs
                 return null;
             }
         }
+        public override Task OnConnected()
+        {
+            game.PlayerService.New(Context.ConnectionId);
+            return base.OnConnected();
+        }
 
         public override Task OnDisconnected()
         {
             var player = game.PlayerService.Get(Context.ConnectionId);
-            Duel duel;
-            if (player != null && (duel = game.DuelService.GetDuelForPLayer(player.ConnectionId)) != null)
-            {
-                foreach (var opp in duel.GetOpponents(player.ConnectionId))
-                {
-                    Clients.Client(opp.ConnectionId).opponentDisconnected(opp);
-                }
-                game.DuelService.FinishAndRemove(duel);
-            }
             if (player != null)
             {
                 game.PlayerService.Remove(player);
+                Duel duel;
+                if ((duel = game.DuelService.GetDuelForPLayer(player.ConnectionId)) != null)
+                {
+                    foreach (var opp in duel.GetOpponents(player.ConnectionId))
+                    {
+                        Clients.Client(opp.ConnectionId).opponentDisconnected(opp);
+                    }
+                    game.DuelService.FinishAndRemove(duel);
+                }
             }
             return base.OnDisconnected();
         }
 
-        public Player Connect(Player player)
+        public Player ChangeName(string playerName)
         {
-            player.ConnectionId = Context.ConnectionId;
-            game.PlayerService.Add(player);
+            var player = game.PlayerService.Get(Context.ConnectionId);
+            if (player != null)
+            {
+                player.Name = playerName;
+            }
             return player;
         }
 
