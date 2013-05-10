@@ -55,10 +55,16 @@
                 }
             };
 
-            gameHubProxy.client.play = function (projection) {
-                addMessage(Player, 'playing now with id =' + projection.Opponent.ConnectionId);
+            gameHubProxy.client.prepare = function (projection) {
+                addMessage(Player, 'Prepare to play with id = ' + projection.Opponent.ConnectionId);
                 Duel = projection;
+                gameHubProxy.server.readyToPlay();
             };
+            
+            gameHubProxy.client.play = function () {
+                addMessage(Player, 'Playing now with id = ' + Duel.Opponent.ConnectionId);
+            };
+            
             gameHubProxy.client.receiveStep = function (step) {
                 addMessage(Player, 'player moved ' + step.Points);
             };

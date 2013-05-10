@@ -13,9 +13,14 @@
         InProgress = 1,
 
         /// <summary>
+        ///     Duel is being prepared
+        /// </summary>
+        IsPreparing = 2,
+
+        /// <summary>
         ///     Duel has been created but is not activbe yet as ut is
         ///     waiting for players to join the game.
         /// </summary>
-        WaitingForPlayers = 2,
+        WaitingForPlayers = 3,
     }
 }

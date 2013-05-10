@@ -4,6 +4,7 @@
     {
         Pending = 1,
         WaitingForPartner = 2,
-        Playing = 3,
+        ReadyToPlay = 3,
+        Playing = 4,
     }
 }

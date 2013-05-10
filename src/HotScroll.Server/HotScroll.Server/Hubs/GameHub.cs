@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HotScroll.Server.Domain;
 using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace HotScroll.Server.Hubs
                 }
 
                 duel.Players.Add(player);
-                StartDuel(duel);
+                PrepareDuel(duel);
 
                 return null;
             }
@@ -119,7 +120,7 @@ namespace HotScroll.Server.Hubs
                 var duel = new Duel(new List<Player> {serverPlayer, oponent});
                 game.DuelService.Add(duel);
 
-                StartDuel(duel);
+                PrepareDuel(duel);
             }
         }
 
@@ -161,23 +162,53 @@ namespace HotScroll.Server.Hubs
             }
         }
 
+        public void ReadyToPlay()
+        {
+            var player = game.PlayerService.Get(Context.ConnectionId);
+            if (player == null)
+            {
+                return;
+            }
+            var duel = game.DuelService.GetDuelForPLayer(player.ConnectionId);
+            if (duel == null)
+            {
+                return;
+            }
+            player.Status = PlayerStatus.ReadyToPlay;
+            var opponents = duel.GetOpponents(player.ConnectionId).ToList();
+            var allready = opponents.Any() && opponents.All(t => t.Status == PlayerStatus.ReadyToPlay);
+            if (allready)
+            {
+                StartDuel(duel);
+            }
+        }
+
         #region [Help Methods]
+
+        private void StartDuel(Duel duel)
+        {
+            duel.Status = DuelStatus.IsPreparing;
+
+            foreach (var player in duel.Players)
+            {
+                player.Status = PlayerStatus.Playing;
+                Clients.Client(player.ConnectionId).play();
+            }
+        }
 
         /// <summary>
         ///     Starts the duel and sends Play notifications to
         ///     participating players.
         /// </summary>
         /// <param name="duel">Duel to start.</param>
-        private void StartDuel(Duel duel)
+        private void PrepareDuel(Duel duel)
         {
-            duel.Status = DuelStatus.InProgress;
+            duel.Status = DuelStatus.IsPreparing;
 
-            foreach (Player player in duel.Players)
+            foreach (var player in duel.Players)
             {
-                player.Status = PlayerStatus.Playing;
-
-                DuelProjection proj = duel.ToProjection(player.ConnectionId);
-                Clients.Client(player.ConnectionId).play(proj);
+                var proj = duel.ToProjection(player.ConnectionId);
+                Clients.Client(player.ConnectionId).prepare(proj);
             }
         }
 
