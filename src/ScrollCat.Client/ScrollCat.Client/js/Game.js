@@ -1,16 +1,16 @@
-﻿function Game() {
+﻿function Game () {
 
     var _this = this;
-    
+
     var HOST_URL = 'http://scrollcat.azurewebsites.net/';
-    
+
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
     var storage = Windows.Storage.ApplicationData.current.localSettings;
-    
+
     this.TOTAL_SCORE = 1000;
-    
+
     this.hub = null;
     this.connection = null;
     this.player = null;
@@ -22,8 +22,8 @@
     app.oncheckpoint = onCheckpoint;
 
     app.start();
-    
-    function onActivated(args) {
+
+    function onActivated (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
                 // TODO: This application has been newly launched. Initialize
@@ -50,13 +50,13 @@
                     break;
             }
         }
-    };
+    }
 
-    this.getHelpShown = function() {
+    this.getHelpShown = function () {
         return storage.values.helpShown || false;
     };
 
-    this.setHelpShown = function(value) {
+    this.setHelpShown = function (value) {
         storage.values.helpShown = value + '';
     };
 
@@ -84,8 +84,8 @@
             });
         }
     }
-    
-    function proceedToGame() {
+
+    function proceedToGame () {
         if (nav.location) {
             nav.history.current.initialPlaceholder = true;
             return nav.navigate(nav.location, nav.state);
@@ -93,14 +93,14 @@
             return nav.navigate(Application.navigator.home);
         }
     }
-    
-    function onCheckpoint(args) {
+
+    function onCheckpoint (args) {
         // TODO: This application is about to be suspended. Save any state
         // that needs to persist across suspensions here. If you need to 
         // complete an asynchronous operation before your application is 
         // suspended, call args.setPromise().
         app.sessionState.history = nav.history;
-    };
+    }
 
     this.setPlayerName = function (playerName) {
         if (!this.player) {
@@ -125,7 +125,7 @@
         }
     };
 
-    this._initConnection = function(connectedCallBack, failedCallBack) {
+    this._initConnection = function (connectedCallBack, failedCallBack) {
         // WinJS environment init
         WinJS.Binding.optimizeBindingReferences = true;
 
@@ -158,7 +158,11 @@
         }
     };
 
-    this.loginAndWaitRandom = function(login) {
+    this.recordStep = function (score) {
+        _this.hub.invoke('recordStep', {Points: score});
+    };
+
+    this.loginAndWaitRandom = function (login) {
         _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = player;
