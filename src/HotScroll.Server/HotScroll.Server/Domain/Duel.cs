@@ -18,7 +18,7 @@ namespace HotScroll.Server.Domain
             get { return _lockObject; }
         }
 
-        public List<Player> Players { get; set; }
+        public List<Player> Players { get; private set; }
 
         public LevelMap Level { get; set; }
 
@@ -36,7 +36,8 @@ namespace HotScroll.Server.Domain
         public Duel(List<Player> players)
         {
             Id = Guid.NewGuid().ToString();
-            Players = players;
+            Players = new List<Player>();
+            AddPlayers(players);
             Level = new LevelMap();
             Random = new Random();
             Status = DuelStatus.WaitingForPlayers;
@@ -78,6 +79,19 @@ namespace HotScroll.Server.Domain
         public bool IsGameOverStep(Step step)
         {
             return step.Points >= LevelMap.MaximumScore;
+        }
+
+        private void AddPlayers(IEnumerable<Player> players)
+        {
+            foreach (var player in players)
+            {
+                AddPlayer(player);
+            }
+        }
+
+        private void AddPlayer(Player player)
+        {
+            Players.Add(player);
         }
     }
 }
