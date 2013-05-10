@@ -70,6 +70,10 @@ namespace HotScroll.Server.Hubs
                 }
                 game.DuelService.FinishAndRemove(duel);
             }
+            if (player != null)
+            {
+                game.PlayerService.Remove(player);
+            }
             return base.OnDisconnected();
         }
 
