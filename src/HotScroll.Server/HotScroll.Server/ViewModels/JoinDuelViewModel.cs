@@ -29,7 +29,7 @@ namespace HotScroll.Server.ViewModels
 
         private string GetApplicatioLink(string id)
         {
-            return string.Format("scrollcat:joinduel-{0}", id);
+            return string.Format("scrollcat:joinduel/{0}", id);
         }
     }
 }
