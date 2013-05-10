@@ -15,7 +15,12 @@
             Butterfly.initialize(game.duel.Level.Events);
             this.currentPlayer = new Player(game.player.Name, false);
             game.opponentPlayer = new Player(game.opponent.Name, true);
-            this._startCountdown(3);
+            
+            WinJS.Application.addEventListener('play', function() {
+                that._startCountdown(3);
+            });
+
+            game.readyToPlay();
 
             WinJS.Application.addEventListener('receiveStep', function (args) {
                 var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;

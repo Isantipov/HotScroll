@@ -220,7 +220,10 @@
         var duel = args.detail;
         _this.opponent = duel.Opponents[0];
         _this.duel = duel;
-
         WinJS.Navigation.navigate('/pages/game/game.html');
+    };
+
+    this.readyToPlay = function() {
+        _this.hub.invoke('readyToPlay');
     };
 }
