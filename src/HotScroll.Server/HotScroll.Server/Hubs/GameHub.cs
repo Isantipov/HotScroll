@@ -46,9 +46,13 @@ namespace HotScroll.Server.Hubs
             var player = game.PlayerService.Get(Context.ConnectionId);
             if (player == null)
             {
-                return null;
+                return "No such player";
             }
             var duel = game.DuelService.Get(duelId);
+            if (duel == null)
+            {
+                return "No such duel";
+            }
             lock (duel.LockObject)
             {
                 if (duel.Status != DuelStatus.WaitingForPlayers)
