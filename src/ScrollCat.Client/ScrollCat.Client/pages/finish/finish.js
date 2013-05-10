@@ -7,14 +7,14 @@
             if (options.hasWon === true) {
                 $('#finish-container').addClass('win');
                 $('h1').text('You win!');
-                $('#winEffect').play();
+                document.querySelector('#winEffect').play();
                 setTimeout(function() {
-                    $('#winEffect').play();
+                    document.querySelector('#winEffect').play();
                 }, 2500);
             } else {
                 $('#finish-container').addClass('lose');
                 $('h1').text('You lose!');
-                $('#looseEffect').play();
+                document.querySelector('#looseEffect').play();
             }
 
             $('#menu').click(this._menu);
