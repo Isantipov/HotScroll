@@ -47,7 +47,7 @@ namespace HotScroll.Server.Hubs
             var player = game.PlayerService.Get(Context.ConnectionId);
             if (player == null)
             {
-                return;
+                return null;
             }
             var duel = game.DuelService.Get(duelId);
             lock (duel.LockObject)
