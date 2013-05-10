@@ -8,6 +8,7 @@ function Player (name, isOpponent, template) {
     this.icon = document.querySelector(isOpponent ? '#opponentIcon' : '#currentIcon');
     this.timestamp = new Date().getTime();
     this.templateClass = template == 0 ? 'pink' : 'green';
+    this.iconClass = this.templateClass + '-cat';
 }
 
 Player.prototype.setScore = function (score) {
@@ -53,4 +54,5 @@ Player.prototype.playAnimation = function (event, direction) {
 
 Player.prototype.initializeCat = function () {
     $(this.element).addClass(this.templateClass);
+    $(this.icon).addClass(this.iconClass);
 };
