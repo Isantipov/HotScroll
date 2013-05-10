@@ -33,7 +33,7 @@
                 // Restore application state here.
             }
 
-            _this._prepareGame(args);
+            _this._prepareGame(args, proceedToLogin);
         } else if (args.detail.kind === activation.ActivationKind.protocol) {
             var p = args.detail.uri.path.split("/");
             var cmd = p[0];
@@ -45,7 +45,7 @@
                             _this.duel = {};
                         }
                         _this.duel.Id = dueiId;
-                        args.setPromise(prepareGame().then(proceedToGame));
+                        _this._prepareGame(args, proceedToJoin);
                     }
                     break;
             }
@@ -60,7 +60,7 @@
         storage.values.helpShown = value + '';
     };
 
-    this._prepareGame = function(args) {
+    this._prepareGame = function(args, gamePrepared) {
 
         args.setPromise(_this._initConnection());
         args.setPromise(_this.connection.start().then(null,
@@ -68,7 +68,7 @@
                 alert("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
             }));
         args.setPromise(loadGameData());
-        args.setPromise(WinJS.UI.processAll().then(proceedToGame));
+        args.setPromise(WinJS.UI.processAll().then(proceedToLogin));
     };
 
     function loadGameData() {
@@ -85,12 +85,21 @@
         }
     }
     
-    function proceedToGame() {
+    function proceedToLogin() {
         if (nav.location) {
             nav.history.current.initialPlaceholder = true;
             return nav.navigate(nav.location, nav.state);
         } else {
             return nav.navigate(Application.navigator.home);
+        }
+    }
+    
+    function proceedToJoin() {
+        if (nav.location) {
+            nav.history.current.initialPlaceholder = true;
+            return nav.navigate(nav.location, nav.state);
+        } else {
+            return nav.navigate(Application.navigator.join);
         }
     }
     
