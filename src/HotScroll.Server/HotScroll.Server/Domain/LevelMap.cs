@@ -7,6 +7,8 @@ namespace HotScroll.Server.Domain
     public class LevelMap
     {
         #region Constants
+
+        public const int MaximumScore = 1000;
         // Bg Items
         protected const int BackgroundMaxSize = 1010;
 
