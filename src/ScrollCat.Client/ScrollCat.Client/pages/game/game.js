@@ -18,10 +18,19 @@
 
             WinJS.Application.addEventListener('receiveStep', function (args) {
                 game.opponentPlayer.score = args.detail.Points;
-                var bgPercent = parseFloat(Environment.ground.style.backgroundPosition);
-                var opponentBgPercent = (game.opponentPlayer.score / game.TOTAL_SCORE) * 100 * 14;
-                game.opponentPlayer.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
+                game.opponentPlayer.setScore(game.opponentPlayer.score);
             });
+
+            this._eventProcessor = function (event) {
+                var direction = event.wheelDelta < 0 ? 1 : -1,
+                    newScore = that.currentPlayer.score + direction;
+                if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
+                    that.currentPlayer.setScore(that.currentPlayer.score + direction);
+                    that.currentPlayer.playAnimation(event, direction);
+                } else if (newScore === game.TOTAL_SCORE) {
+
+                }
+            };
         },
         _prepareLevel: function (levelData) {
             var track1 = $('#track1 > .parts'),
@@ -61,17 +70,11 @@
         },
 
         _enableWheelEvent: function () {
-            var that = this;
-            document.body.addEventListener('mousewheel', function (event) {
-                var direction = event.wheelDelta < 0 ? 1 : -1,
-                    newScore = that.currentPlayer.score + direction;
-                if (newScore < game.TOTAL_SCORE && newScore >= 0) {
-                    that.currentPlayer.setScore(that.currentPlayer.score + direction);
-                    that.currentPlayer.playAnimation(event, direction);
-                } else if (newScore === game.TOTAL_SCORE) {
+            document.body.addEventListener('mousewheel', this._eventProcessor);
+        },
 
-                }
-            });
+        _disableWheelEvent: function () {
+            document.body.removeEventListener('mousewheel', this._eventProcessor);
         },
 
         _startGame: function () {
