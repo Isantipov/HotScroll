@@ -152,7 +152,7 @@
     };
 
     this.loginAndWaitRandom = function(login) {
-        _this.hub.invoke('connect', { Name: login }).done(function (response) {
+        _this.hub.invoke('changeName', login).done(function (response) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = response;
             _this.hub.invoke('waitPartner', _this.player);

@@ -11,7 +11,6 @@
     <input type="text" id="message" />
     <input type="button" id="sendbtn" value="Step" />
     <input type="button" id="winbtn" value="Win the Game immediately" />
-    <input type="hidden" id="displayname" />
     <ul id="discussion">
     </ul>
 </div>
@@ -31,10 +30,22 @@
             // Reference the auto-generated proxy for the hub.  
             var gameHubProxy = $.connection.gameHub;
             // Create a function that the hub can call back to display messages.
-            gameHubProxy.client.opponentDisconnected = function (opponent) {
+            gameHubProxy.client.opponentDisconnected = function(opponent) {
                 addMessage(opponent, "disconnected");
             };
+
+            $.connection.hub.start().done(function (args) {
+                addMessage(null, 'You have connected');
+
+                var playerName = prompt('Enter your name:', '');
+                gameHubProxy.server.changeName(playerName).done(function (player) {
+                    Player = player;
+                    addMessage(Player, 'You have changed your name to ' + Player.Name);
+                });
+            });
             
+
+
             gameHubProxy.client.gameOver = function (isWinner) {
                 if (isWinner) {
                     alert('you win');
@@ -44,30 +55,21 @@
                 }
             };
 
-            gameHubProxy.client.play = function(projection) {
+            gameHubProxy.client.play = function (projection) {
                 addMessage(Player, 'playing now with id =' + projection.Opponent.ConnectionId);
                 Duel = projection;
             };
             gameHubProxy.client.receiveStep = function (step) {
-                addMessage(Player, 'nigga moved ' + step.Points);
+                addMessage(Player, 'player moved ' + step.Points);
             };
 
-            $('#displayname').val(prompt('Enter your name:', ''));
-
-            $.connection.hub.start().done(function() {
-                gameHubProxy.server.connect({ Name: $('#displayname').val() }).done(function (player) {
-                    Player = player;
-                    addMessage(Player, 'logged in');
-                });
-            });
-            
             $('#playBtn').click(function () {
                 addMessage(Player, "waiting for partener");
                 gameHubProxy.server.waitPartner(Player);
             });
             $('#playWithFriendBtn').click(function () {
                 addMessage(Player, "Sent Create Duel Request");
-                gameHubProxy.server.createDuel(Player).done(function(urlToShare) {
+                gameHubProxy.server.createDuel(Player).done(function (urlToShare) {
                     addMessage(Player, "Join Duel Link:" + urlToShare);
                 });
             });
@@ -78,7 +80,7 @@
                 $('#message').val('');
                 $('#sendbtn').focus();
             });
-            
+
             $('#winbtn').click(function () {
                 addMessage(Player, "sending win notification ");
                 gameHubProxy.server.recordFinished();
@@ -88,8 +90,12 @@
         // This optional function html-encodes messages for display in the page.
 
         function addMessage(player, msg) {
-            $('#discussion').append('<li><strong>' + htmlEncode(player.Name + ' (' + player.ConnectionId + ')')
-                + '</strong>: ' + htmlEncode(msg) + '</li>');
+            if (player) {
+                $('#discussion').append('<li><strong>' + htmlEncode(player.Name + ' (' + player.ConnectionId + ')')
+                    + '</strong>: ' + htmlEncode(msg) + '</li>');
+            } else {
+                $('#discussion').append('<li>' + htmlEncode(msg) + '</li>');
+            }
         }
 
         function htmlEncode(value) {
