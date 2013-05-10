@@ -2,7 +2,7 @@
 
     var _this = this;
     
-    var HOST_URL = 'http://scrollcat.azurewebsites.net/';
+    var HOST_URL = 'http://localhost:57666/';
     
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
@@ -136,6 +136,13 @@
         // signalR init
         this.connection = $.hubConnection(HOST_URL);
         this.hub = this.connection.createHubProxy('gameHub');
+        this.hub.on('prepare', function (response) {
+            app.queueEvent({
+                type: 'prepare',
+                detail: response
+            });
+        });
+
         this.hub.on('play', function (response) {
             app.queueEvent({
                 type: 'play',
@@ -168,7 +175,7 @@
 
     this.loginAndWaitRandom = function (login) {
         _this.hub.invoke('changeName', login).done(function (player) {
-            WinJS.Application.addEventListener('play', _this.onDuelStart);
+            WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
             _this.player = player;
             _this.hub.invoke('waitPartner', _this.player);
         });
@@ -176,7 +183,7 @@
 
     this.loginAndJoinDuel = function (login) {
         _this.hub.invoke('changeName', login).done(function (player) {
-            WinJS.Application.addEventListener('play', _this.onDuelStart);
+            WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
             _this.player = player;
             _this.hub.invoke('joinDuel', _this.duel.Id).done(function(response) {
                 if (response) {
@@ -195,7 +202,7 @@
     
     this.loginAndWaitFriend = function (login) {
         _this.hub.invoke('changeName', login).done(function (player) {
-            WinJS.Application.addEventListener('play', _this.onDuelStart);
+            WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
             _this.player = player;
             _this.hub.invoke('createDuel').done(function (duelUrl) {
                 if (duelUrl) {
@@ -208,8 +215,8 @@
         });
     };
 
-    this.onDuelStart = function (args) {
-        WinJS.Application.removeEventListener('play', _this.onDuelStart);
+    this.onDuelPrepare = function (args) {
+        WinJS.Application.removeEventListener('prepare', _this.onDuelPrepare);
         var duel = args.detail;
         _this.opponent = duel.Opponents[0];
         _this.duel = duel;
