@@ -21,7 +21,6 @@
         },
 
         _menu: function () {
-            game.connection.hub.stop();
             WinJS.Navigation.navigate('/pages/login/login.html');
         }
     });
