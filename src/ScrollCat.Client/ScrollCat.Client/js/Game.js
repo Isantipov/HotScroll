@@ -68,7 +68,7 @@
                 alert("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
             }));
         args.setPromise(loadGameData());
-        args.setPromise(WinJS.UI.processAll().then(proceedToLogin));
+        args.setPromise(WinJS.UI.processAll().then(gamePrepared));
     };
 
     function loadGameData() {
@@ -85,7 +85,7 @@
         }
     }
     
-    function proceedToGame () {
+    function proceedToLogin() {
         if (nav.location) {
             nav.history.current.initialPlaceholder = true;
             return nav.navigate(nav.location, nav.state);
