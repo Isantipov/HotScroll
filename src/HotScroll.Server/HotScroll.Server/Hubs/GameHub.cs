@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using HotScroll.Server.Domain;
 using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
@@ -47,9 +46,13 @@ namespace HotScroll.Server.Hubs
             var player = game.PlayerService.Get(Context.ConnectionId);
             if (player == null)
             {
-                return null;
+                return "No such player";
             }
             var duel = game.DuelService.Get(duelId);
+            if (duel == null)
+            {
+                return "No such duel";
+            }
             lock (duel.LockObject)
             {
                 if (duel.Status != DuelStatus.WaitingForPlayers)
@@ -63,6 +66,7 @@ namespace HotScroll.Server.Hubs
                 return null;
             }
         }
+
         public override Task OnConnected()
         {
             game.PlayerService.New(Context.ConnectionId);
@@ -130,21 +134,16 @@ namespace HotScroll.Server.Hubs
 
             Player opponent = duel.GetOpponent(player.ConnectionId);
             Clients.Client(opponent.ConnectionId).receiveStep(step);
+
+            if (duel.IsGameOverStep(step))
+            {
+                TryWinDuel(duel, player);
+            }
         }
 
-        /// <summary>
-        ///     Record finished event. The one, which sends it first, wins.
-        ///     Everyone gets notified.
-        /// </summary>
-        public void RecordFinished()
-        {
-            Player player = game.PlayerService.Get(Context.ConnectionId);
-            Duel duel = game.DuelService.GetDuelForPLayer(player.ConnectionId);
-            if (duel == null)
-            {
-                return;
-            }
 
+        private void TryWinDuel(Duel duel, Player player)
+        {
             lock (duel.LockObject)
             {
                 if (duel.IsGameOver)

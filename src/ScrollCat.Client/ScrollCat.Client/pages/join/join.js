@@ -4,38 +4,24 @@
     WinJS.UI.Pages.define('/pages/join/join.html', {
         ready: function () {
             document.querySelector('#mainTheme').play();
-
-            $('#login').val(game.player.Name);
-                
-            $('#loadingIndicator').addClass('hidden');
-            setTimeout(function () {
-                $('#loadingIndicator').hide();
-                $('#credentials').show().addClass('visible');
-            }, 300);
-
             var that = this;
+            
+            $('#login').val(game.player.Name);
             $('#play').click(function () {
                 that._play();
             });
         },
-        _loginAndWait: function(afterLoginCallBack) {
+        _play: function () {
             var login = $('#login').val();
             if (login !== '') {
                 this._showHelp(function () {
-
-                    $('.login-container').hide();
-                    $('.wait-container').show();
-                    
                     game.setPlayerName(login);
-                    afterLoginCallBack(login);
+                    game.loginAndJoinDuel(login);
 
                 });
             } else {
                 $('#validation-message').show();
             }
-        },
-        _play: function () {
-            this._loginAndWait(game.loginAndJoinDuel);
         },
         
         _showHelp: function (callback) {

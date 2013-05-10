@@ -1,16 +1,16 @@
 ﻿function Game () {
 
     var _this = this;
-
+    
     var HOST_URL = 'http://scrollcat.azurewebsites.net/';
-
+    
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
     var storage = Windows.Storage.ApplicationData.current.localSettings;
-
+    
     this.TOTAL_SCORE = 1000;
-
+    
     this.hub = null;
     this.connection = null;
     this.player = null;
@@ -22,7 +22,7 @@
     app.oncheckpoint = onCheckpoint;
 
     app.start();
-
+    
     function onActivated (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
@@ -33,7 +33,7 @@
                 // Restore application state here.
             }
 
-            _this._prepareGame(args);
+            _this._prepareGame(args, proceedToLogin);
         } else if (args.detail.kind === activation.ActivationKind.protocol) {
             var p = args.detail.uri.path.split("/");
             var cmd = p[0];
@@ -45,7 +45,7 @@
                             _this.duel = {};
                         }
                         _this.duel.Id = dueiId;
-                        args.setPromise(prepareGame().then(proceedToGame));
+                        _this._prepareGame(args, proceedToJoin);
                     }
                     break;
             }
@@ -60,7 +60,7 @@
         storage.values.helpShown = value + '';
     };
 
-    this._prepareGame = function(args) {
+    this._prepareGame = function(args, gamePrepared) {
 
         args.setPromise(_this._initConnection());
         args.setPromise(_this.connection.start().then(null,
@@ -68,7 +68,7 @@
                 alert("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
             }));
         args.setPromise(loadGameData());
-        args.setPromise(WinJS.UI.processAll().then(proceedToGame));
+        args.setPromise(WinJS.UI.processAll().then(gamePrepared));
     };
 
     function loadGameData() {
@@ -84,8 +84,8 @@
             });
         }
     }
-
-    function proceedToGame () {
+    
+    function proceedToLogin() {
         if (nav.location) {
             nav.history.current.initialPlaceholder = true;
             return nav.navigate(nav.location, nav.state);
@@ -93,8 +93,12 @@
             return nav.navigate(Application.navigator.home);
         }
     }
-
-    function onCheckpoint (args) {
+    
+    function proceedToJoin() {
+        return WinJS.Navigation.navigate('/pages/join/join.html');
+    }
+    
+    function onCheckpoint(args) {
         // TODO: This application is about to be suspended. Save any state
         // that needs to persist across suspensions here. If you need to 
         // complete an asynchronous operation before your application is 
@@ -174,10 +178,21 @@
         _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);
             _this.player = player;
-            _this.hub.invoke('joinDuel', _this.duel.Id);
+            _this.hub.invoke('joinDuel', _this.duel.Id).done(function(response) {
+                if (response) {
+                    _this._showError(response, function() {
+                        WinJS.Navigation.navigate('/pages/login/login.html');
+                    });
+                }
+            });
         });
     };
 
+    this._showError = function (msg, shownPopup) {
+        var md = new Windows.UI.Popups.MessageDialog(msg);
+        md.showAsync().then(shownPopup);
+    };
+    
     this.loginAndWaitFriend = function (login) {
         _this.hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('play', _this.onDuelStart);

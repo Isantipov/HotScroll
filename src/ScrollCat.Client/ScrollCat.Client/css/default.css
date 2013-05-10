@@ -21,7 +21,6 @@
     width: 300px;
 }
 
-body.menu {background: url("/images/menu_pattern.png") repeat #FFF;}
 .login-container {
     margin: 0 auto;
     text-align: center;
@@ -65,7 +64,6 @@ body.menu {background: url("/images/menu_pattern.png") repeat #FFF;}
     opacity: 0;
     transform: translateY(50%);
     transform-origin: 50% 50%;
-    display: none;
 }
 
 #credentials.visible {

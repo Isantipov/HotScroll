@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using HotScroll.Server.Controllers;
 using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
@@ -68,6 +67,16 @@ namespace HotScroll.Server.Domain
             var helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
 
             return helper.Action("JoinDuel", "Home", new {Id}, "http");
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="step"/> finishes the game.
+        /// </summary>
+        /// <param name="step">Step to examine.</param>
+        /// <returns>True, if step finishes the game, otherwise, false.</returns>
+        public bool IsGameOverStep(Step step)
+        {
+            return step.Points >= LevelMap.MaximumScore;
         }
     }
 }
