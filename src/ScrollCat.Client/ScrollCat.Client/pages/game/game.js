@@ -13,20 +13,27 @@
             this._prepareLevel(game.duel.Level);
             Environment.initialize();
             Butterfly.initialize(game.duel.Level.Events);
-            this.currentPlayer = new Player(game.player.Name, false);
-            game.opponentPlayer = new Player(game.opponent.Name, true);
-            
+            this.currentPlayer = new Player(game.player.Name, false, game.duel.PlayerTemplate);
+
+            // todo: refactor to receive opponent template from Server. 
+            var opponentTemplate = game.duel.PlayerTemplate == 0 ? 1 : 0;
+            game.opponentPlayer = new Player(game.opponent.Name, true, opponentTemplate);
+
+            this.currentPlayer.initializeCat();
+            game.opponentPlayer.initializeCat();
+
             WinJS.Application.addEventListener('play', function() {
                 that._startCountdown(3);
             });
 
             game.readyToPlay();
 
+
             WinJS.Application.addEventListener('receiveStep', function (args) {
                 var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
                 game.opponentPlayer.score = args.detail.Points;
                 game.opponentPlayer.setScore(game.opponentPlayer.score);
-                game.opponentPlayer.playAnimation({timestamp: new Date().getTime()}, direction)
+                game.opponentPlayer.playAnimation({timestamp: new Date().getTime()}, direction);
             });
 
             this._eventProcessor = function (event) {
