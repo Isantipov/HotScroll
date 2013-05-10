@@ -20,7 +20,7 @@ namespace HotScroll.Server.Services
 
         public Duel Get(string id)
         {
-            return duelsStorage[id];
+            return duelsStorage.ContainsKey(id) ? duelsStorage[id] : null;
         }
 
         public Duel GetDuelForPLayer(string playerId)
