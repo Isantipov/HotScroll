@@ -39,6 +39,7 @@ namespace HotScroll.Server.Domain
             Players = players;
             Level = new LevelMap();
             Random = new Random();
+            Status = DuelStatus.WaitingForPlayers;
             Level.GenerateRandom(Random);
         }
 
