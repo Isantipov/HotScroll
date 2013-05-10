@@ -19,7 +19,7 @@ namespace HotScroll.Server.Domain
         public int Duration { get; set; }
 
         private static readonly int MaximumEventNumberHidden = Enum.GetNames(typeof(EventType)).Length;
-        protected int MaximumEventNumber { get { return MaximumEventNumberHidden; } }
+        protected int ExclusiveUpperBoundForEventNumber { get { return MaximumEventNumberHidden + 1; } }
 
         public LevelEvent()
         {
@@ -30,15 +30,14 @@ namespace HotScroll.Server.Domain
         {
             Duration = random.Next(MinimumDuration, MaximumDuration);
             Score = random.Next(MinimumScore, MaximumScore);
-            Type = (EventType)random.Next(1, MaximumEventNumber);
+            Type = (EventType)random.Next(1, ExclusiveUpperBoundForEventNumber);
         }
     }
 
     public enum EventType
     {
         LeftDistractor  = 1,
-
-        //RightDistractor = 2,
+        RightDistractor = 2,
         //MegaDistractor = 3,
     }
 }
