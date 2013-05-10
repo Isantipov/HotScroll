@@ -32,8 +32,8 @@
                 // TODO: This application has been reactivated from suspension.
                 // Restore application state here.
             }
-            
-            args.setPromise(prepareGame(proceedToGame));
+
+            _this._prepareGame(args);
         } else if (args.detail.kind === activation.ActivationKind.protocol) {
             var p = args.detail.uri.path.split("/");
             var cmd = p[0];
@@ -59,27 +59,28 @@
     this.setHelpShown = function(value) {
         storage.values.helpShown = value + '';
     };
-    
-    function prepareGame(gamePrepared) {
-        loadGameData(function() {
-            _this._initConnection(function() {
-                WinJS.UI.processAll().then(gamePrepared);
-            });
-        });
+
+    this._prepareGame = function(args) {
+
+        args.setPromise(_this._initConnection());
+        args.setPromise(_this.connection.start().then(null,
+            function onConnectionFailed() {
+                alert("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
+            }));
+        args.setPromise(loadGameData());
+        args.setPromise(WinJS.UI.processAll().then(proceedToGame));
+    };
+
+    function loadGameData() {
+        loadPlayerName();
     }
     
-    function loadGameData(dataLoaded) {
-        loadPlayerName(dataLoaded);
-    }
-    
-    function loadPlayerName(nameLoaded) {
+    function loadPlayerName() {
         if (storage.values.PlayerName) {
             _this.setPlayerName(storage.values.PlayerName);
-            nameLoaded();
         } else {
             Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (playerName) {
                 _this.setPlayerName(playerName);
-                nameLoaded();
             });
         }
     }
@@ -131,34 +132,27 @@
         // signalR init
         this.connection = $.hubConnection(HOST_URL);
         this.hub = this.connection.createHubProxy('gameHub');
-        this.connection.start().then(
-            function onConnectionDone() {
-                _this.hub.on('play', function(response) {
-                    app.queueEvent({
-                        type: 'play',
-                        detail: response
-                    });
-                });
-
-                _this.hub.on('receiveStep', function(response) {
-                    app.queueEvent({
-                        type: 'receiveStep',
-                        detail: response
-                    });
-                });
-
-                _this.hub.on('gameOver', function(response) {
-                    app.queueEvent({
-                        type: 'gameOver',
-                        detail: response
-                    });
-                });
-                connectedCallBack();
-            },
-            function onConnectionFailed() {
-                alert("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
-                failedCallBack();
+        this.hub.on('play', function (response) {
+            app.queueEvent({
+                type: 'play',
+                detail: response
             });
+        });
+
+        this.hub.on('receiveStep', function (response) {
+            app.queueEvent({
+                type: 'receiveStep',
+                detail: response
+            });
+        });
+
+        this.hub.on('gameOver', function (response) {
+            app.queueEvent({
+                type: 'gameOver',
+                detail: response
+            });
+        });
+        
         if (app.sessionState.history) {
             nav.history = app.sessionState.history;
         }
