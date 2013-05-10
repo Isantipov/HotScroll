@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace HotScroll.Server.Domain
 {
-    public class BackgroundObject
+    public class BgItem
     {
         #region Constants
 
