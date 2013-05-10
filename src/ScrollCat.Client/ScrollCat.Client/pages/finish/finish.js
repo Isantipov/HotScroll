@@ -3,7 +3,7 @@
     'use strict';
     
     WinJS.UI.Pages.define('/pages/finish/finish.html', {
-        ready: function (options) {
+        ready: function (element, options) {
             if (options.hasWon === true) {
                 $('#finish-container').addClass('win');
                 $('h1').text('You win!');

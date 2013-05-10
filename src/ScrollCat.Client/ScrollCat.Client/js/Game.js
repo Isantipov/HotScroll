@@ -149,7 +149,7 @@
         this.hub.on('gameOver', function (response) {
             app.queueEvent({
                 type: 'gameOver',
-                detail: response
+                details: response
             });
         });
         
