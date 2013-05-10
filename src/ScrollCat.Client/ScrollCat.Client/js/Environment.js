@@ -6,7 +6,7 @@ var Environment = {
         var bgObjs = game.duel.Level.Background;
         for (var i = 0; i < bgObjs.length; i++) {
             var obj = bgObjs[i];
-            var bgElem = this.bgObjects.querySelector('.bg-' + obj.Type).cloneNode();
+            var bgElem = this.bgObjects.querySelector('.bg-' + obj.Code).cloneNode();
             bgElem.setAttribute("style", "left:" + this.getX(obj.Offset) + "px;");
             this.bgObjects.appendChild(bgElem);
         }
