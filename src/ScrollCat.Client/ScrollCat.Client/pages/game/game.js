@@ -7,11 +7,12 @@
             var that = this;
             document.querySelector('#mainTheme').play();
             WinJS.Application.addEventListener('gameOver', function (args) {
-                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.detail });
+                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.details });
             });
 
             this._prepareLevel(game.duel.Level);
             Environment.initialize();
+            Butterfly.initialize(game.duel.Level.Events);
             this.currentPlayer = new Player(game.player.Name, false);
             game.opponentPlayer = new Player(game.opponent.Name, true);
             this._startCountdown(3);
