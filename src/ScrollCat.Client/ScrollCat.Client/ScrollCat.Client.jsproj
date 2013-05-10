@@ -135,6 +135,8 @@
     <Content Include="pages\finish\finish.js" />
     <Content Include="pages\game\game.html" />
     <Content Include="pages\game\game.js" />
+    <Content Include="pages\join\join.html" />
+    <Content Include="pages\join\join.js" />
     <Content Include="pages\login\login.html" />
     <Content Include="pages\login\login.js" />
     <Content Include="pages\wait\wait.html" />
