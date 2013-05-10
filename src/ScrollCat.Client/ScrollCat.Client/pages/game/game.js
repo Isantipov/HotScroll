@@ -5,6 +5,7 @@
     WinJS.UI.Pages.define('/pages/game/game.html', {
         ready: function () {
             var that = this;
+            document.querySelector('#mainTheme').play();
             WinJS.Application.addEventListener('gameOver', function (args) {
                 WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.detail });
             });
