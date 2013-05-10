@@ -66,7 +66,7 @@ namespace HotScroll.Server.Hubs
             {
                 foreach (var opp in duel.GetOpponents(player.ConnectionId))
                 {
-                    Clients.Client(opp.ConnectionId).opponentDisconnected();
+                    Clients.Client(opp.ConnectionId).opponentDisconnected(opp);
                 }
                 game.DuelService.FinishAndRemove(duel);
             }
@@ -77,7 +77,6 @@ namespace HotScroll.Server.Hubs
         {
             player.ConnectionId = Context.ConnectionId;
             game.PlayerService.Add(player);
-            //Clients.All.playerConnected(player);
             return player;
         }
 
