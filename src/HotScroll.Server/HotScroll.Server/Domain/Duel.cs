@@ -51,7 +51,13 @@ namespace HotScroll.Server.Domain
                            Level = Level,
                            Opponent = GetOpponent(userId), 
                            Opponents = GetOpponents(userId),
+                           PlayerTemplate = GetPlayerTemplate(userId),
                        };
+        }
+
+        private PlayerTemplate GetPlayerTemplate(string userId)
+        {
+            return Players.First(t => t.Player.ConnectionId == userId).Template;
         }
 
         public Player GetOpponent(string playerId)
