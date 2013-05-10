@@ -4,16 +4,16 @@
     <meta charset="utf-8" />
     <title>Scroll Cat</title>
     <link href="/css/default.css" rel="stylesheet">
+    <style>
+        body {background: url("/images/menu_pattern.png") repeat #FFF;}
+    </style>
     <script src="/js/Game.js"></script>
     <script src="/pages/join/join.js"></script>
 </head>
-<body>
+<body class="menu">
     <div class="login-container" id="loginForm">
         <img src="../../images/splashscreen-transparent.png" alt="HotScroll">
-        <div id="loadingIndicator" class="progress-placeholder">
-            <progress class="win-ring win-large"></progress>
-        </div>
-        <div id="credentials">
+        <div id="credentials" class="visible">
             <input type="text" id="login" placeholder="Enter your name" autofocus>
 
             <div class="play">
@@ -29,12 +29,6 @@
             <img src="../../images/help_3.png" alt="" />
             <div id="help-close"></div>
         </div>
-    </div>
-    <div class="wait-container">
-        <section id="wait">
-            <h1>Searching for opponents...</h1>
-            <progress class="win-ring win-large"></progress>
-        </section>
     </div>
     <audio id="mainTheme" loop="loop"><source src="/sounds/main.mp3"/> </audio>
 </body>
