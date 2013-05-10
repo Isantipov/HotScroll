@@ -7,7 +7,7 @@
             var that = this;
             document.querySelector('#mainTheme').play();
             WinJS.Application.addEventListener('gameOver', function (args) {
-                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.details });
+                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.details, templateClass: that.currentPlayer.templateClass });
             });
 
             this._prepareLevel(game.duel.Level);
