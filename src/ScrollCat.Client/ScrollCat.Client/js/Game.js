@@ -2,7 +2,7 @@
 
     var _this = this;
     
-    var HOST_URL = 'http://localhost:57666/';
+    var HOST_URL = 'http://scrollcat.azurewebsites.net/';
     
     var app = WinJS.Application;
     var activation = Windows.ApplicationModel.Activation;
