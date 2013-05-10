@@ -202,6 +202,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Domain\BgItem.cs" />
+    <Compile Include="Domain\BgItemType.cs" />
     <Compile Include="Domain\Duel.cs" />
     <Compile Include="Domain\DuelProjection.cs" />
     <Compile Include="Domain\DuelStatus.cs" />
