@@ -39,10 +39,6 @@ namespace HotScroll.Server.Domain
             Duration = random.Next(MinimumDuration, MaximumDuration);
             Score = random.Next(MinimumScore, MaximumScore);
             Type = (EventType)random.Next(1, ExclusiveUpperBoundForEventNumber);
-            if (Type == EventType.LeftDistractor)
-            {
-                Duration = Duration*-1;
-            }
         }
     }
 
