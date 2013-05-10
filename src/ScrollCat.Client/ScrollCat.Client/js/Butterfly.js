@@ -11,15 +11,8 @@ var Butterfly = {
         for (var index in this.events) {
             if (this.events.hasOwnProperty(index)) {
                 var event = this.events[index];
-                if (event.Type === 1) {
-                    if (score >= event.Score - event.Duration && score <= event.Score) {
-                        out = this.events[index];
-                    }
-                }
-                if (event.Type === 2) {
-                    if (score >= event.Score && score <= event.Score + event.Duration) {
-                        out = this.events[index];
-                    }
+                if (score === event.Score) {
+                    out = this.events[index];
                 }
             }
         }
@@ -27,8 +20,17 @@ var Butterfly = {
     },
 
     matchScore: function (score, player) {
-        var event = this.getEvent(score);
-        if (player.event !== event) {
+        if (player.event) {
+            if (score === player.event.Score + player.event.Duration) {
+                if (!player.isOpponent) {
+                    this.element.style.visibility = 'hidden';
+                    player.element.className = player.element.className.replace('rotated', '');
+                    this.direction = 1;
+                    player.event = null;
+                }
+            }
+        } else {
+            var event = this.getEvent(score);
             if (event) {
                 player.event = event;
                 this.element.style.visibility = 'visible';
@@ -47,15 +49,7 @@ var Butterfly = {
                         this.element.className = 'rotated';
                     }
                 }
-            } else {
-                player.element.className = player.element.className.replace('rotated', '');
-                if (!player.isOpponent) {
-                    player.event = undefined;
-                    this.element.style.visibility = 'hidden';
-                    this.direction = 1;
-                }
             }
         }
     }
-
 };
