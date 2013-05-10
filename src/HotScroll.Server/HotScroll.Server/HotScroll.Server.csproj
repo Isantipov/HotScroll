@@ -286,6 +286,8 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\hotscroll - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hotscroll - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\scrollcat - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\scrollcat - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\btn_download.png" />
     <Content Include="Images\btn_download_selected.png" />
