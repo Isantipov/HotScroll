@@ -204,11 +204,13 @@
     <Compile Include="Domain\BgItem.cs" />
     <Compile Include="Domain\BgItemType.cs" />
     <Compile Include="Domain\Duel.cs" />
+    <Compile Include="Domain\DuelPlayer.cs" />
     <Compile Include="Domain\DuelProjection.cs" />
     <Compile Include="Domain\DuelStatus.cs" />
     <Compile Include="Domain\LevelEvent.cs" />
     <Compile Include="Domain\LevelMap.cs" />
     <Compile Include="Domain\PlayerStatus.cs" />
+    <Compile Include="Domain\PlayerTemplate.cs" />
     <Compile Include="Domain\Step.cs" />
     <Compile Include="Domain\Player.cs" />
     <Compile Include="Game.cs" />
