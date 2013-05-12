@@ -74,6 +74,31 @@
     };
 
     this._prepareGame = function (args, gamePrepared) {
+        $('#action-help').click(function () {
+            $('#help').fadeIn();
+            $('#help-close').click(function () {
+                _this.setHelpShown(true);
+                $('#help').fadeOut();
+            });
+        });
+
+        if (storage.values.muted) {
+            $('#action-mute').addClass('muted');
+        }
+
+        $('#action-mute').click(function () {
+            $(this).toggleClass('muted');
+            storage.values.muted = $(this).hasClass('muted');
+
+            $('audio').each(function () {
+                if (this.paused) {
+                    this.play();
+                } else {
+                    this.pause();
+                }
+            });
+        });
+
         try {
             args.setPromise(_this._initConnection());
             args.setPromise(_this.connection.start().fail(_this.networkErrorMessage));
