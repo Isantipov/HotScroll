@@ -57,6 +57,7 @@ namespace HotScroll.Server.Domain
         {
             return new DuelProjection
                        {
+                           DuelId = Id,
                            Level = Level,
                            Opponent = GetOpponent(userId), 
                            Opponents = GetOpponents(userId),
