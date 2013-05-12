@@ -10,6 +10,7 @@
     <br/>
     <input type="text" id="message" />
     <input type="button" id="sendbtn" value="Step" />
+    <input type="button" id="retryBtn" value="Retry Duel" />
     <ul id="discussion">
     </ul>
 </div>
@@ -84,6 +85,10 @@
                 gameHubProxy.server.recordStep(step);
                 $('#message').val('');
                 $('#sendbtn').focus();
+            });
+            $('#retryBtn').click(function () {
+                addMessage(Player, "Sent Retry Duel Request");
+                gameHubProxy.server.retryDuel(Duel.DuelId);
             });
         });
         // This optional function html-encodes messages for display in the page.
