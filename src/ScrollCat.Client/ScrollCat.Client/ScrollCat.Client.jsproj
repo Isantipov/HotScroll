@@ -54,7 +54,6 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="css\game.css" />
     <Content Include="default.html" />
     <Content Include="fonts\Ubuntu-Bold.ttf" />
     <Content Include="images\arrow-down.png" />
