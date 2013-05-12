@@ -142,7 +142,6 @@ namespace HotScroll.Server.Hubs
             }
         }
 
-
         private void TryWinDuel(Duel duel, Player player)
         {
             lock (duel.LockObject)
@@ -210,7 +209,7 @@ namespace HotScroll.Server.Hubs
                 var player = duelPlayer.Player;
 
                 DuelProjection proj = duel.ToProjection(player.ConnectionId);
-                Clients.Client(player.ConnectionId).prepare(proj);;
+                Clients.Client(player.ConnectionId).prepare(proj);
             }
         }
 
