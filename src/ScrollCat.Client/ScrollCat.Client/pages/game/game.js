@@ -18,6 +18,7 @@
             }
 
             WinJS.Application.addEventListener('gameOver', function (args) {
+                that._disableWheelEvent();
                 clearInterval(that.timerInterval);
                 WinJS.Navigation.navigate('/pages/finish/finish.html', {
                     hasWon: args.details,
