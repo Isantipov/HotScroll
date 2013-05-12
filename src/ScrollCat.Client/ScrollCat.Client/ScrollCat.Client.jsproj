@@ -133,6 +133,7 @@
     <Content Include="js\navigator.js" />
     <Content Include="js\Player.js" />
     <Content Include="js\settings.js" />
+    <Content Include="js\Utils.js" />
     <Content Include="packages.config" />
     <Content Include="pages\finish\finish.html" />
     <Content Include="pages\finish\finish.js" />
