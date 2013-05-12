@@ -11,6 +11,6 @@
         var minutes = Math.floor((ticks / 1000) / 60),
             seconds = ticks / 1000 - minutes * 60;
 
-        return minutes + ':' + padLeft(seconds);
+        return padLeft(minutes) + ':' + padLeft(seconds);
     }
 };

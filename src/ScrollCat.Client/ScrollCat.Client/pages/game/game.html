@@ -106,21 +106,31 @@
             z-index: 1;
         }
 
+        #gameContainer #gameLogo {
+            position: absolute;
+            z-index: 5;
+            width: 370px;
+            height: 85px;
+            top: 20px;
+            left: 50%;
+            margin-left: -185px;
+        }
+
         #gameContainer #time {
             position: absolute;
             z-index: 5;
             left: 50%;
-            top: 50px;
-            background: url("/images/timer_icon.png") no-repeat 0 0 transparent;
-            padding-left: 55px;
-            padding-top: 5px;
-            padding-bottom: 20px;
-            font-size: 32px;
+            top: 160px;
+            background: url("/images/timer_icon.png") no-repeat 30px 10px #179299;
+            border-radius: 15px;
+            padding-left: 95px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 40px;
             font-weight: bold;
             color: #FFF;
-            margin-left: -50px;
-            width: 100px;
-            color: #FFF;
+            margin-left: -105px;
+            width: 130px;
         }
 
             #gameContainer #game {
@@ -384,7 +394,10 @@
 </head>
 <body>
     <div id="gameContainer">
-        <div id="time">0:00</div>
+        <div id="gameLogo">
+            <img src="../../images/splashscreen-transparent.png" alt="" width="375" />
+        </div>
+        <div id="time">00:00</div>
         <div id="game">
             <div id="environment">
                 <div id="clouds"></div>
