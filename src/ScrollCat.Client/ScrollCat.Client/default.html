@@ -18,8 +18,58 @@
     <script src="js/Player.js"></script>
     <script src="js/Environment.js"></script>
     <script src="js/Butterfly.js"></script>
+
+    <style>
+        #actions {
+            position: absolute;
+            z-index: 10;
+            top: 20px;
+            left: 20px;
+        }
+        #actions div {
+            background-repeat: no-repeat;
+            background-color: transparent;
+            background-position: 0 0;
+            display: inline-block;
+            margin-left: 20px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+        }
+
+        #action-help {
+            background-image: url("/images/btn_help.png");
+        }
+        #action-help:hover {
+            background-image: url("/images/btn_help_selected.png");
+        }
+        #action-mute {
+            background-image: url("/images/btn_sounON.png");
+        }
+        #action-mute:hover {
+            background-image: url("/images/btn_sounON_selected.png");
+        }
+        #action-mute.muted {
+            background-image: url("/images/btn_sounOFF.png");
+        }
+        #action-mute.muted:hover {
+            background-image: url("/images/btn_sounOFF_selected.png");
+        }
+    </style>
 </head>
 <body>
     <div id="contenthost" data-win-control="Application.PageControlNavigator" data-win-options="{home: '/pages/login/login.html', join: '/pages/login/join.html'}"></div>
+    <div id="actions">
+        <div id="action-help" title="Help"></div>
+        <div id="action-mute" title="Mute"></div>
+    </div>
+    <div class="help-container" id="help">
+        <div class="help-content">
+            <img src="/images/help_1.png" alt="" />
+            <img src="/images/help_2.png" alt="" />
+            <img src="/images/help_3.png" alt="" />
+            <div id="help-close"></div>
+        </div>
+    </div>
 </body>
 </html>

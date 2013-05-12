@@ -2,10 +2,15 @@
 
     'use strict';
 
+    var storage = Windows.Storage.ApplicationData.current.localSettings;
+
     WinJS.UI.Pages.define('/pages/login/login.html', {
 
         ready: function () {
-            document.querySelector('#mainTheme').play();
+            if (!storage.values.muted) {
+                document.querySelector('#mainTheme').play();
+            }
+
             var dataTransferManager = Windows.ApplicationModel.DataTransfer.DataTransferManager.getForCurrentView();
             dataTransferManager.addEventListener("datarequested", game._onLoginShareDataRequested);
 

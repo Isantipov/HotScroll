@@ -2,6 +2,8 @@
 
     'use strict';
 
+    var storage = Windows.Storage.ApplicationData.current.localSettings;
+
     WinJS.UI.Pages.define('/pages/game/game.html', {
 
         time: 0, // ms
@@ -11,7 +13,10 @@
 
             this.time = 0;
 
-            document.querySelector('#mainTheme').play();
+            if (!storage.values.muted) {
+                document.querySelector('#mainTheme').play();
+            }
+
             WinJS.Application.addEventListener('gameOver', function (args) {
                 clearInterval(that.timerInterval);
                 WinJS.Navigation.navigate('/pages/finish/finish.html', {
