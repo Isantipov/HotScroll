@@ -85,6 +85,7 @@
     <Content Include="images\help_1.png" />
     <Content Include="images\help_2.png" />
     <Content Include="images\help_3.png" />
+    <Content Include="images\itransition_logo_small.png" />
     <Content Include="images\logo.scale-100.png" />
     <Content Include="images\logo.scale-140.png" />
     <Content Include="images\logo.scale-180.png" />
