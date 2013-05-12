@@ -184,7 +184,14 @@ namespace HotScroll.Server.Hubs
 
         public void RetryDuel(string duelToRetryId)
         {
-            var newDuel = game.DuelService.GetRetryDuel(duelToRetryId);
+            Player player = game.PlayerService.Get(Context.ConnectionId);
+            Duel retryDuel = game.DuelService.GetRetryDuel(duelToRetryId);
+
+            retryDuel.AddPlayer(player);
+            if (retryDuel.HasEnoughPlayersToStart)
+            {
+                PrepareDuel(retryDuel);
+            }
         }
 
         #region [Help Methods]
