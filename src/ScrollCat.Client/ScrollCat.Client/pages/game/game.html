@@ -106,6 +106,28 @@
             z-index: 1;
         }
 
+        #gameContainer #actions {
+            position: absolute;
+            z-index: 5;
+            top: 20px;
+            left: 20px;
+        }
+        #actions a {
+            display: inline-block;
+            margin-left: 20px;
+        }
+        #wdLogo {
+            position: absolute;
+            z-index: 5;
+            opacity: 0.5;
+            right: 20px;
+            top: 20px;
+            cursor: pointer;
+        }
+        #wdLogo:hover {
+            opacity: 1;
+        }
+
         #gameContainer #gameLogo {
             position: absolute;
             z-index: 5;
@@ -394,6 +416,9 @@
 </head>
 <body>
     <div id="gameContainer">
+        <a id="wdLogo" href="http://iwebdev.com">
+            <img src="../../images/itransition_logo_small.png" alt="" />
+        </a>
         <div id="gameLogo">
             <img src="../../images/splashscreen-transparent.png" alt="" width="375" />
         </div>
