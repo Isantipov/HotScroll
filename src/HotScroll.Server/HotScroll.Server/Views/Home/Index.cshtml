@@ -10,7 +10,6 @@
     <br/>
     <input type="text" id="message" />
     <input type="button" id="sendbtn" value="Step" />
-    <input type="button" id="winbtn" value="Win the Game immediately" />
     <ul id="discussion">
     </ul>
 </div>
@@ -85,12 +84,6 @@
                 gameHubProxy.server.recordStep(step);
                 $('#message').val('');
                 $('#sendbtn').focus();
-            });
-
-            $('#winbtn').click(function () {
-                addMessage(Player, "sending win notification ");
-                gameHubProxy.server.recordFinished();
-                $('#winbtn').focus();
             });
         });
         // This optional function html-encodes messages for display in the page.
