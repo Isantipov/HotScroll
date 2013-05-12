@@ -33,7 +33,9 @@
         },
 
         _retry: function () {
-            WinJS.Navigation.navigate('/pages/wait/wait.html');
+            WinJS.Navigation.navigate('/pages/login/login.html', {
+                retry: true,
+            });
         },
 
         _menu: function () {

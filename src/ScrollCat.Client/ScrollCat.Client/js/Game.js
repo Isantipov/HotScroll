@@ -266,4 +266,12 @@
     this.readyToPlay = function() {
         _this.hub.invoke('readyToPlay');
     };
+
+    this.loginAndRetryDuel = function(login) {
+        _this.hub.invoke('changeName', login).done(function (player) {
+            _this.player = player;
+            WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
+            _this.hub.invoke('retryDuel', _this.duel.DuelId);
+        });
+    };
 }
