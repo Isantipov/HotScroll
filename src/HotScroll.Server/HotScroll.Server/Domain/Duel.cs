@@ -13,6 +13,8 @@ namespace HotScroll.Server.Domain
 
         public string Id { get; set; }
 
+        public string RetriedDuelId { get; set; }
+
         public object LockObject
         {
             get { return _lockObject; }
@@ -33,8 +35,9 @@ namespace HotScroll.Server.Domain
         [JsonIgnore]
         public DuelStatus Status { get; set; }
 
-        public Duel(List<Player> players)
+        public Duel(List<Player> players, string retriedDuelId = null)
         {
+            RetriedDuelId = retriedDuelId;
             Id = Guid.NewGuid().ToString();
             Players = new List<DuelPlayer>();
             AddPlayers(players);
