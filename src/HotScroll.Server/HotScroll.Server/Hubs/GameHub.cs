@@ -182,6 +182,11 @@ namespace HotScroll.Server.Hubs
             }
         }
 
+        public void RetryDuel(string duelToRetryId)
+        {
+            var newDuel = game.DuelService.GetRetryDuel(duelToRetryId);
+        }
+
         #region [Help Methods]
 
         private void StartDuel(Duel duel)
