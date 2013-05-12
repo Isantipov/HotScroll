@@ -1,4 +1,9 @@
-﻿#contenthost {
+﻿@-ms-viewport {
+    height: 1080px;
+    width: 1920px;
+}
+
+#contenthost {
     height: 100%;
     width: 100%;
 }
