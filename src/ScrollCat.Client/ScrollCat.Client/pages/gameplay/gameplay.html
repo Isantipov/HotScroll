@@ -145,75 +145,75 @@
             width: 130px;
         }
 
-            #gameContainer #game {
-                z-index: 2;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border-bottom: 165px solid #6dc9cf;
-                background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
-                background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
-                box-sizing: border-box;
-            }
+        #gameContainer #game {
+            z-index: 2;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-bottom: 165px solid #6dc9cf;
+            background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
+            background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
+            box-sizing: border-box;
+        }
 
-            #gameContainer #progressBar {
-                z-index: 3;
-                position: absolute;
-                height: 165px;
-                width: 100%;
-                background-color: #ffffff;
-                bottom: 0;
-                left: 0;
-                padding: 0;
-                margin: 0;
-                box-sizing: border-box;
-                border-style: solid;
-                border-color: #ffffff;
-                border-width: 0 112px 25px 40px;
-            }
+        #gameContainer #progressBar {
+            z-index: 3;
+            position: absolute;
+            height: 165px;
+            width: 100%;
+            background-color: #ffffff;
+            bottom: 0;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            border-style: solid;
+            border-color: #ffffff;
+            border-width: 0 112px 25px 40px;
+        }
 
-                #gameContainer #progressBar #startIcon {
-                    width: 106px;
-                    height: 96px;
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    margin-left: -10px;
-                    z-index: 1;
-                }
+        #gameContainer #progressBar #startIcon {
+            width: 106px;
+            height: 96px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            margin-left: -10px;
+            z-index: 1;
+        }
 
-                #gameContainer #progressBar #finishIcon {
-                    width: 143px;
-                    height: 77px;
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                    z-index: 3;
-                    margin: 0 -91px -4px 0;
-                }
+        #gameContainer #progressBar #finishIcon {
+            width: 143px;
+            height: 77px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 3;
+            margin: 0 -91px -4px 0;
+        }
 
-                #gameContainer #progressBar #progressTrackContainer {
-                    position: absolute;
-                    width: 100%;
-                    bottom: 0;
-                    height: 10px;
-                    overflow: visible;
-                    background: url('../../images/progress/Progress_timeline_pattern.png') repeat-x;
-                }
+        #gameContainer #progressBar #progressTrackContainer {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            height: 10px;
+            overflow: visible;
+            background: url('../../images/progress/Progress_timeline_pattern.png') repeat-x;
+        }
 
-                    #gameContainer #progressBar #progressTrackContainer #progressTrack {
-                        width: 100%;
-                        box-sizing: border-box;
-                        border-left: 42px solid transparent;
-                        border-right: 27px solid transparent;
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        height: 10px;
-                    }
+        #gameContainer #progressBar #progressTrackContainer #progressTrack {
+            width: 100%;
+            box-sizing: border-box;
+            border-left: 42px solid transparent;
+            border-right: 27px solid transparent;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 10px;
+        }
 
         .progress-icon {
             height: 97px;
@@ -260,9 +260,9 @@
             transform-origin: 50% 50%;
         }
 
-            #countdown.started {
-                animation: countdown 1s cubic-bezier(0.1, 0.9, 0, 0.8) infinite;
-            }
+        #countdown.started {
+            animation: countdown 1s cubic-bezier(0.1, 0.9, 0, 0.8) infinite;
+        }
 
         #environment {
             z-index: 1;
@@ -271,57 +271,57 @@
             height: 100%;
         }
 
-            #environment #clouds {
-                z-index: 1;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 211px;
-                margin-top: 6.5%;
-                background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
-                animation: clouds 45s linear infinite;
-            }
+        #environment #clouds {
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 211px;
+            margin-top: 6.5%;
+            background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
+            animation: clouds 45s linear infinite;
+        }
 
-            #environment #mountains {
-                z-index: 2;
-                width: 100%;
-                height: 341px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
-                margin-bottom: 176px;
-                transition: background-position 0.1s linear;
-            }
+        #environment #mountains {
+            z-index: 2;
+            width: 100%;
+            height: 341px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
+            margin-bottom: 176px;
+            transition: background-position 0.1s linear;
+        }
 
-            #environment #bg-objects {
-                z-index: 3;
-                width: 100%;
-                height: 55%;
-                position: absolute;
-                bottom: 180px;
-                left: 0;
-                transition: left 0.1s linear;
-            }
+        #environment #bg-objects {
+            z-index: 3;
+            width: 100%;
+            height: 55%;
+            position: absolute;
+            bottom: 180px;
+            left: 0;
+            transition: left 0.1s linear;
+        }
 
-                #environment #bg-objects img {
-                    position: absolute;
-                    left: 0;
-                    bottom: 0;
-                    max-height: 100%;
-                }
+        #environment #bg-objects img {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            max-height: 100%;
+        }
 
-            #environment #ground {
-                z-index: 3;
-                width: 100%;
-                height: 189px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                background: url("../../images/gameplay/Ground_pattern.png") repeat-x 0 0;
-                transition: background-position 0.1s linear;
-            }
+        #environment #ground {
+            z-index: 3;
+            width: 100%;
+            height: 189px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: url("../../images/gameplay/Ground_pattern.png") repeat-x 0 0;
+            transition: background-position 0.1s linear;
+        }
 
         #players {
             position: absolute;
@@ -332,24 +332,24 @@
             z-index: 2;
         }
 
-            #players .player {
-                position: absolute;
-                width: 350px;
-                height: 310px;
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: 0 0;
-                left: 50%;
-                bottom: 0;
-                margin-left: -150px;
-                transform-origin: 50% 80%;
-                transform: rotateY(0);
-                transition: transform 0.1s ease;
-            }
+        #players .player {
+            position: absolute;
+            width: 350px;
+            height: 310px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            left: 50%;
+            bottom: 0;
+            margin-left: -150px;
+            transform-origin: 50% 80%;
+            transform: rotateY(0);
+            transition: transform 0.3s ease;
+        }
 
-                #players .player.rotated {
-                    transform: rotateY(180deg);
-                }
+        #players .player.rotated {
+            transform: rotateY(180deg);
+        }
 
         #butterflyContainer {
             visibility: hidden;
