@@ -1,55 +1,50 @@
-var Butterfly = {
+function Butterfly(events) {
+    
+    this.element = document.querySelector('#butterflyContainer');
+    this.events = events;
+    this.direction = 1;
+    this.currentEvent = null;
+}
 
-    initialize: function (events) {
-        this.element = document.querySelector('#butterflyContainer');
-        this.events = events;
-        this.direction = 1;
-    },
-
-    getEvent: function (score) {
-        var out = null;
-        for (var index in this.events) {
-            if (this.events.hasOwnProperty(index)) {
-                var event = this.events[index];
-                if (score === event.Score) {
-                    out = this.events[index];
-                }
+Butterfly.prototype.getEvent = function(score) {
+    var out = null;
+    for (var index in this.events) {
+        if (this.events.hasOwnProperty(index)) {
+            var event = this.events[index];
+            if (score === event.Score) {
+                out = this.events[index];
             }
         }
-        return out;
-    },
+    }
+    return out;
+};
 
-    matchScore: function (score, player) {
-        if (player.event) {
-            if (score === player.event.Score + player.event.Duration) {
-                if (!player.isOpponent) {
-                    this.element.style.visibility = 'hidden';
-                    player.element.className = player.element.className.replace('rotated', '');
-                    this.direction = 1;
-                    player.event = null;
-                }
-            }
-        } else {
-            var event = this.getEvent(score);
-            if (event) {
-                player.event = event;
-                this.element.style.visibility = 'visible';
-                if (event.Type === 1) {
-                    player.element.className += ' rotated';
-                    this.direction = -1;
-                    if (!player.isOpponent) {
-                        this.element.style.left = Math.random() * 40 + '%';
-                        this.element.className = '';
-                    }
-                } else if (event.Type === 2) {
-                    player.element.className = player.element.className.replace('rotated', '');
-                    this.direction = 1;
-                    if (!player.isOpponent) {
-                        this.element.style.left = Math.random() * 40 + 60 + '%';
-                        this.element.className = 'rotated';
-                    }
-                }
-            }
+Butterfly.prototype.show = function() {
+    this.element.style.visibility = 'visible';
+    this.element.style.left = Math.random() * 40 + '%';
+};
+
+Butterfly.prototype.hide = function() {
+    this.element.style.visibility = 'hidden';
+};
+
+Butterfly.prototype.matchScore = function(score, player) {
+    if (this.currentEvent) {
+        if (score === this.currentEvent.Score + this.currentEvent.Duration) {
+            this.hide();
+            this.direction = 1;
+
+            player.rotate(1);
+            this.currentEvent = null;
+        }
+    } else {
+        var event = this.getEvent(score);
+        if (event) {
+            this.show();
+            this.direction = -1;
+            
+            this.currentEvent = event;
+            player.rotate(this.direction);
         }
     }
 };
