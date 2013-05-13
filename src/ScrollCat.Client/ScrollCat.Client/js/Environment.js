@@ -6,9 +6,11 @@
         var bgObjs = game.duel.Level.Background;
         for (var i = 0; i < bgObjs.length; i++) {
             var obj = bgObjs[i];
-            var bgElem = this.bgObjects.querySelector('.bg-' + obj.Code).cloneNode(false);
-            bgElem.style.left = this.getX(obj.Offset) + "%";
-            this.bgObjects.appendChild(bgElem);
+            if (this.bgObjects.querySelector('.bg-' + obj.Code)) {
+                var bgElem = this.bgObjects.querySelector('.bg-' + obj.Code).cloneNode(false);
+                bgElem.style.left = this.getX(obj.Offset) + "%";
+                this.bgObjects.appendChild(bgElem);
+            }
         }
     },
 
