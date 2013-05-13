@@ -12,6 +12,7 @@
     this.rightDirection = 1;
     this.inertMovement = 0;
     this.butterfly = null;
+    this.timestamp = 0;
 }
 
 Player.prototype.setScore = function (score) {
@@ -61,8 +62,8 @@ Player.prototype.animateCat = function (timeout, direction) {
 
 Player.prototype.playAnimation = function (event, direction) {
     clearTimeout(this.interval);
-    this.animateCat(event.timeStamp - window.timestamp, direction);
-    window.timestamp = event.timeStamp;
+    this.animateCat(event.timeStamp - this.timestamp, direction);
+    this.timestamp = event.timeStamp;
 };
 
 Player.prototype.rotate = function () {
