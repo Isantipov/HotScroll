@@ -1,9 +1,10 @@
-function Butterfly(events) {
+function Butterfly(player, events) {
     
     this.element = document.querySelector('#butterflyContainer');
     this.events = events;
     this.direction = 1;
     this.currentEvent = null;
+    this.player = player;
 }
 
 Butterfly.prototype.getEvent = function(score) {
@@ -28,23 +29,23 @@ Butterfly.prototype.hide = function() {
     this.element.style.visibility = 'hidden';
 };
 
-Butterfly.prototype.matchScore = function(score, player) {
+Butterfly.prototype.matchScore = function() {
     if (this.currentEvent) {
-        if (score === this.currentEvent.Score + this.currentEvent.Duration) {
+        if (this.player.score === this.currentEvent.Score + this.currentEvent.Duration) {
             this.hide();
             this.direction = 1;
 
-            player.rotate(1);
+            this.player.rotate(1);
             this.currentEvent = null;
         }
     } else {
-        var event = this.getEvent(score);
+        var event = this.getEvent(this.player.score);
         if (event) {
             this.show();
             this.direction = -1;
             
             this.currentEvent = event;
-            player.rotate(this.direction);
+            this.player.rotate(this.direction);
         }
     }
 };
