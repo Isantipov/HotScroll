@@ -13,7 +13,7 @@ namespace HotScroll.Server.Domain
         protected const int BackgroundMaxSize = 1010;
 
         // Events
-        protected const int EventsNumber = 7;
+        protected const int EventsNumber = 14;
 
         #endregion
 
