@@ -31,6 +31,9 @@
             $('#invite').click(function () {
                 that._invite();
             });
+            $('#cancel').click(function () {
+                that._cancel();
+            });
             
 
             if (options && options.retry == true) {
@@ -66,6 +69,10 @@
         
         _retry: function () {
             this._loginAndWait(game.loginAndRetryDuel, 'Waiting for an opponent');
+        },
+        
+        _cancel: function () {
+            game.cancel();
         },
 
         _showHelp: function (callback) {
