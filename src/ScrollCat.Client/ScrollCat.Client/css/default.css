@@ -83,13 +83,19 @@
 }
 
 
-.play {
-    background: url("/images/text_random.png") bottom left no-repeat transparent;
+.play, .invite, .join {
     display: inline-block;
     width: 330px;
     height: 170px;
     vertical-align: top;
 }
+.play {
+    background: url("/images/text_random.png") bottom left no-repeat transparent;
+}
+.invite {
+    background: url("/images/text_friend.png") bottom left no-repeat transparent;
+}
+ 
 #play {
     background: url("/images/btn_play.png") 0 0 no-repeat transparent;
     border: 0;
@@ -101,13 +107,6 @@
     background: url("/images/btn_play_selected.png") 0 0 no-repeat transparent;
 }
 
-.invite {
-    background: url("/images/text_friend.png") bottom left no-repeat transparent;
-    display: inline-block;
-    width: 330px;
-    height: 170px;
-    vertical-align: top;
-}
 #invite {
     background: url("/images/btn_invite.png") 0 0 no-repeat transparent;
     border: 0;
