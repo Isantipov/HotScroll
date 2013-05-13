@@ -9,7 +9,7 @@ function Player (name, isOpponent, template) {
     this.timestamp = new Date().getTime();
     this.templateClass = template == 0 ? 'pink' : 'green';
     this.iconClass = this.templateClass + '-cat';
-    this.direction = 1;
+    this.rightDirection = 1;
     this.butterfly = null;
 }
 
@@ -54,13 +54,14 @@ Player.prototype.playAnimation = function (event, direction) {
     window.timestamp = event.timeStamp;
 };
 
-Player.prototype.rotate = function (direction) {
-    if (direction === -1) {
+Player.prototype.rotate = function () {
+    if (this.rightDirection === 1) {
         this.element.className += ' rotated';
+        this.rightDirection = -1;
     } else {
         this.element.className = this.element.className.replace('rotated', '');
+        this.rightDirection = 1;
     }
-    this.direction = direction;
 };
 
 Player.prototype.initializeCat = function () {
