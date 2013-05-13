@@ -1,4 +1,4 @@
-var Environment = {
+﻿var Environment = {
     initialize: function () {
         this.mountains = document.querySelector('#mountains');
         this.ground = document.querySelector('#ground');
@@ -13,7 +13,7 @@ var Environment = {
     },
 
     getX: function (score) {
-        return (score / game.TOTAL_SCORE) *100 * 14;
+        return (score / game.TOTAL_SCORE) * 100 * 14;
     },
 
 

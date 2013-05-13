@@ -188,11 +188,24 @@
     font-weight: bold;
     font-size: 62px;
     color: #429499;
+    margin-top: -30px;
 }
 #wait h2 {
     font-family: 'Ubuntu Bold', sans-serif;
     font-weight: bold;
     font-size: 46px;
     color: #54bdc4;
-    margin-top: 40px;
+    margin-top: 0;
+}
+
+#cancel {
+    background: url("/images/btn_cancel.png") 0 0 no-repeat transparent;
+    border: 0;
+    height: 109px;
+    width: 288px;
+    cursor: pointer;
+    margin-top: 60px;
+}
+#cancel:hover {
+    background: url("/images/btn_cancel_selected.png") 0 0 no-repeat transparent;
 }
