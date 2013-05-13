@@ -13,7 +13,7 @@ var Environment = {
     },
 
     getX: function (score) {
-        return (score / game.TOTAL_SCORE) *100 * 14;
+        return (score / game.TOTAL_SCORE) * 100 * 14;
     },
 
 

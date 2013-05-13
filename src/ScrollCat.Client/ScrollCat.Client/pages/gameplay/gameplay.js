@@ -4,7 +4,7 @@
 
     var storage = Windows.Storage.ApplicationData.current.localSettings;
 
-    WinJS.UI.Pages.define('/pages/game/game.html', {
+    WinJS.UI.Pages.define('/pages/gameplay/gameplay.html', {
 
         time: 0, // ms
 
