@@ -322,4 +322,9 @@
             _this.hub.invoke('retryDuel', _this.duel.DuelId);
         });
     };
+
+    this.cancel = function() {
+        WinJS.Application.removeEventListener('prepare', _this.onDuelPrepare);
+        WinJS.Navigation.navigate('/pages/login/login.html');
+    };
 }
