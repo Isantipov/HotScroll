@@ -53,7 +53,7 @@
             WinJS.Application.addEventListener('receiveStep', function (args) {
                 var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
                 game.opponentPlayer.score = args.detail.Points;
-                game.opponentPlayer.butterfly.matchScore();
+                game.opponentPlayer.butterfly.matchScore(direction);
                 game.opponentPlayer.setScore(game.opponentPlayer.score);
                 game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() - 5 }, direction);
             });
