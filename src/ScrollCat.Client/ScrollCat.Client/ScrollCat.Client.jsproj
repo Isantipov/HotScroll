@@ -60,6 +60,8 @@
     <Content Include="fonts\Ubuntu-Bold.ttf" />
     <Content Include="images\arrow-down.png" />
     <Content Include="images\arrow-up.png" />
+    <Content Include="images\btn_cancel.png" />
+    <Content Include="images\btn_cancel_selected.png" />
     <Content Include="images\btn_close.png" />
     <Content Include="images\btn_close_selected.png" />
     <Content Include="images\btn_help.png" />
