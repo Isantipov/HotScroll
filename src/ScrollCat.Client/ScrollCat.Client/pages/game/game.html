@@ -271,57 +271,57 @@
             height: 100%;
         }
 
-            #environment #clouds {
-                z-index: 1;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 211px;
-                margin-top: 6.5%;
-                background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
-                animation: clouds 45s linear infinite;
-            }
+        #environment #clouds {
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 211px;
+            margin-top: 6.5%;
+            background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
+            animation: clouds 45s linear infinite;
+        }
 
-            #environment #mountains {
-                z-index: 2;
-                width: 100%;
-                height: 341px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
-                margin-bottom: 176px;
-                transition: background-position 0.1s linear;
-            }
+        #environment #mountains {
+            z-index: 2;
+            width: 100%;
+            height: 341px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
+            margin-bottom: 176px;
+            transition: background-position 0.1s linear;
+        }
 
-            #environment #bg-objects {
-                z-index: 3;
-                width: 100%;
-                height: 55%;
-                position: absolute;
-                bottom: 180px;
-                left: 0;
-                transition: left 0.1s linear;
-            }
+        #environment #bg-objects {
+            z-index: 3;
+            width: 100%;
+            height: 55%;
+            position: absolute;
+            bottom: 180px;
+            left: 0;
+            transition: left 0.1s linear;
+        }
 
-                #environment #bg-objects img {
-                    position: absolute;
-                    left: 0;
-                    bottom: 0;
-                    max-height: 100%;
-                }
+        #environment #bg-objects img {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            max-height: 100%;
+        }
 
-            #environment #ground {
-                z-index: 3;
-                width: 100%;
-                height: 189px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                background: url("../../images/gameplay/Ground_pattern.png") repeat-x 0 0;
-                transition: background-position 0.1s linear;
-            }
+        #environment #ground {
+            z-index: 3;
+            width: 100%;
+            height: 189px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: url("../../images/gameplay/Ground_pattern.png") repeat-x 0 0;
+            transition: background-position 0.1s linear;
+        }
 
         #players {
             position: absolute;
@@ -332,24 +332,24 @@
             z-index: 2;
         }
 
-            #players .player {
-                position: absolute;
-                width: 350px;
-                height: 310px;
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: 0 0;
-                left: 50%;
-                bottom: 0;
-                margin-left: -150px;
-                transform-origin: 50% 80%;
-                transform: rotateY(0);
-                transition: transform 0.1s ease;
-            }
+        #players .player {
+            position: absolute;
+            width: 350px;
+            height: 310px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            left: 50%;
+            bottom: 0;
+            margin-left: -150px;
+            transform-origin: 50% 80%;
+            transform: rotateY(0);
+            transition: transform 0.3s ease;
+        }
 
-                #players .player.rotated {
-                    transform: rotateY(180deg);
-                }
+        #players .player.rotated {
+            transform: rotateY(180deg);
+        }
 
         #butterflyContainer {
             visibility: hidden;
@@ -367,12 +367,12 @@
             animation-iteration-count: infinite, infinite;
         }
 
-            #butterflyContainer.rotated {
-                animation-name: butterfly-movement-rotated, butterfly-sinus;
-                animation-duration: 1s, 1s;
-                animation-timing-function: linear, ease-in-out;
-                animation-iteration-count: infinite, infinite;
-            }
+        #butterflyContainer.rotated {
+            animation-name: butterfly-movement-rotated, butterfly-sinus;
+            animation-duration: 1s, 1s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+        }
 
         #butterfly {
             width: 68px;
