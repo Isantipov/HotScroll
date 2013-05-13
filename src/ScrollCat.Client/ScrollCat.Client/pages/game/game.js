@@ -30,8 +30,7 @@
             this._prepareLevel(game.duel.Level);
 
             Environment.initialize();
-            Butterfly.initialize(game.duel.Level.Events);
-
+            
             game.currentPlayer = new Player(game.player.Name, false, game.duel.PlayerTemplate);
 
             // todo: refactor to receive opponent template from Server. 
@@ -40,7 +39,10 @@
 
             game.currentPlayer.initializeCat();
             game.opponentPlayer.initializeCat();
-
+            
+            game.currentPlayer.butterfly = new Butterfly(game.duel.Level.Events);
+            game.opponentPlayer.butterfly = new Butterfly(game.duel.Level.Events);
+            
             WinJS.Application.addEventListener('play', function() {
                 that._startCountdown(3);
             });
@@ -50,16 +52,16 @@
             WinJS.Application.addEventListener('receiveStep', function (args) {
                 var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
                 game.opponentPlayer.score = args.detail.Points;
-                Butterfly.matchScore(game.opponentPlayer.score, game.opponentPlayer);
+                game.opponentPlayer.butterfly.matchScore(game.opponentPlayer.score, game.opponentPlayer);
                 game.opponentPlayer.setScore(game.opponentPlayer.score);
-                game.opponentPlayer.playAnimation({timestamp: new Date().getTime() - 5}, direction)
+                game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() - 5 }, direction);
             });
 
             this._eventProcessor = function (event) {
-                var direction = event.wheelDelta < 0 ? 1 : -1,
-                    newScore = game.currentPlayer.score + direction * Butterfly.direction;
+                var direction = event.wheelDelta < 0 ? 1 : -1;
+                var newScore = game.currentPlayer.score + direction * game.currentPlayer.butterfly.direction;
                 if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
-                    Butterfly.matchScore(game.currentPlayer.score, game.currentPlayer);
+                    game.currentPlayer.butterfly.matchScore(game.currentPlayer.score, game.currentPlayer);
                     game.currentPlayer.setScore(newScore);
                     game.currentPlayer.playAnimation(event, direction);
                 }

@@ -9,6 +9,8 @@ function Player (name, isOpponent, template) {
     this.timestamp = new Date().getTime();
     this.templateClass = template == 0 ? 'pink' : 'green';
     this.iconClass = this.templateClass + '-cat';
+    this.direction = 1;
+    this.butterfly = null;
 }
 
 Player.prototype.setScore = function (score) {
@@ -50,6 +52,15 @@ Player.prototype.playAnimation = function (event, direction) {
     clearTimeout(this.interval);
     this.animateCat(event.timeStamp - this.timestamp, direction);
     window.timestamp = event.timeStamp;
+};
+
+Player.prototype.rotate = function (direction) {
+    if (direction === -1) {
+        this.element.className += ' rotated';
+    } else {
+        this.element.className = this.element.className.replace('rotated', '');
+    }
+    this.direction = direction;
 };
 
 Player.prototype.initializeCat = function () {
