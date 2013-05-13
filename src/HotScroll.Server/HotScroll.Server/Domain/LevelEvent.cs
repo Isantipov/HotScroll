@@ -45,7 +45,7 @@ namespace HotScroll.Server.Domain
     public enum EventType
     {
         LeftDistractor  = 1,
-        RightDistractor = 2,
+        //RightDistractor = 2,
         //MegaDistractor = 3,
     }
 }
