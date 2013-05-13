@@ -1,5 +1,7 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using HotScroll.Server.Domain;
 
 namespace HotScroll.Server.Services
@@ -20,7 +22,10 @@ namespace HotScroll.Server.Services
 
         public Duel Get(string id)
         {
-            return duelsStorage.ContainsKey(id) ? duelsStorage[id] : null;
+            Duel duel;
+            duelsStorage.TryGetValue(id, out duel);
+
+            return duel;
         }
 
         public Duel GetDuelForPLayer(string playerId)
@@ -40,6 +45,35 @@ namespace HotScroll.Server.Services
             duel.Status = DuelStatus.GameOver;
             Duel d;
             duelsStorage.TryRemove(duel.Id, out d);
+        }
+
+        /// <summary>
+        ///     Gets a new <see cref="Duel" /> object which allows same
+        ///     players, who played an old <see cref="Duel" /> with id = <paramref name="duelToRetryId" />
+        ///     to play with each other again.
+        /// </summary>
+        /// <param name="duelToRetryId">
+        ///     An id of <see cref="Duel" /> to be retried.
+        /// </param>
+        /// <returns>
+        ///     a new <see cref="Duel" /> object which allows same
+        ///     players, who played an old <see cref="Duel" /> with id = <paramref name="duelToRetryId" />
+        ///     to play with each other again.
+        /// </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Duel GetRetryDuel(string duelToRetryId)
+        {
+            Duel retryDuel = duelsStorage.FirstOrDefault(i => i.Value.RetriedDuelId == duelToRetryId).Value;
+
+            if (retryDuel != null)
+            {
+                return retryDuel;
+            }
+
+            retryDuel = new Duel(new List<Player>(), duelToRetryId);
+            Add(retryDuel);
+
+            return retryDuel;
         }
     }
 }
