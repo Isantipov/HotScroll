@@ -50,10 +50,10 @@ Player.prototype.animateCat = function (timeout, direction) {
         var newTimeout = 1.5 * timeout;
         that.interval = setTimeout(function () {
             that.animateCat(newTimeout, direction);
-
-            var newScore = game.currentPlayer.score + direction * Butterfly.direction;
+            
+            var newScore = game.currentPlayer.score + direction;
             if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
-                Butterfly.matchScore(game.currentPlayer.score, game.currentPlayer);
+                //Butterfly.matchScore(game.currentPlayer.score, game.currentPlayer);
                 game.currentPlayer.setScore(newScore);
             }
         }, newTimeout);

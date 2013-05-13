@@ -55,7 +55,7 @@
                 game.opponentPlayer.score = args.detail.Points;
                 game.opponentPlayer.butterfly.matchScore(direction);
                 game.opponentPlayer.setScore(game.opponentPlayer.score);
-                game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() - 5 }, direction);
+                game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() }, direction);
             });
 
             this._eventProcessor = function (event) {

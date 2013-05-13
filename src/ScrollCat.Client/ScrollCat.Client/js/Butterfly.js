@@ -46,7 +46,7 @@ Butterfly.prototype.matchScore = function(direction) {
                     this.direction = -1;
             this.player.rotate();
             this.player.rotateRightDirection();
-            this.player.inertMovement = 10;
+            //this.player.inertMovement = 10;
         }
     }
 };
