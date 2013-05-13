@@ -92,7 +92,7 @@
             }
         }
     }
-    
+
     this.getHelpShown = function () {
         return storage.values.helpShown || false;
     };
@@ -126,31 +126,31 @@
 
 
             helpButton.click(function () {
-                $('#help').fadeIn();
-                $('#help-close').click(function () {
-                    _this.setHelpShown(true);
-                    $('#help').fadeOut();
-                });
+            $('#help').fadeIn();
+            $('#help-close').click(function () {
+                _this.setHelpShown(true);
+                $('#help').fadeOut();
             });
+        });
 
 
 
-            if (storage.values.muted) {
+        if (storage.values.muted) {
                 muteButton.addClass('muted');
-            }
+        }
 
             muteButton.click(function () {
-                $(this).toggleClass('muted');
-                storage.values.muted = $(this).hasClass('muted');
+            $(this).toggleClass('muted');
+            storage.values.muted = $(this).hasClass('muted');
 
-                $('audio').each(function () {
+            $('audio').each(function () {
                     if (this.paused && $(this).data('play')) {
-                        this.play();
-                    } else {
-                        this.pause();
-                    }
-                });
+                    this.play();
+                } else {
+                    this.pause();
+                }
             });
+        });
 
             startGame();
         } else {
