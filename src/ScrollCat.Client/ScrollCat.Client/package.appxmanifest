@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="3a82b576-0498-4408-b1ad-9b492e2a6585" Version="1.0.0.1" Publisher="CN=Dm" />
+  <Identity Name="3a82b576-0498-4408-b1ad-9b492e2a6585" Version="1.0.0.2" Publisher="CN=Dm" />
   <Properties>
     <DisplayName>Scroll Cat</DisplayName>
     <PublisherDisplayName>scrollcat@outlook.com</PublisherDisplayName>
