@@ -1,4 +1,4 @@
-function Player (name, isOpponent, template) {
+﻿function Player (name, isOpponent, template) {
 
     this.name = name;
     this.isOpponent = isOpponent;

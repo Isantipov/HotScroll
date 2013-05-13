@@ -1,4 +1,4 @@
-var Butterfly = {
+﻿var Butterfly = {
 
     initialize: function (events) {
         this.element = document.querySelector('#butterflyContainer');
