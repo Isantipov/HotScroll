@@ -13,6 +13,7 @@
 
             this.time = 0;
 
+            document.querySelector('#mainTheme').setAttribute('data-play', 'true');
             if (!storage.values.muted) {
                 document.querySelector('#mainTheme').play();
             }

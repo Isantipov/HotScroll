@@ -144,7 +144,7 @@
                 storage.values.muted = $(this).hasClass('muted');
 
                 $('audio').each(function () {
-                    if (this.paused) {
+                    if (this.paused && $(this).data('play')) {
                         this.play();
                     } else {
                         this.pause();

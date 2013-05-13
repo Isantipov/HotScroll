@@ -12,6 +12,7 @@
                 $('#finish-container').addClass('win');
                 $('h1').text('You win!');
 
+                document.querySelector('#winEffect').setAttribute('data-play', 'true');
                 if (!storage.values.muted) {
                     document.querySelector('#winEffect').play();
                     setTimeout(function () {
@@ -22,6 +23,7 @@
                 $('#finish-container').addClass('lose');
                 $('h1').text('You lose!');
 
+                document.querySelector('#looseEffect').setAttribute('data-play', 'true');
                 if (!storage.values.muted) {
                     document.querySelector('#looseEffect').play();
                 }
