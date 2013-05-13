@@ -142,7 +142,6 @@ namespace HotScroll.Server.Hubs
             }
         }
 
-
         private void TryWinDuel(Duel duel, Player player)
         {
             lock (duel.LockObject)
@@ -183,6 +182,18 @@ namespace HotScroll.Server.Hubs
             }
         }
 
+        public void RetryDuel(string duelToRetryId)
+        {
+            Player player = game.PlayerService.Get(Context.ConnectionId);
+            Duel retryDuel = game.DuelService.GetRetryDuel(duelToRetryId);
+
+            retryDuel.AddPlayer(player);
+            if (retryDuel.HasEnoughPlayersToStart)
+            {
+                PrepareDuel(retryDuel);
+            }
+        }
+
         #region [Help Methods]
 
         private void StartDuel(Duel duel)
@@ -210,7 +221,7 @@ namespace HotScroll.Server.Hubs
                 var player = duelPlayer.Player;
 
                 DuelProjection proj = duel.ToProjection(player.ConnectionId);
-                Clients.Client(player.ConnectionId).prepare(proj);;
+                Clients.Client(player.ConnectionId).prepare(proj);
             }
         }
 

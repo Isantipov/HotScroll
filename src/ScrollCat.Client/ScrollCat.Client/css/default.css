@@ -1,24 +1,16 @@
-﻿#contenthost {
-    height: 100%;
-    width: 100%;
+﻿@-ms-viewport {
+    height: 1080px;
+    width: 1920px;
 }
 
-#game-container {
-    display: none;
+@font-face {
+    font-family: 'Ubuntu Bold';
+    src: url("../fonts/Ubuntu-Bold.ttf");
 }
-#you-won {
-    display: none;
-    color: green;
-    margin: 200px auto;
-    text-align: center;
-    width: 300px;
-}
-#you-lost {
-    display: none;
-    color: red;
-    margin: 200px auto;
-    text-align: center;
-    width: 300px;
+
+#contenthost {
+    height: 100%;
+    width: 100%;
 }
 
 .login-container {
@@ -33,11 +25,6 @@
     height: 580px;
     transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
     border: none;
-}
-
-#startLogo {
-    display: inline-block;
-    margin: 0 auto;
 }
 
 .progress-placeholder.hidden {
@@ -83,7 +70,8 @@
     border: 4px solid #54bdc4;
     color: #f7931e;
     padding: 10px 30px;
-    font-size: 36px;
+    font-family: 'Ubuntu Bold', sans-serif;
+    font-size: 40px;
     font-weight: bold;
     margin: 0 auto;
     margin-bottom: 50px;
@@ -139,15 +127,16 @@
     width: 70px;
     vertical-align: top;
 }
-.help-container{}
 #help {
     background: #006d8f;
     background: rgba(0, 109, 143, 0.6);
     position: absolute;
-    z-index: 10;
+    display: none;
+    top: 0;
+    left: 0;
+    z-index: 100;
     width: 100%;
     height: 100%;
-    display: none;
     text-align: center;
 }
 
@@ -182,24 +171,29 @@
 }
 
 #wait {
-    margin: -225px 0 0 -400px;
+    margin: 0 auto;
+    text-align: center;
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
+    margin-left: -400px;
     padding: 0;
     width: 800px;
-    height: 450px;
-    text-align: center;
+    height: 580px;
     transition: height 0.5s ease-in-out, margin 0.5s ease-in-out;
-}
-#wait .win-ring {
-    margin: 50px auto;
-    color: #fff;
-    display: block;
+    border: none;
 }
 
 #wait h1 {
+    font-family: 'Ubuntu Bold', sans-serif;
     font-weight: bold;
     font-size: 62px;
     color: #429499;
+}
+#wait h2 {
+    font-family: 'Ubuntu Bold', sans-serif;
+    font-weight: bold;
+    font-size: 46px;
+    color: #54bdc4;
+    margin-top: 40px;
 }

@@ -9,9 +9,12 @@ namespace HotScroll.Server.Domain
 {
     public class Duel
     {
+        private const int MinPlayersPerDuel = 2;
         private readonly object _lockObject = new object();
 
         public string Id { get; set; }
+
+        public string RetriedDuelId { get; set; }
 
         public object LockObject
         {
@@ -33,8 +36,14 @@ namespace HotScroll.Server.Domain
         [JsonIgnore]
         public DuelStatus Status { get; set; }
 
-        public Duel(List<Player> players)
+        public bool HasEnoughPlayersToStart
         {
+            get { return Players.Count == MinPlayersPerDuel; }
+        }
+
+        public Duel(List<Player> players, string retriedDuelId = null)
+        {
+            RetriedDuelId = retriedDuelId;
             Id = Guid.NewGuid().ToString();
             Players = new List<DuelPlayer>();
             AddPlayers(players);
@@ -48,6 +57,7 @@ namespace HotScroll.Server.Domain
         {
             return new DuelProjection
                        {
+                           DuelId = Id,
                            Level = Level,
                            Opponent = GetOpponent(userId), 
                            Opponents = GetOpponents(userId),

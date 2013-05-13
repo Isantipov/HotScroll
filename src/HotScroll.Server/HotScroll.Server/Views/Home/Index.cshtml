@@ -10,7 +10,7 @@
     <br/>
     <input type="text" id="message" />
     <input type="button" id="sendbtn" value="Step" />
-    <input type="button" id="winbtn" value="Win the Game immediately" />
+    <input type="button" id="retryBtn" value="Retry Duel" disabled="disabled" />
     <ul id="discussion">
     </ul>
 </div>
@@ -47,6 +47,7 @@
 
 
             gameHubProxy.client.gameOver = function (isWinner) {
+                $('#retryBtn').removeAttr('disabled');
                 if (isWinner) {
                     alert('you win');
                 } else {
@@ -70,6 +71,7 @@
             };
 
             $('#playBtn').click(function () {
+                $('#retryBtn').attr('disabled', 'disabled');
                 addMessage(Player, "waiting for partener");
                 gameHubProxy.server.waitPartner(Player);
             });
@@ -86,11 +88,9 @@
                 $('#message').val('');
                 $('#sendbtn').focus();
             });
-
-            $('#winbtn').click(function () {
-                addMessage(Player, "sending win notification ");
-                gameHubProxy.server.recordFinished();
-                $('#winbtn').focus();
+            $('#retryBtn').click(function () {
+                addMessage(Player, "Sent Retry Duel Request");
+                gameHubProxy.server.retryDuel(Duel.DuelId);
             });
         });
         // This optional function html-encodes messages for display in the page.

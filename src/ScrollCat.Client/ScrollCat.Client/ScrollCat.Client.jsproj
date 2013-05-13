@@ -55,19 +55,24 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="css\game.css" />
     <Content Include="default.html" />
     <Content Include="fonts\Ubuntu-Bold.ttf" />
     <Content Include="images\arrow-down.png" />
     <Content Include="images\arrow-up.png" />
     <Content Include="images\btn_close.png" />
     <Content Include="images\btn_close_selected.png" />
+    <Content Include="images\btn_help.png" />
+    <Content Include="images\btn_help_selected.png" />
     <Content Include="images\btn_invite.png" />
     <Content Include="images\btn_invite_selected.png" />
     <Content Include="images\btn_menu.png" />
     <Content Include="images\btn_menu_selected.png" />
     <Content Include="images\btn_play.png" />
     <Content Include="images\btn_play_selected.png" />
+    <Content Include="images\btn_sounOFF.png" />
+    <Content Include="images\btn_sounOFF_selected.png" />
+    <Content Include="images\btn_sounON.png" />
+    <Content Include="images\btn_sounON_selected.png" />
     <Content Include="images\btn_try.png" />
     <Content Include="images\btn_try_selected.png" />
     <Content Include="images\gameplay\bench.png" />
@@ -87,6 +92,7 @@
     <Content Include="images\help_1.png" />
     <Content Include="images\help_2.png" />
     <Content Include="images\help_3.png" />
+    <Content Include="images\itransition_logo_small.png" />
     <Content Include="images\logo.scale-100.png" />
     <Content Include="images\logo.scale-140.png" />
     <Content Include="images\logo.scale-180.png" />
@@ -134,6 +140,7 @@
     <Content Include="js\navigator.js" />
     <Content Include="js\Player.js" />
     <Content Include="js\settings.js" />
+    <Content Include="js\Utils.js" />
     <Content Include="packages.config" />
     <Content Include="pages\finish\finish.html" />
     <Content Include="pages\finish\finish.js" />

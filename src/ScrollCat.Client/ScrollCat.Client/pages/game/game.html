@@ -1,465 +1,458 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8"/>
-<title>Scroll Cat</title>
+    <meta charset="utf-8" />
+    <title>Scroll Cat</title>
 
-<style>
-@font-face {
-    font-family: 'Ubuntu Bold';
-    src: url("../../fonts/Ubuntu-Bold.ttf");
-}
+    <style>
+        @keyframes butterfly {
+            from {
+                transform: scaleX(1);
+            }
 
-@keyframes butterfly {
-    from {
-        transform: scaleX(1);
-    }
-    50% {
-        transform: scaleX(0.1);
-    }
-    to {
-        transform: scaleX(1);
-    }
-}
+            50% {
+                transform: scaleX(0.1);
+            }
 
-@keyframes butterfly-sinus {
-    from {
-        bottom: 370px;
-    }
-    50% {
-        bottom: 270px;
-    }
-    to {
-        bottom: 370px;
-    }
-}
+            to {
+                transform: scaleX(1);
+            }
+        }
 
-@keyframes butterfly-movement {
-    from {
-        transform: rotateZ(-90deg);
-    }
-    25% {
-        transform: rotateZ(-135deg);
-    }
-    50% {
-        transform: rotateZ(-90deg);
-    }
-    75% {
-        transform: rotateZ(-45deg);
-    }
-    to {
-        transform: rotateZ(-90deg);
-    }
-}
+        @keyframes butterfly-sinus {
+            from {
+                bottom: 370px;
+            }
 
-@keyframes butterfly-movement-rotated {
-    from {
-        transform: rotateZ(90deg);
-    }
-    25% {
-        transform: rotateZ(135deg);
-    }
-    50% {
-        transform: rotateZ(90deg);
-    }
-    75% {
-        transform: rotateZ(45deg);
-    }
-    to {
-        transform: rotateZ(90deg);
-    }
-}
+            50% {
+                bottom: 270px;
+            }
 
-@keyframes countdown {
-    from {
-        transform: scale(0.4);
-    }
-    to {
-        transform: scale(1);
-    }
-}
+            to {
+                bottom: 370px;
+            }
+        }
 
-@keyframes clouds {
-    from {
-        background-position: 0 0;
-    }
-    to {
-        background-position: -750px 0;
-    }
-}
+        @keyframes butterfly-movement {
+            from {
+                transform: rotateZ(-90deg);
+            }
 
-#gameContainer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
+            25% {
+                transform: rotateZ(-135deg);
+            }
 
-#gameContainer #game {
-    z-index: 2;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-bottom: 165px solid #6dc9cf;
-    background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
-    background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
-    box-sizing: border-box;
-}
+            50% {
+                transform: rotateZ(-90deg);
+            }
 
-#gameContainer #progressBar {
-    z-index: 3;
-    position: absolute;
-    height: 165px;
-    width: 100%;
-    background-color: #ffffff;
-    bottom: 0;
-    left: 0;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    border-style: solid;
-    border-color: #ffffff;
-    border-width: 0 112px 25px 40px;
-}
+            75% {
+                transform: rotateZ(-45deg);
+            }
 
-#gameContainer #progressBar #startIcon {
-    width: 106px;
-    height: 96px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    margin-left: -10px;
-    z-index: 1;
-}
+            to {
+                transform: rotateZ(-90deg);
+            }
+        }
 
-#gameContainer #progressBar #finishIcon {
-    width: 143px;
-    height: 77px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 3;
-    margin: 0 -91px -4px 0;
-}
+        @keyframes butterfly-movement-rotated {
+            from {
+                transform: rotateZ(90deg);
+            }
 
-#gameContainer #progressBar #progressTrackContainer {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    height: 10px;
-    overflow: visible;
-    background: url('../../images/progress/Progress_timeline_pattern.png') repeat-x;
-}
+            25% {
+                transform: rotateZ(135deg);
+            }
 
-#gameContainer #progressBar #progressTrackContainer #progressTrack {
-    width: 100%;
-    box-sizing: border-box;
-    border-left: 42px solid transparent;
-    border-right: 27px solid transparent;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 10px;
-}
+            50% {
+                transform: rotateZ(90deg);
+            }
 
-.progress-icon {
-    height: 97px;
-    background-size: cover;
-    background: no-repeat center;
-    z-index: 4;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    transition: left 0.1s linear;
-}
+            75% {
+                transform: rotateZ(45deg);
+            }
 
-#currentIcon {
-    z-index: 5;
-}
+            to {
+                transform: rotateZ(90deg);
+            }
+        }
 
-.progress-icon.green-cat {
-    background-image: url("../../images/progress/cat_2.png");
-    width: 85px;
-    margin: 0 -42px -5px -42px;
-}
+        @keyframes countdown {
+            from {
+                transform: scale(0.4);
+            }
 
-.progress-icon.pink-cat {
-    background-image: url("../../images/progress/cat_1.png");
-    width: 66px;
-    margin: 0 -33px -5px -33px;
-}
+            to {
+                transform: scale(1);
+            }
+        }
 
-#countdown {
-    z-index: 999;
-    position: absolute;
-    width: 100%;
-    height: 768px;
-    line-height: 768px;
-    left: 0;
-    top: 50%;
-    margin-top: -384px;
-    background-color: transparent;
-    color: #FFF;
-    font-family: 'Ubuntu Bold', sans-serif;
-    text-shadow: 0 4px 0 #db7c09;
-    font-size: 350px;
-    text-align: center;
-    transform-origin: 50% 50%;
-}
+        @keyframes clouds {
+            from {
+                background-position: 0 0;
+            }
 
-#countdown.started {
-    animation: countdown 1s cubic-bezier(0.1, 0.9, 0, 0.8) infinite;
-}
+            to {
+                background-position: -750px 0;
+            }
+        }
 
-#environment {
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+        #gameContainer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
 
-}
+        #wdLogo {
+            position: absolute;
+            z-index: 5;
+            opacity: 0.5;
+            right: 20px;
+            top: 20px;
+            cursor: pointer;
+        }
+        #wdLogo:hover {
+            opacity: 1;
+        }
 
-#environment #clouds {
-    z-index: 1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 211px;
-    margin-top: 6.5%;
-    background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
-    animation: clouds 45s linear infinite;
-}
+        #gameContainer #gameLogo {
+            position: absolute;
+            z-index: 5;
+            width: 370px;
+            height: 85px;
+            top: 20px;
+            left: 50%;
+            margin-left: -185px;
+        }
 
-#environment #mountains {
-    z-index: 2;
-    width: 100%;
-    height: 341px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
-    margin-bottom: 176px;
-    transition: background-position 0.1s linear;
-}
+        #gameContainer #time {
+            position: absolute;
+            z-index: 5;
+            left: 50%;
+            top: 160px;
+            background: url("/images/timer_icon.png") no-repeat 30px 10px #179299;
+            border-radius: 15px;
+            padding-left: 95px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 40px;
+            font-weight: bold;
+            color: #FFF;
+            margin-left: -105px;
+            width: 130px;
+        }
 
-#environment #bg-objects {
-    z-index: 3;
-    width: 100%;
-    height: 55%;
-    position: absolute;
-    bottom: 180px;
-    left: 0;
-    transition: left 0.1s linear;
-}
+            #gameContainer #game {
+                z-index: 2;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-bottom: 165px solid #6dc9cf;
+                background: -webkit-linear-gradient(top, #5cd0d7, #a5e9ec);
+                background: -ms-linear-gradient(top, #5cd0d7, #a5e9ec);
+                box-sizing: border-box;
+            }
 
-#environment #bg-objects img {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    max-height: 100%;
-}
+            #gameContainer #progressBar {
+                z-index: 3;
+                position: absolute;
+                height: 165px;
+                width: 100%;
+                background-color: #ffffff;
+                bottom: 0;
+                left: 0;
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                border-style: solid;
+                border-color: #ffffff;
+                border-width: 0 112px 25px 40px;
+            }
 
-#environment #ground {
-    z-index: 3;
-    width: 100%;
-    height: 189px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: url("../../images/gameplay/Ground_pattern.png") repeat-x 0 0;
-    transition: background-position 0.1s linear;
-}
+                #gameContainer #progressBar #startIcon {
+                    width: 106px;
+                    height: 96px;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    margin-left: -10px;
+                    z-index: 1;
+                }
 
-#players {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-}
+                #gameContainer #progressBar #finishIcon {
+                    width: 143px;
+                    height: 77px;
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    z-index: 3;
+                    margin: 0 -91px -4px 0;
+                }
 
-#players .player {
-    position: absolute;
-    width: 350px;
-    height: 310px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    left: 50%;
-    bottom: 0;
-    margin-left: -150px;
-    transform-origin: 50% 80%;
-    transform: rotateY(0);
-    transition: transform 0.1s ease;
-}
+                #gameContainer #progressBar #progressTrackContainer {
+                    position: absolute;
+                    width: 100%;
+                    bottom: 0;
+                    height: 10px;
+                    overflow: visible;
+                    background: url('../../images/progress/Progress_timeline_pattern.png') repeat-x;
+                }
 
-#players .player.rotated {
-    transform: rotateY(180deg);
-}
+                    #gameContainer #progressBar #progressTrackContainer #progressTrack {
+                        width: 100%;
+                        box-sizing: border-box;
+                        border-left: 42px solid transparent;
+                        border-right: 27px solid transparent;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 10px;
+                    }
 
-#butterflyContainer {
-    visibility: hidden;
-    margin-top: 0;
-    z-index: 3;
-    width: 68px;
-    height: 58px;
-    position: absolute;
-    transform-origin: 50% 50%;
-    bottom: 320px;
-    text-align: center;
-    animation-name: butterfly-movement, butterfly-sinus;
-    animation-duration: 1s, 1s;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-}
+        .progress-icon {
+            height: 97px;
+            background-size: cover;
+            background: no-repeat center;
+            z-index: 4;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            transition: left 0.1s linear;
+        }
 
-#butterflyContainer.rotated {
-    animation-name: butterfly-movement-rotated, butterfly-sinus;
-    animation-duration: 1s, 1s;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-}
+        #currentIcon {
+            z-index: 5;
+        }
 
-#butterfly {
-    width: 68px;
-    height: 58px;
-    position: absolute;
-    transform-origin: 50% 50%;
-    animation: butterfly 0.16s ease-in-out infinite;
-}
+        .progress-icon.green-cat {
+            background-image: url("../../images/progress/cat_2.png");
+            width: 85px;
+            margin: 0 -42px -5px -42px;
+        }
 
-.player.pink {
-    background-image: url("../../images/gameplay/pink-cat.png");
-}
+        .progress-icon.pink-cat {
+            background-image: url("../../images/progress/cat_1.png");
+            width: 66px;
+            margin: 0 -33px -5px -33px;
+        }
 
-.player.green {
-    background-image: url("../../images/gameplay/green-cat.png");
-}
+        #countdown {
+            z-index: 999;
+            position: absolute;
+            width: 100%;
+            height: 768px;
+            line-height: 768px;
+            left: 0;
+            top: 50%;
+            margin-top: -384px;
+            background-color: transparent;
+            color: #FFF;
+            font-family: 'Ubuntu Bold', sans-serif;
+            text-shadow: 0 4px 0 #db7c09;
+            font-size: 350px;
+            text-align: center;
+            transform-origin: 50% 50%;
+        }
 
-#currentPlayer {
-    z-index: 2;
-    margin-bottom: 80px;
-}
+            #countdown.started {
+                animation: countdown 1s cubic-bezier(0.1, 0.9, 0, 0.8) infinite;
+            }
 
-#opponentPlayer {
-    z-index: 1;
-    margin-bottom: 140px;
-    transition: left 0.1s linear;
-}
+        #environment {
+            z-index: 1;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
 
-#tracks {
-    height: 100%;
-    position: relative;
-}
+            #environment #clouds {
+                z-index: 1;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 211px;
+                margin-top: 6.5%;
+                background: url("../../images/gameplay/Clouds_pattern.png") repeat-x 0 0;
+                animation: clouds 45s linear infinite;
+            }
 
-#track1 {
-    position: absolute;
-    left: 0;
-    top: 25%;
-    width: 4500px;
-}
+            #environment #mountains {
+                z-index: 2;
+                width: 100%;
+                height: 341px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: url("../../images/gameplay/Mountain_pattern.png") repeat-x 0 0;
+                margin-bottom: 176px;
+                transition: background-position 0.1s linear;
+            }
 
-#track2 {
-    position: absolute;
-    left: 0;
-    top: 75%;
-    width: 4500px;
-}
+            #environment #bg-objects {
+                z-index: 3;
+                width: 100%;
+                height: 55%;
+                position: absolute;
+                bottom: 180px;
+                left: 0;
+                transition: left 0.1s linear;
+            }
 
-.track-part {
-    display: inline-block;
-    vertical-align: bottom;
-    white-space: nowrap;
-    height: 50px;
-    width: 300px;
-}
+                #environment #bg-objects img {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    max-height: 100%;
+                }
 
-.track-part_1 {
-    background-color: #fff;
-}
+            #environment #ground {
+                z-index: 3;
+                width: 100%;
+                height: 189px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                background: url("../../images/gameplay/Ground_pattern.png") repeat-x 0 0;
+                transition: background-position 0.1s linear;
+            }
 
-.track-part_2 {
-    background-color: #F00;
-}
+        #players {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
 
-.track-part_3 {
-    background-color: #ffd800;
-}
+            #players .player {
+                position: absolute;
+                width: 350px;
+                height: 310px;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: 0 0;
+                left: 50%;
+                bottom: 0;
+                margin-left: -150px;
+                transform-origin: 50% 80%;
+                transform: rotateY(0);
+                transition: transform 0.1s ease;
+            }
 
-.track-part_4 {
-    background-color: #b6ff00;
-}
+                #players .player.rotated {
+                    transform: rotateY(180deg);
+                }
 
-.track-part_5 {
-    background-color: #0094ff;
-}
+        #butterflyContainer {
+            visibility: hidden;
+            margin-top: 0;
+            z-index: 3;
+            width: 68px;
+            height: 58px;
+            position: absolute;
+            transform-origin: 50% 50%;
+            bottom: 320px;
+            text-align: center;
+            animation-name: butterfly-movement, butterfly-sinus;
+            animation-duration: 1s, 1s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+        }
 
-.cat {
+            #butterflyContainer.rotated {
+                animation-name: butterfly-movement-rotated, butterfly-sinus;
+                animation-duration: 1s, 1s;
+                animation-timing-function: linear, ease-in-out;
+                animation-iteration-count: infinite, infinite;
+            }
 
-}
-</style>
-<script src="/js/Game.js"></script>
-<script src="/pages/game/game.js"></script>
+        #butterfly {
+            width: 68px;
+            height: 58px;
+            position: absolute;
+            transform-origin: 50% 50%;
+            animation: butterfly 0.16s ease-in-out infinite;
+        }
+
+        .player.pink {
+            background-image: url("../../images/gameplay/pink-cat.png");
+        }
+
+        .player.green {
+            background-image: url("../../images/gameplay/green-cat.png");
+        }
+
+        #currentPlayer {
+            z-index: 2;
+            margin-bottom: 80px;
+        }
+
+        #opponentPlayer {
+            z-index: 1;
+            margin-bottom: 140px;
+            transition: left 0.1s linear;
+        }
+    </style>
+    <script src="/js/Game.js"></script>
+    <script src="/pages/game/game.js"></script>
 </head>
 <body>
-<div id="gameContainer">
-    <div id="game">
-        <div id="environment">
-            <div id="clouds"></div>
-            <div id="mountains"></div>
-            <div id="bg-objects">
-                <img class="bg-big_tree" src="../../images/gameplay/big_tree.png" style="left:-1000px;"/>
-                <img class="bg-small_tree" src="../../images/gameplay/small_tree.png" style="left:-1000px;"/>
-                <img class="bg-bench" src="../../images/gameplay/bench.png" style="left:-1000px;"/>
-                <img class="bg-bush" src="../../images/gameplay/bush.png" style="left:-1000px;"/>
-                <img class="bg-fireplug" src="../../images/gameplay/Fireplug.png" style="left:-1000px;"/>
-                <img class="bg-purple_flower" src="../../images/gameplay/purple_flower.png" style="left:-1000px;"/>
-                <img class="bg-yellow_flower" src="../../images/gameplay/yellow_flower.png" style="left:-1000px;"/>
+    <div id="gameContainer">
+        <a id="wdLogo" href="http://iwebdev.com">
+            <img src="../../images/itransition_logo_small.png" alt="" />
+        </a>
+        <div id="gameLogo">
+            <img src="../../images/splashscreen-transparent.png" alt="" width="375" />
+        </div>
+        <div id="time">00:00</div>
+        <div id="game">
+            <div id="environment">
+                <div id="clouds"></div>
+                <div id="mountains"></div>
+                <div id="bg-objects">
+                    <img class="bg-big_tree" src="../../images/gameplay/big_tree.png" style="left: -1000px;" />
+                    <img class="bg-small_tree" src="../../images/gameplay/small_tree.png" style="left: -1000px;" />
+                    <img class="bg-bench" src="../../images/gameplay/bench.png" style="left: -1000px;" />
+                    <img class="bg-bush" src="../../images/gameplay/bush.png" style="left: -1000px;" />
+                    <img class="bg-fireplug" src="../../images/gameplay/Fireplug.png" style="left: -1000px;" />
+                    <img class="bg-purple_flower" src="../../images/gameplay/purple_flower.png" style="left: -1000px;" />
+                    <img class="bg-yellow_flower" src="../../images/gameplay/yellow_flower.png" style="left: -1000px;" />
+                </div>
+                <div id="ground"></div>
             </div>
-            <div id="ground"></div>
+            <div id="players">
+                <figure class="player" id="opponentPlayer"></figure>
+                <figure class="player" id="currentPlayer"></figure>
+            </div>
+            <div id="butterflyContainer">
+                <img src="../../images/gameplay/butterfly.png" alt="" id="butterfly">
+            </div>
         </div>
-        <div id="players">
-            <figure class="player" id="opponentPlayer"></figure>
-            <figure class="player" id="currentPlayer"></figure>
-        </div>
-        <div id="butterflyContainer">
-            <img src="../../images/gameplay/butterfly.png" alt="" id="butterfly">
-        </div>
-    </div>
-    <div id="progressBar">
-        <div id="progressTrackContainer">
-            <img id="startIcon" alt="Start" src="../../images/progress/progress_start.png"/>
-            <img id="finishIcon" alt="Finish" src="../../images/progress/progress_box.png"/>
+        <div id="progressBar">
+            <div id="progressTrackContainer">
+                <img id="startIcon" alt="Start" src="../../images/progress/progress_start.png" />
+                <img id="finishIcon" alt="Finish" src="../../images/progress/progress_box.png" />
 
-            <div id="progressTrack">
-                <figure id="currentIcon" class="progress-icon">
-                </figure>
-                <figure id="opponentIcon" class="progress-icon">
-                </figure>
+                <div id="progressTrack">
+                    <figure id="currentIcon" class="progress-icon">
+                    </figure>
+                    <figure id="opponentIcon" class="progress-icon">
+                    </figure>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div id="countdown"></div>
-<div id="tracks">
-    <div id="track1">
-        <div class="parts"></div>
-        <div class="cat"></div>
-    </div>
-    <div id="track2">
-        <div class="parts"></div>
-        <div class="cat"></div>
-    </div>
-</div>
-<audio id="mainTheme" loop="loop">
-    <source src="/sounds/main.mp3"/>
-</audio>
+    <div id="countdown"></div>
+    <audio id="mainTheme" loop="loop">
+        <source src="/sounds/main.mp3" />
+    </audio>
 </body>
 </html>

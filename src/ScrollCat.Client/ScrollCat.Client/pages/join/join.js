@@ -1,9 +1,15 @@
 ﻿(function () {
     'use strict';
 
+    var storage = Windows.Storage.ApplicationData.current.localSettings;
+
     WinJS.UI.Pages.define('/pages/join/join.html', {
         ready: function () {
-            document.querySelector('#mainTheme').play();
+
+            if (!storage.values.muted) {
+                document.querySelector('#mainTheme').play();
+            }
+
             var that = this;
             
             $('#login').val(game.player.Name);

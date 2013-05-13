@@ -2,9 +2,15 @@
 
     'use strict';
 
+    var storage = Windows.Storage.ApplicationData.current.localSettings;
+
     WinJS.UI.Pages.define('/pages/login/login.html', {
-        ready: function () {
-            document.querySelector('#mainTheme').play();
+
+        ready: function (element, options) {
+            if (!storage.values.muted) {
+                document.querySelector('#mainTheme').play();
+            }
+
             var dataTransferManager = Windows.ApplicationModel.DataTransfer.DataTransferManager.getForCurrentView();
             dataTransferManager.addEventListener("datarequested", game._onLoginShareDataRequested);
 
@@ -24,12 +30,19 @@
             $('#invite').click(function () {
                 that._invite();
             });
+            
+
+            if (options && options.retry == true) {
+                that._retry();
+            }
         },
-        _loginAndWait: function(afterLoginCallBack) {
+
+        _loginAndWait: function(afterLoginCallBack, text) {
             var login = $('#login').val();
             if (login !== '') {
                 this._showHelp(function () {
 
+                    $('#wait > h1').text(text);
                     $('.login-container').hide();
                     $('.wait-container').show();
                     
@@ -41,12 +54,17 @@
                 $('#validation-message').show();
             }
         },
+
         _play: function () {
-            this._loginAndWait(game.loginAndWaitRandom);
+            this._loginAndWait(game.loginAndWaitRandom, 'Searching for an opponent');
         },
         
         _invite: function () {
-            this._loginAndWait(game.loginAndWaitFriend);
+            this._loginAndWait(game.loginAndWaitFriend, 'Waiting for an opponent');
+        },
+        
+        _retry: function () {
+            this._loginAndWait(game.loginAndRetryDuel, 'Waiting for an opponent');
         },
 
         _showHelp: function (callback) {

@@ -2,17 +2,36 @@
 
     'use strict';
 
+    var storage = Windows.Storage.ApplicationData.current.localSettings;
+
     WinJS.UI.Pages.define('/pages/game/game.html', {
+
+        time: 0, // ms
+
         ready: function () {
             var that = this;
-            document.querySelector('#mainTheme').play();
+
+            this.time = 0;
+
+            if (!storage.values.muted) {
+                document.querySelector('#mainTheme').play();
+            }
+
             WinJS.Application.addEventListener('gameOver', function (args) {
-                WinJS.Navigation.navigate('/pages/finish/finish.html', { hasWon: args.details, templateClass: game.currentPlayer.templateClass });
+                that._disableWheelEvent();
+                clearInterval(that.timerInterval);
+                WinJS.Navigation.navigate('/pages/finish/finish.html', {
+                    hasWon: args.details,
+                    templateClass: game.currentPlayer.templateClass,
+                    time: that.time
+                });
             });
 
             this._prepareLevel(game.duel.Level);
+
             Environment.initialize();
             Butterfly.initialize(game.duel.Level.Events);
+
             game.currentPlayer = new Player(game.player.Name, false, game.duel.PlayerTemplate);
 
             // todo: refactor to receive opponent template from Server. 
@@ -46,6 +65,7 @@
                 }
             };
         },
+
         _prepareLevel: function (levelData) {
             var track1 = $('#track1 > .parts'),
                 track2 = $('#track2 > .parts');
@@ -93,7 +113,19 @@
 
         _startGame: function () {
             this._enableWheelEvent();
+            this.time = 0;
+
+            var that = this,
+                timeContainer = $('#time');
+
+            timeContainer.text(Utils.formatTime(this.time));
+
+            this.timerInterval = setInterval(function () {
+                that.time += 1000;
+                timeContainer.text(Utils.formatTime(that.time));
+            }, 1000);
         }
+
     });
 
 })();
