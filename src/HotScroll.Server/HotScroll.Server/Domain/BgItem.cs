@@ -10,9 +10,9 @@ namespace HotScroll.Server.Domain
         #region Constants
 
         protected const int MaximumInnerOffset = 10;
-        protected const int MinimumInnerOffset = 3;
+        protected const int MinimumInnerOffset = 5;
 
-        protected const int MaximumPatternOffset = 45;
+        protected const int MaximumPatternOffset = 35;
         protected const int MinimumPatternOffset = 20;
 
         #endregion
@@ -61,10 +61,10 @@ namespace HotScroll.Server.Domain
 
             };
 
-        public static List<BgItem> GenerateRandomList(Random random, int maxSize)
+        public static List<BgItem> GenerateRandomList(Random random, int start, int maxSize)
         {
             var list = new List<BgItem>();
-            var lastItem = new BgItem{Code = "start", Offset = 0};
+            var lastItem = new BgItem{Code = "start", Offset = start};
             list.Add(lastItem);
             do
             {
