@@ -55,12 +55,17 @@ Player.prototype.playAnimation = function (event, direction) {
 };
 
 Player.prototype.rotate = function () {
-    if (this.rightDirection === 1) {
+    if (this.element.className.indexOf('rotated') < 0) {
         this.element.className += ' rotated';
-        this.rightDirection = -1;
     } else {
         this.element.className = this.element.className.replace('rotated', '');
+    }
+};
+Player.prototype.rotateRightDirection = function () {
+    if (this.rightDirection === -1) {
         this.rightDirection = 1;
+    } else {
+        this.rightDirection = -1;
     }
 };
 
