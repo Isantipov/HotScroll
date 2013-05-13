@@ -1,4 +1,4 @@
-var Environment = {
+﻿var Environment = {
     initialize: function () {
         this.mountains = document.querySelector('#mountains');
         this.ground = document.querySelector('#ground');
