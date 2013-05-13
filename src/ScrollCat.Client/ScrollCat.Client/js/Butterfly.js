@@ -1,5 +1,5 @@
-function Butterfly(player, events) {
-    
+﻿function Butterfly(player, events) {
+
     this.element = document.querySelector('#butterflyContainer');
     this.events = events.slice(0);
     this.direction = 1;
@@ -12,9 +12,9 @@ Butterfly.prototype.tryPopEvent = function(score) {
     for (var index in this.events) {
         if (this.events.hasOwnProperty(index)) {
             var event = this.events[index];
-            if (score >= event.Score) {
+        if (score >= event.Score) {
                 out = this.events[index];
-                this.events.splice(index, 1);
+            this.events.splice(index, 1);
             }
         }
     }
@@ -38,12 +38,12 @@ Butterfly.prototype.matchScore = function(direction) {
             this.direction = 1;
             this.player.rotate();
             this.currentEvent = null;
-        }
-    } else {
+            }
+        } else {
         if ((this.currentEvent = this.tryPopEvent(this.player.score))) {
             // turn the player to the left
             this.show();
-            this.direction = -1;
+                    this.direction = -1;
             this.player.rotate();
             this.player.rotateRightDirection();
             this.player.inertMovement = 10;
