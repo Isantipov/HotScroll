@@ -197,3 +197,14 @@
     color: #54bdc4;
     margin-top: 40px;
 }
+
+#cancel {
+    background: url("/images/btn_cancel.png") 0 0 no-repeat transparent;
+    border: 0;
+    height: 109px;
+    width: 288px;
+    cursor: pointer;
+}
+#cancel:hover {
+    background: url("/images/btn_cancel_selected.png") 0 0 no-repeat transparent;
+}
