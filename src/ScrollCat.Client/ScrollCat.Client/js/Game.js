@@ -205,7 +205,7 @@
     this._onLoginShareDataRequested = function (e) {
         if (_this.duelUrl) {
             var request = e.request;
-            request.data.properties.title = "Someone invites you to play in Scroll Cat";
+            request.data.properties.title = "Someone invites you to play Scroll Cat";
             var userName = "Someone";
             if (_this.player && _this.player.Name) {
                 userName = _this.player.Name;
