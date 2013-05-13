@@ -6,6 +6,7 @@
     WinJS.UI.Pages.define('/pages/join/join.html', {
         ready: function () {
 
+            document.querySelector('#mainTheme').setAttribute('data-play', 'true');
             if (!storage.values.muted) {
                 document.querySelector('#mainTheme').play();
             }

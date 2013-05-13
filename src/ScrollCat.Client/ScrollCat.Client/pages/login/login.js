@@ -7,6 +7,7 @@
     WinJS.UI.Pages.define('/pages/login/login.html', {
 
         ready: function (element, options) {
+            document.querySelector('#mainTheme').setAttribute('data-play', 'true');
             if (!storage.values.muted) {
                 document.querySelector('#mainTheme').play();
             }
