@@ -11,6 +11,7 @@ namespace HotScroll.Server.Domain
         public const int MaximumScore = 1000;
         // Bg Items
         protected const int BackgroundMaxSize = 1010;
+        protected const int BackgroundStart = -50;
 
         // Events
         protected const int EventsNumber = 14;
@@ -30,7 +31,7 @@ namespace HotScroll.Server.Domain
         public void GenerateRandom(Random random)
         {
             // Background
-            Background = BgItem.GenerateRandomList(random, BackgroundMaxSize);
+            Background = BgItem.GenerateRandomList(random, BackgroundStart, BackgroundMaxSize);
 
             // Events
             Events.Clear();
