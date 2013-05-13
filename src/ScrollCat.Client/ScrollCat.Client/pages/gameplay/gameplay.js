@@ -73,6 +73,12 @@
                     game.currentPlayer.playAnimation(event, direction);
                 }
             };
+            
+            $('#action-menu').click(function () {
+                that._disableWheelEvent();
+                clearInterval(that.timerInterval);
+                WinJS.Navigation.navigate('/pages/login/login.html');
+            });
         },
 
         _prepareLevel: function (levelData) {
