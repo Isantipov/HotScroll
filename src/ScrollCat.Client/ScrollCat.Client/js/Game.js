@@ -20,7 +20,41 @@
 
     app.addEventListener("activated", onActivated);
     app.oncheckpoint = onCheckpoint;
-    WinJS.Promise.onerror = errorPromiseHandler;
+
+    var networkInfo = Windows.Networking.Connectivity.NetworkInformation;
+    var networkConnectivityInfo = Windows.Networking.Connectivity.NetworkConnectivityLevel;
+    
+    
+
+    WinJS.Namespace.define("Internet", {
+        isConnected: isConnected,
+        ifConnected: ifConnected
+    });
+
+    function isConnected() {
+        var connectionProfile = networkInfo.getInternetConnectionProfile();
+        if (connectionProfile === null) {
+            return false;
+        }
+
+        var networkConnectivityLevel = connectionProfile.getNetworkConnectivityLevel();
+        if (networkConnectivityLevel == networkConnectivityLevel.none
+            || networkConnectivityLevel == networkConnectivityInfo.localAccess
+            || networkConnectivityLevel == networkConnectivityInfo.constrainedInternetAccess) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function ifConnected(action) {
+        if (isConnected()) {
+            if (typeof action === 'function') {
+                action();
+            }
+        }
+    }
+
     app.start();
     
     function onActivated (args) {
@@ -38,7 +72,9 @@
                 WinJS.UI.SettingsFlyout.populateSettings(e);
             };
 
+            
             _this._prepareGame(args, proceedToLogin);
+            
         } else if (args.detail.kind === activation.ActivationKind.protocol) {
             var p = args.detail.uri.path.split("/");
             var cmd = p[0];
@@ -56,14 +92,6 @@
             }
         }
     }
-
-    function errorPromiseHandler(event) {
-        _this.networkErrorMessage();
-    }
-
-    this.networkErrorMessage = function() {
-        _this._showError("Can't connect to server at the moment. Application can't work without internet connection, please check your network settings.");
-    };
     
     this.getHelpShown = function () {
         return storage.values.helpShown || false;
@@ -74,41 +102,61 @@
     };
 
     this._prepareGame = function (args, gamePrepared) {
-        $('#action-help').click(function () {
-            $('#help').fadeIn();
-            $('#help-close').click(function () {
-                _this.setHelpShown(true);
-                $('#help').fadeOut();
-            });
-        });
-
-        if (storage.values.muted) {
-            $('#action-mute').addClass('muted');
-        }
-
-        $('#action-mute').click(function () {
-            $(this).toggleClass('muted');
-            storage.values.muted = $(this).hasClass('muted');
-
-            $('audio').each(function () {
-                if (this.paused) {
-                    this.play();
-                } else {
-                    this.pause();
-                }
-            });
-        });
-
-        try {
+        var that = this;
+        function startGame() {
             args.setPromise(_this._initConnection());
-            args.setPromise(_this.connection.start().fail(_this.networkErrorMessage));
+            args.setPromise(_this.connection.start());
 
             args.setPromise(loadGameData());
             args.setPromise(WinJS.UI.processAll().then(gamePrepared));
-            
-        } catch(e) {
-            _this.networkErrorMessage();
         }
+
+        $('#reconnect').click(function (event) {
+            that._prepareGame(args, gamePrepared);
+        });
+
+        if (isConnected()) {
+            var helpButton = $('#action-help'),
+                muteButton = $('#action-mute');
+
+
+            $('#noInternetConnectionMessage').hide();
+            $('#actions').show();
+
+
+
+            helpButton.click(function () {
+                $('#help').fadeIn();
+                $('#help-close').click(function () {
+                    _this.setHelpShown(true);
+                    $('#help').fadeOut();
+                });
+            });
+
+
+
+            if (storage.values.muted) {
+                muteButton.addClass('muted');
+            }
+
+            muteButton.click(function () {
+                $(this).toggleClass('muted');
+                storage.values.muted = $(this).hasClass('muted');
+
+                $('audio').each(function () {
+                    if (this.paused && $(this).data('play')) {
+                        this.play();
+                    } else {
+                        this.pause();
+                    }
+                });
+            });
+
+            startGame();
+        } else {
+            $('#noInternetConnectionMessage').show();
+        }
+
     };
 
     function loadGameData() {
@@ -157,7 +205,7 @@
     this._onLoginShareDataRequested = function (e) {
         if (_this.duelUrl) {
             var request = e.request;
-            request.data.properties.title = "Someone invites you to play in Scroll Cat";
+            request.data.properties.title = "Someone invites you to play Scroll Cat";
             var userName = "Someone";
             if (_this.player && _this.player.Name) {
                 userName = _this.player.Name;
@@ -249,7 +297,7 @@
                     _this.duelUrl = duelUrl;
                     Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
                 } else {
-                    _this._showError("Server can't create private game at the moment. Try restarting the application.");
+                    _this._showError("Server can't create private game at the moment. Try restarting the game.");
                 }
             });
         });
@@ -260,7 +308,7 @@
         var duel = args.detail;
         _this.opponent = duel.Opponents[0];
         _this.duel = duel;
-        WinJS.Navigation.navigate('/pages/game/game.html');
+        WinJS.Navigation.navigate('/pages/gameplay/gameplay.html');
     };
 
     this.readyToPlay = function() {
@@ -273,5 +321,10 @@
             WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
             _this.hub.invoke('retryDuel', _this.duel.DuelId);
         });
+    };
+
+    this.cancel = function() {
+        WinJS.Application.removeEventListener('prepare', _this.onDuelPrepare);
+        WinJS.Navigation.navigate('/pages/login/login.html');
     };
 }

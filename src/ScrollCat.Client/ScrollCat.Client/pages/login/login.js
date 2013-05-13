@@ -7,6 +7,7 @@
     WinJS.UI.Pages.define('/pages/login/login.html', {
 
         ready: function (element, options) {
+            document.querySelector('#mainTheme').setAttribute('data-play', 'true');
             if (!storage.values.muted) {
                 document.querySelector('#mainTheme').play();
             }
@@ -29,6 +30,9 @@
             });
             $('#invite').click(function () {
                 that._invite();
+            });
+            $('#cancel').click(function () {
+                that._cancel();
             });
             
 
@@ -65,6 +69,10 @@
         
         _retry: function () {
             this._loginAndWait(game.loginAndRetryDuel, 'Waiting for an opponent');
+        },
+        
+        _cancel: function () {
+            game.cancel();
         },
 
         _showHelp: function (callback) {

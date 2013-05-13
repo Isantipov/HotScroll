@@ -1,4 +1,4 @@
-function Player (name, isOpponent, template) {
+﻿function Player (name, isOpponent, template) {
 
     this.name = name;
     this.isOpponent = isOpponent;
@@ -31,27 +31,37 @@ Player.prototype.setScore = function (score) {
 };
 
 Player.prototype.animateCat = function (timeout, direction) {
-    var that = this;
-    var bgPos = parseInt(this.element.style.backgroundPosition, 10);
+    var that = this,
+        style = this.element.style;
+
+    var bgPos = parseInt(style.backgroundPosition, 10);
     bgPos -= 350 * direction;
+
     if (Math.abs(bgPos) > 7700) {
-        this.element.style.backgroundPosition = '0 0';
+        style.backgroundPositionX = '0px';
     } else if (bgPos > 0) {
-        this.element.style.backgroundPosition = -7700 + 'px 0';
+        style.backgroundPositionX = '-7700px';
     } else {
-        this.element.style.backgroundPosition = bgPos + 'px 0';
+        style.backgroundPositionX = bgPos + 'px';
     }
-    var newTimeout = Math.pow(timeout, 1.05);
+
     if (timeout < 120) {
+        var newTimeout = 1.5 * timeout;
         that.interval = setTimeout(function () {
             that.animateCat(newTimeout, direction);
+
+            var newScore = game.currentPlayer.score + direction * Butterfly.direction;
+            if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
+                Butterfly.matchScore(game.currentPlayer.score, game.currentPlayer);
+                game.currentPlayer.setScore(newScore);
+            }
         }, newTimeout);
     }
 };
 
 Player.prototype.playAnimation = function (event, direction) {
     clearTimeout(this.interval);
-    this.animateCat(event.timeStamp - this.timestamp, direction);
+    this.animateCat(event.timeStamp - window.timestamp, direction);
     window.timestamp = event.timeStamp;
 };
 
