@@ -25,6 +25,7 @@ namespace HotScroll.Server.Domain
 
         public static List<BgItemType> BgItemTypes = new List<BgItemType>
             {
+                new BgItemType{Code = "start", Name = "Start", IsOverlapping = true, IsReplicable = false},
                 new BgItemType{Code = "small_tree", Name = "Small Tree", IsOverlapping = true, IsReplicable = true, WidthPx = 235},
                 new BgItemType{Code = "big_tree", Name = "Big Tree", IsOverlapping = true, IsReplicable = true, WidthPx = 337},
                 new BgItemType{Code = "bush", Name = "Bush", IsOverlapping = true, IsReplicable = true, WidthPx = 195},
@@ -32,6 +33,7 @@ namespace HotScroll.Server.Domain
                 new BgItemType{Code = "fireplug", Name = "Fireplug", IsOverlapping = false, IsReplicable = false, WidthPx = 89},
                 new BgItemType{Code = "purple_flower", Name = "Purple Flower", IsOverlapping = false, IsReplicable = true, WidthPx = 53},
                 new BgItemType{Code = "yellow_flower", Name = "Yellow Flower", IsOverlapping = false, IsReplicable = true, WidthPx = 53},
+                new BgItemType{Code = "finish", Name = "Finish", IsOverlapping = true, IsReplicable = false},
             };
 
         public static List<List<string>> BgPatterns = new List<List<string>>
@@ -62,7 +64,8 @@ namespace HotScroll.Server.Domain
         public static List<BgItem> GenerateRandomList(Random random, int maxSize)
         {
             var list = new List<BgItem>();
-            var lastItem = new BgItem();
+            var lastItem = new BgItem{Code = "start", Offset = 0};
+            list.Add(lastItem);
             do
             {
                 var pOffset = random.Next(MinimumPatternOffset, MaximumPatternOffset + 1);
@@ -76,6 +79,8 @@ namespace HotScroll.Server.Domain
                     list.Add(lastItem);
                 }
             } while (lastItem.Offset <= maxSize);
+            lastItem = new BgItem { Code = "finish", Offset = LevelMap.MaximumScore };
+            list.Add(lastItem);
             return list;
         }
     }
