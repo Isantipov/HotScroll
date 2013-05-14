@@ -15,6 +15,8 @@
             get { return template; }
         }
 
+        public bool Disconnected { get; set; }
+
         public DuelPlayer(Player player, PlayerTemplate template)
         {
             this.player = player;
