@@ -257,8 +257,8 @@
         }
     };
 
-    this.recordStep = function (score) {
-        _this.hub.invoke('recordStep', {Points: score});
+    this.recordStep = function (score, isInert) {
+        _this.hub.invoke('recordStep', {Points: score, IsInert : isInert});
     };
 
     this.loginAndWaitRandom = function (login) {
