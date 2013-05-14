@@ -91,11 +91,13 @@ namespace HotScroll.Server.Hubs
             Duel duel;
             if ((duel = game.DuelService.GetDuelForPLayer(player.ConnectionId)) != null)
             {
-                foreach (var opp in duel.GetOpponents(player.ConnectionId))
+                var duelPlayer = duel.Players.First(i => i.Player == player);
+                duelPlayer.Disconnected = true;
+
+                if (duel.Players.All(i => i.Disconnected))
                 {
-                    Clients.Client(opp.ConnectionId).opponentDisconnected(opp);
+                    game.DuelService.FinishAndRemove(duel);
                 }
-                game.DuelService.FinishAndRemove(duel);
             }
         }
 
