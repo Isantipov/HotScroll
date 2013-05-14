@@ -29,8 +29,8 @@ Butterfly.prototype.show = function() {
 Butterfly.prototype.hide = function () {
     var that = this;
     $(this.element).animate({
-        left: '-=' + ($(this.element).position().left - 50),
-        }, 800, function() {
+        left: '-=40%',
+        }, 1200, function() {
             that.element.style.visibility = 'hidden';
     });
 };
