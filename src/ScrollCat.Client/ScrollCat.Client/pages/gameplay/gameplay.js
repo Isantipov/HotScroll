@@ -58,8 +58,8 @@
                     newScore += game.currentPlayer.rightDirection * direction;
                 }
                 if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
+                    game.currentPlayer.setScore(newScore, false);
                     game.currentPlayer.butterfly.matchScore(direction);
-                    game.currentPlayer.setScore(newScore);
                     game.currentPlayer.playAnimation(event, direction);
                 }
             };
@@ -75,9 +75,8 @@
         _receiveStepHandler : function(args) {
             var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
             game.opponentPlayer.stopAnimation();
-            game.opponentPlayer.score = args.detail.Points;
+            game.opponentPlayer.setOpponentScore(args.detail.Points, args.detail.IsInert);
             game.opponentPlayer.butterfly.matchScore(direction);
-            game.opponentPlayer.setScore(game.opponentPlayer.score);
             game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() }, direction);
         },
             

@@ -15,23 +15,45 @@
     this.butterfly = null;
     this.timestamp = 0;
 
-    this.setScore = function (score) {
+    this.setScore = function (score, isInert) {
         _this.score = score;
         var scorePercent = ((_this.score / game.TOTAL_SCORE) * 100).toFixed(5);
         _this.icon.style.left = scorePercent + '%';
-        if (!_this.isOpponent) {
-            game.recordStep(_this.score);
-            Environment.move(scorePercent);
-            game.opponentPlayer.setScore(game.opponentPlayer.score);
-        } else {
-            var bgPercent = parseFloat(Environment.ground.style.backgroundPosition);
-            var opponentBgPercent = (game.opponentPlayer.score / game.TOTAL_SCORE) * 100 * 14;
-            // 428 - ground pattern image width in px
-            _this.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
-        }
+        game.recordStep(_this.score, isInert);
+        Environment.move(scorePercent);
+        game.opponentPlayer.setOpponentScore(game.opponentPlayer.score, isInert);
+    };
+    
+    this.setOpponentScore = function (score, isInert) {
+        _this.score = score;
+        var scorePercent = ((_this.score / game.TOTAL_SCORE) * 100).toFixed(5);
+        _this.icon.style.left = scorePercent + '%';
+        var bgPercent = parseFloat(Environment.ground.style.backgroundPosition);
+        var opponentBgPercent = (game.opponentPlayer.score / game.TOTAL_SCORE) * 100 * 14;
+        // 428 - ground pattern image width in px
+        _this.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
     };
 
     this.animateCat = function(timeout) {
+
+        /*if (timeout < 120) {
+            _this.newTimeOut = 1.5 * timeout;
+            _this.animationTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
+        }*/
+    };
+
+    this.animateCatByTimeout = function() {
+        _this.animateCat(_this.newTimeOut);
+        var newScore = _this.score + _this.direction;
+        _this.setScore(newScore, true);
+    };
+
+    this.playAnimation = function(event, direction) {
+        _this.direction = direction;
+        if (!_this.timestamp) {
+            _this.timestamp = event.timeStamp - 1;
+        }
+        
         var style = _this.element.style;
         var bgPos = parseInt(style.backgroundPosition);
         bgPos -= 350 * _this.direction;
@@ -43,25 +65,9 @@
         } else {
             style.backgroundPositionX = bgPos + 'px';
         }
-
-        /*if (timeout < 120) {
-            _this.newTimeOut = 1.5 * timeout;
-            _this.animationTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
-        }*/
-    };
-
-    this.animateCatByTimeout = function() {
-        _this.animateCat(_this.newTimeOut);
-        var newScore = _this.score + _this.direction;
-        _this.setScore(newScore);
-    };
-
-    this.playAnimation = function(event, direction) {
-        _this.direction = direction;
-        if (!_this.timestamp) {
-            _this.timestamp = event.timeStamp - 1;
-        }
-        _this.animateCat(event.timeStamp - _this.timestamp);
+        
+        var timeout = event.timeStamp - _this.timestamp;
+        
         _this.timestamp = event.timeStamp;
     };
 
