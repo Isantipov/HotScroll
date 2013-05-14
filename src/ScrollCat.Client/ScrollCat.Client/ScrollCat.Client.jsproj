@@ -85,6 +85,7 @@
     <Content Include="images\gameplay\butterfly2.png" />
     <Content Include="images\gameplay\butterfly3.png" />
     <Content Include="images\gameplay\Clouds_pattern.png" />
+    <Content Include="images\gameplay\final_box.png" />
     <Content Include="images\gameplay\Fireplug.png" />
     <Content Include="images\gameplay\green-cat.png" />
     <Content Include="images\gameplay\Ground_pattern.png" />
