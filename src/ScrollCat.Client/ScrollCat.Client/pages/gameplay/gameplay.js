@@ -39,6 +39,7 @@
             WinJS.Application.addEventListener('play', startCountDown);
             
             function startCountDown() {
+                clearTimeout(opponentReadyTimeout);
                 WinJS.Application.removeEventListener('play', startCountDown);
                 that._countdown(3);
             }
@@ -71,6 +72,11 @@
 
             $('#action-menu').show();
             $('#action-menu').click(that._onMenuClik);
+
+            that.opponentReadyTimeout = setTimeout(function() {
+                game._showError("Your opponent has failed to connect!\r\nPlease, try again.");
+                that._onMenuClik();
+            }, 5000);
         },
 
         _receiveStepHandler : function(args) {
