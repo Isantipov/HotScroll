@@ -216,11 +216,12 @@
         }
 
         .progress-icon {
-            height: 97px;
+            height: 60px;
             background-size: cover;
             background: no-repeat center;
             z-index: 4;
             position: absolute;
+            padding-top: 40px;
             left: 0;
             bottom: 0;
             transition: left 0.1s linear;
@@ -230,16 +231,33 @@
             z-index: 5;
         }
 
+        .progress-icon figcaption {
+            border-radius: 5px;
+            padding: 2px 5px;
+            position: absolute;
+            z-index: 5;
+            top: -40px;
+            left: 0;
+            color: #FFF;
+            font-size: 18px;
+        }
+
         .progress-icon.green-cat {
             background-image: url("../../images/progress/cat_2.png");
             width: 85px;
             margin: 0 -42px -5px -42px;
+        }
+        .progress-icon.green-cat figcaption {
+            background-color: #9fb800;
         }
 
         .progress-icon.pink-cat {
             background-image: url("../../images/progress/cat_1.png");
             width: 66px;
             margin: 0 -33px -5px -33px;
+        }
+        .progress-icon.pink-cat figcaption {
+            background-color: #ff6677;
         }
 
         #countdown {
@@ -459,8 +477,10 @@
 
                 <div id="progressTrack">
                     <figure id="currentIcon" class="progress-icon">
+                        <figcaption></figcaption>
                     </figure>
                     <figure id="opponentIcon" class="progress-icon">
+                        <figcaption></figcaption>
                     </figure>
                 </div>
             </div>
