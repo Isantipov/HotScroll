@@ -1,6 +1,4 @@
-﻿function Player(name, isOpponent, template) {
-
-    var _this = this;
+﻿function Player (name, isOpponent, template) {
 
     this.name = name;
     this.isOpponent = isOpponent;
@@ -22,68 +20,64 @@
         _this.icon.style.left = scorePercent + '%';
         if (!_this.isOpponent) {
             game.recordStep(_this.score);
-            Environment.move(scorePercent);
-            game.opponentPlayer.setScore(game.opponentPlayer.score);
-        } else {
-            var bgPercent = parseFloat(Environment.ground.style.backgroundPosition);
-            var opponentBgPercent = (game.opponentPlayer.score / game.TOTAL_SCORE) * 100 * 14;
-            // 428 - ground pattern image width in px
+        Environment.move(scorePercent);
+        game.opponentPlayer.setScore(game.opponentPlayer.score);
+    } else {
+        var bgPercent = parseFloat(Environment.ground.style.backgroundPosition);
+        var opponentBgPercent = (game.opponentPlayer.score / game.TOTAL_SCORE) * 100 * 14;
+        // 428 - ground pattern image width in px
             _this.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
-        }
-    };
+    }
+};
 
     this.animateCat = function(timeout) {
         var style = _this.element.style;
         var bgPos = parseInt(style.backgroundPosition);
         bgPos -= 350 * _this.direction;
 
-        if (Math.abs(bgPos) > 7700) {
-            style.backgroundPositionX = '0px';
-        } else if (bgPos > 0) {
-            style.backgroundPositionX = '-7700px';
-        } else {
-            style.backgroundPositionX = bgPos + 'px';
-        }
+    if (Math.abs(bgPos) > 7700) {
+        style.backgroundPositionX = '0px';
+    } else if (bgPos > 0) {
+        style.backgroundPositionX = '-7700px';
+    } else {
+        style.backgroundPositionX = bgPos + 'px';
+    }
 
-        if (timeout < 120) {
+    if (timeout < 120) {
             _this.newTimeOut = 1.5 * timeout;
             _this.animationTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
         }
     };
-
+            
     this.animateCatByTimeout = function() {
         _this.animateCat(_this.newTimeout);
         var newScore = _this.score + _this.direction;
         _this.setScore(newScore);
-    };
+};
 
     this.playAnimation = function(event, direction) {
         _this.direction = direction;
         _this.animateCat(event.timeStamp - _this.timestamp);
         _this.timestamp = event.timeStamp;
-    };
+};
 
     this.rotate = function() {
         if (_this.element.className.indexOf('rotated') < 0) {
             _this.element.className += ' rotated';
-        } else {
+    } else {
             _this.element.className = _this.element.className.replace('rotated', '');
-        }
-    };
+    }
+};
     this.rotateRightDirection = function() {
         if (_this.rightDirection === -1) {
             _this.rightDirection = 1;
-        } else {
+    } else {
             _this.rightDirection = -1;
-        }
-    };
+    }
+};
 
-    this.initializeCat = function() {
-        $(_this.element).addClass(_this.templateClass);
-        $(_this.icon).addClass(_this.iconClass);
-    };
-    
-    this.stopAnimation = function() {
-        clearTimeout(_this.animationTimer);
-    };
+Player.prototype.initializeCat = function () {
+    $(_this.element).addClass(_this.templateClass);
+    $(_this.icon).addClass(_this.iconClass).children().text(_this.name);
+};
 }

@@ -94,7 +94,7 @@
             clearTimeout(game.currentPlayer.interval);
             clearTimeout(game.opponentPlayer.interval);
         },
-        
+
         _prepareLevel: function (levelData) {
             var track1 = $('#track1 > .parts'),
                 track2 = $('#track2 > .parts');
