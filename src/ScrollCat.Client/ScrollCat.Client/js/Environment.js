@@ -12,6 +12,14 @@
                 this.bgObjects.appendChild(bgElem);
             }
         }
+
+        /*var start = this.bgObjects.querySelector('.bg-start').cloneNode(false);
+        start.style.left = '1%';
+        this.bgObjects.appendChild(start);
+
+        var finish = this.bgObjects.querySelector('.bg-finish').cloneNode(false);
+        finish.style.left = '99%';
+        this.bgObjects.appendChild(finish);*/
     },
 
     getX: function (score) {
