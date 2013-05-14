@@ -1,5 +1,4 @@
 ﻿function Player (name, isOpponent, template) {
-
     this.name = name;
     this.isOpponent = isOpponent;
     this.score = 0;
@@ -83,5 +82,5 @@ Player.prototype.rotateRightDirection = function () {
 
 Player.prototype.initializeCat = function () {
     $(this.element).addClass(this.templateClass);
-    $(this.icon).addClass(this.iconClass);
+    $(this.icon).addClass(this.iconClass).children().text(this.name);
 };
