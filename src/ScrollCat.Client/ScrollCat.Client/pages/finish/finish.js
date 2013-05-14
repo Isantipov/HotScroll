@@ -16,7 +16,9 @@
                 if (!storage.values.muted) {
                     document.querySelector('#winEffect').play();
                     setTimeout(function () {
-                        document.querySelector('#winEffect').play();
+                        if (document.querySelector('#winEffect')) {
+                            document.querySelector('#winEffect').play();
+                        }
                     }, 2500);
                 }
             } else {
