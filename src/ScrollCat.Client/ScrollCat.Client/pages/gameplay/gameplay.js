@@ -4,7 +4,7 @@
 
     var storage = Windows.Storage.ApplicationData.current.localSettings;
 
-    WinJS.UI.Pages.define('/pages/gameplay/gameplay.html', {
+    var control = WinJS.UI.Pages.define('/pages/gameplay/gameplay.html', {
 
         time: 0, // ms
 
@@ -36,21 +36,17 @@
             game.currentPlayer.butterfly = new Butterfly(game.currentPlayer, game.duel.Level.Events);
             game.opponentPlayer.butterfly = new Butterfly(game.opponentPlayer, game.duel.Level.Events);
 
-            WinJS.Application.addEventListener('play', function () {
-                that._startCountdown(3);
-            });
+            WinJS.Application.addEventListener('play', startCountDown);
+            
+            function startCountDown() {
+                WinJS.Application.removeEventListener('play', startCountDown);
+                that._countdown(3);
+            }
 
             game.readyToPlay();
 
-            WinJS.Application.addEventListener('receiveStep', function (args) {
-                var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
-                game.opponentPlayer.stopAnimation();
-                game.opponentPlayer.score = args.detail.Points;
-                game.opponentPlayer.butterfly.matchScore(direction);
-                game.opponentPlayer.setScore(game.opponentPlayer.score);
-                game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() }, direction);
-            });
-
+            WinJS.Application.addEventListener('receiveStep', this._receiveStepHandler);
+            
             this._eventProcessor = function (event) {
                 game.currentPlayer.stopAnimation();
                 var direction = event.wheelDelta < 0 ? 1 : -1;
@@ -75,7 +71,16 @@
             
             $('#action-menu').click(that._onMenuClik);
         },
-        
+
+        _receiveStepHandler : function(args) {
+            var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
+            game.opponentPlayer.stopAnimation();
+            game.opponentPlayer.score = args.detail.Points;
+            game.opponentPlayer.butterfly.matchScore(direction);
+            game.opponentPlayer.setScore(game.opponentPlayer.score);
+            game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() }, direction);
+        },
+            
         _onGameOver: function(args) {
             var that = this;
             that._disposeGame();
@@ -88,6 +93,7 @@
         
         _disposeGame: function () {
             $('#action-menu').unbind('click', this._onMenuClik);
+            WinJS.Application.removeEventListener('receiveStep', this._receiveStepHandler);
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
             this._disableWheelEvent();
             clearInterval(this.timerInterval);
@@ -108,7 +114,7 @@
             track2.html(html.join(''));
         },
 
-        _startCountdown: function (seconds) {
+        _countdown: function (seconds) {
             var count = seconds,
                 that = this,
                 elem = $('#countdown');
