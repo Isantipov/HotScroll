@@ -65,13 +65,15 @@
                     game.currentPlayer.playAnimation(event, direction);
                 }
             };
-            
-            $('#action-menu').click(function () {
+
+            that._onMenuClik = function() {
                 that._disposeGame();
                 WinJS.Navigation.navigate('/pages/login/login.html');
-            });
+            };
+            
+            $('#action-menu').click(that._onMenuClik);
         },
-
+        
         _onGameOver: function(args) {
             var that = this;
             that._disposeGame();
@@ -83,6 +85,7 @@
         },
         
         _disposeGame: function () {
+            $('#action-menu').unbind('click', this._onMenuClik);
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
             this._disableWheelEvent();
             clearInterval(this.timerInterval);
