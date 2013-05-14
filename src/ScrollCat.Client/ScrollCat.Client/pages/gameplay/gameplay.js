@@ -91,8 +91,8 @@
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
             this._disableWheelEvent();
             clearInterval(this.timerInterval);
-            clearTimeout(game.currentPlayer.interval);
-            clearTimeout(game.opponentPlayer.interval);
+            game.currentPlayer.stopAnimation();
+            game.opponentPlayer.stopAnimation();
         },
 
         _prepareLevel: function (levelData) {
@@ -122,6 +122,7 @@
                 }
                 if (count === 'GO!') {
                     elem.remove();
+                    clearInterval(interval);
                 } else {
                     if (count === 0) {
                         count = 'GO!';
