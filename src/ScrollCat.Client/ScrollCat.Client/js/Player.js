@@ -58,6 +58,9 @@
 
     this.playAnimation = function(event, direction) {
         _this.direction = direction;
+        if (!_this.timestamp) {
+            _this.timestamp = event.timeStamp - 1;
+        }
         _this.animateCat(event.timeStamp - _this.timestamp);
         _this.timestamp = event.timeStamp;
     };
