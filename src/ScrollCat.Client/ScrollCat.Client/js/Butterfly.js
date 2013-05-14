@@ -1,6 +1,6 @@
 ﻿function Butterfly(player, events) {
 
-    this.element = document.querySelector('#butterflyContainer');
+    this.element = player.isOpponent ? document.querySelector('.opponentButterfly') : document.querySelector('.playerButterfly');
     this.events = events.slice(0);
     this.direction = 1;
     this.currentEvent = null;
@@ -43,7 +43,7 @@ Butterfly.prototype.matchScore = function(direction) {
         if ((this.currentEvent = this.tryPopEvent(this.player.score))) {
             // turn the player to the left
             this.show();
-                    this.direction = -1;
+            this.direction = -1;
             this.player.rotate();
             this.player.rotateRightDirection();
             //this.player.inertMovement = 10;
