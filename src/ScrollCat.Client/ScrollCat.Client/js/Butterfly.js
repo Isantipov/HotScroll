@@ -21,15 +21,23 @@ Butterfly.prototype.tryPopEvent = function(score) {
     return out;
 };
 
-Butterfly.prototype.show = function() {
-    this.element.style.visibility = 'visible';
-    this.element.style.left = Math.random() * 40 + '%';
+Butterfly.prototype.show = function () {
+    if (this.player.isOpponent) {
+        // TODO: position butterfly next to opponent
+    } else {
+        this.element.style.visibility = 'visible';
+        this.element.style.left = Math.random() * 40 + '%';
+    }
 };
 
 Butterfly.prototype.hide = function () {
-    $(this.element).animate({ left: '-=40%' }, 1200, function () {
-        this.style.visibility = 'hidden';
-    });
+    if (this.player.isOpponent) {
+        // TODO: position butterfly next to opponent
+    } else {
+        $(this.element).animate({ left: '-=40%' }, 1200, function() {
+            this.style.visibility = 'hidden';
+        });
+    }
 };
 
 Butterfly.prototype.matchScore = function(direction) {
