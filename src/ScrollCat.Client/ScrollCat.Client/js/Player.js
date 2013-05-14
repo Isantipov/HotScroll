@@ -44,14 +44,14 @@
             style.backgroundPositionX = bgPos + 'px';
         }
 
-    if (timeout < 120) {
+        /*if (timeout < 120) {
             _this.newTimeOut = 1.5 * timeout;
             _this.animationTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
-        }
+        }*/
     };
 
     this.animateCatByTimeout = function() {
-        _this.animateCat(_this.newTimeout);
+        _this.animateCat(_this.newTimeOut);
         var newScore = _this.score + _this.direction;
         _this.setScore(newScore);
     };
