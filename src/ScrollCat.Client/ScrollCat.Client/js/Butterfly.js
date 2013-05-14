@@ -26,8 +26,13 @@ Butterfly.prototype.show = function() {
     this.element.style.left = Math.random() * 40 + '%';
 };
 
-Butterfly.prototype.hide = function() {
-    this.element.style.visibility = 'hidden';
+Butterfly.prototype.hide = function () {
+    var that = this;
+    $(this.element).animate({
+        left: '-=' + ($(this.element).position().left - 50),
+        }, 800, function() {
+            that.element.style.visibility = 'hidden';
+    });
 };
 
 Butterfly.prototype.matchScore = function(direction) {
