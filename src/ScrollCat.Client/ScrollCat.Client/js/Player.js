@@ -15,16 +15,16 @@
     this.butterfly = null;
     this.timestamp = 0;
 
-    this.setScore = function (score, isInert) {
+    this.setScore = function (score) {
         _this.score = score;
         var scorePercent = ((_this.score / game.TOTAL_SCORE) * 100).toFixed(5);
         _this.icon.style.left = scorePercent + '%';
-        game.recordStep(_this.score, isInert);
+        game.recordStep(_this.score);
         Environment.move(scorePercent);
-        game.opponentPlayer.setOpponentScore(game.opponentPlayer.score, isInert);
+        game.opponentPlayer.setOpponentScore(game.opponentPlayer.score);
     };
     
-    this.setOpponentScore = function (score, isInert) {
+    this.setOpponentScore = function (score) {
         _this.score = score;
         var scorePercent = ((_this.score / game.TOTAL_SCORE) * 100).toFixed(5);
         _this.icon.style.left = scorePercent + '%';
@@ -45,7 +45,7 @@
     this.animateCatByTimeout = function() {
         _this.animateCat(_this.newTimeOut);
         var newScore = _this.score + _this.direction;
-        _this.setScore(newScore, true);
+        _this.setScore(newScore);
     };
 
     this.playAnimation = function(event, direction) {
