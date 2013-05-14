@@ -351,7 +351,7 @@
             transform: rotateY(180deg);
         }
 
-        #butterflyContainer {
+        .butterflyContainer {
             visibility: hidden;
             margin-top: 0;
             z-index: 3;
@@ -367,14 +367,14 @@
             animation-iteration-count: infinite, infinite;
         }
 
-            #butterflyContainer.rotated {
-                animation-name: butterfly-movement-rotated, butterfly-sinus;
-                animation-duration: 1s, 1s;
-                animation-timing-function: linear, ease-in-out;
-                animation-iteration-count: infinite, infinite;
-            }
-
-        #butterfly {
+        .butterflyContainer.rotated {
+            animation-name: butterfly-movement-rotated, butterfly-sinus;
+            animation-duration: 1s, 1s;
+            animation-timing-function: linear, ease-in-out;
+            animation-iteration-count: infinite, infinite;
+        }
+        .playerButterfly, .opponentButterfly {}
+        .butterfly {
             width: 68px;
             height: 58px;
             position: absolute;
@@ -432,8 +432,11 @@
                 <figure class="player" id="opponentPlayer"></figure>
                 <figure class="player" id="currentPlayer"></figure>
             </div>
-            <div id="butterflyContainer">
-                <img src="../../images/gameplay/butterfly.png" alt="" id="butterfly">
+            <div class="butterflyContainer playerButterfly" >
+                <img src="../../images/gameplay/butterfly.png" alt="" class="butterfly">
+            </div>
+            <div class="butterflyContainer opponentButterfly">
+                <img src="../../images/gameplay/butterfly2.png" alt="" class="butterfly">
             </div>
         </div>
         <div id="progressBar">
