@@ -6,6 +6,5 @@
         WaitingForPartner = 2,
         ReadyToPlay = 3,
         Playing = 4,
-        PreparingToPlay = 5,
     }
 }

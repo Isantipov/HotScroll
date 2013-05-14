@@ -221,7 +221,6 @@ namespace HotScroll.Server.Hubs
             foreach (DuelPlayer duelPlayer in duel.Players)
             {
                 var player = duelPlayer.Player;
-                player.Status = PlayerStatus.PreparingToPlay;
 
                 DuelProjection proj = duel.ToProjection(player.ConnectionId);
                 Clients.Client(player.ConnectionId).prepare(proj);
