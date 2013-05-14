@@ -39,7 +39,7 @@
             WinJS.Application.addEventListener('play', startCountDown);
             
             function startCountDown() {
-                clearTimeout(opponentReadyTimeout);
+                clearTimeout(that.opponentReadyTimeout);
                 WinJS.Application.removeEventListener('play', startCountDown);
                 that._countdown(3);
             }
@@ -73,12 +73,15 @@
             $('#action-menu').show();
             $('#action-menu').click(that._onMenuClik);
 
-            that.opponentReadyTimeout = setTimeout(function() {
+            this.opponentReadyTimeout = setTimeout(this._onOpponentNotResponding, 5000);
+            
+            this._onOpponentNotResponding = function() {
                 game._showError("Your opponent has failed to connect!\r\nPlease, try again.");
                 that._onMenuClik();
-            }, 5000);
+            };
         },
 
+        
         _receiveStepHandler : function(args) {
             var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
             game.opponentPlayer.stopAnimation();
@@ -104,6 +107,7 @@
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
             this._disableWheelEvent();
             clearInterval(this.timerInterval);
+            clearTimeout(this.opponentReadyTimeout);
             game.currentPlayer.stopAnimation();
             game.opponentPlayer.stopAnimation();
         },
