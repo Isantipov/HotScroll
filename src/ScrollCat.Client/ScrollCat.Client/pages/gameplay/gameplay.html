@@ -314,7 +314,6 @@
         }
 
         #environment #bg-objects {
-            z-index: 3;
             width: 100%;
             height: 55%;
             position: absolute;
@@ -323,20 +322,22 @@
             transition: left 0.1s linear;
         }
 
-                #environment #bg-objects img {
-                    position: absolute;
-                    left: 0;
-                    bottom: 0;
-                    max-height: 100%;
-                }
-                #environment #bg-objects .bg-start {
-                    left: 1% !important;
-                    z-index: 5;
-                }
-                #environment #bg-objects .bg-finish {
-                    left: 1159% !important;
-                    z-index: 5;
-                }
+        #environment #bg-objects img {
+            z-index: 3;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            max-height: 100%;
+        }
+        #environment #bg-objects .bg-start {
+            left: 33% !important;
+            z-index: 6;
+        }
+        #environment #bg-objects .bg-finish {
+            left: 1142% !important;
+            z-index: 6;
+            bottom: -120px;
+        }
 
             #environment #ground {
                 z-index: 3;
@@ -455,7 +456,7 @@
                     <img class="bg-purple_flower" src="../../images/gameplay/purple_flower.png" style="left: -1000px;" />
                     <img class="bg-yellow_flower" src="../../images/gameplay/yellow_flower.png" style="left: -1000px;" />
                     <img class="bg-start" src="../../images/gameplay/start.png" style="left: -1000px; bottom: -20px;" />
-                    <img class="bg-finish" src="../../images/gameplay/final_box.png" style="left: -1000px; bottom: -20px;" />
+                    <img class="bg-finish" src="../../images/gameplay/final_box.png"/>
                 </div>
                 <div id="ground"></div>
             </div>
