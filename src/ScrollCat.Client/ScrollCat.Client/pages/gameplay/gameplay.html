@@ -414,6 +414,9 @@
             transform-origin: 50% 50%;
             animation: butterfly 0.16s ease-in-out infinite;
         }
+        #players .player {
+            transition: transform 0.3s ease, left 1s ease;
+        }
 
         .player.pink {
             background-image: url("../../images/gameplay/pink-cat.png");
@@ -431,7 +434,6 @@
         #opponentPlayer {
             z-index: 1;
             margin-bottom: 140px;
-            transition: left 0.1s linear;
         }
     </style>
     <script src="/js/Game.js"></script>
