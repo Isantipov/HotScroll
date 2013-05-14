@@ -68,7 +68,8 @@
                 that._disposeGame();
                 WinJS.Navigation.navigate('/pages/login/login.html');
             };
-            
+
+            $('#action-menu').show();
             $('#action-menu').click(that._onMenuClik);
         },
 
@@ -92,6 +93,7 @@
         
         _disposeGame: function () {
             $('#action-menu').unbind('click', this._onMenuClik);
+            $('#action-menu').hide();
             WinJS.Application.removeEventListener('receiveStep', this._receiveStepHandler);
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
             this._disableWheelEvent();
