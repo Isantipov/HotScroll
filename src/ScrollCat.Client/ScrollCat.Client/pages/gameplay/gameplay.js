@@ -18,15 +18,7 @@
                 document.querySelector('#mainTheme').play();
             }
 
-            WinJS.Application.addEventListener('gameOver', function (args) {
-                that._disableWheelEvent();
-                clearInterval(that.timerInterval);
-                WinJS.Navigation.navigate('/pages/finish/finish.html', {
-                    hasWon: args.details,
-                    templateClass: game.currentPlayer.templateClass,
-                    time: that.time
-                });
-            });
+            WinJS.Application.addEventListener('gameOver', function (args) { that._onGameOver(args); });
 
             this._prepareLevel(game.duel.Level);
 
@@ -75,12 +67,29 @@
             };
             
             $('#action-menu').click(function () {
-                that._disableWheelEvent();
-                clearInterval(that.timerInterval);
+                that._disposeGame();
                 WinJS.Navigation.navigate('/pages/login/login.html');
             });
         },
 
+        _onGameOver: function(args) {
+            var that = this;
+            that._disposeGame();
+            WinJS.Navigation.navigate('/pages/finish/finish.html', {
+                hasWon: args.details,
+                templateClass: game.currentPlayer.templateClass,
+                time: that.time
+            });
+        },
+        
+        _disposeGame: function () {
+            WinJS.Application.removeEventListener('gameOver', this._onGameOver);
+            this._disableWheelEvent();
+            clearInterval(this.timerInterval);
+            clearTimeout(game.currentPlayer.interval);
+            clearTimeout(game.opponentPlayer.interval);
+        },
+        
         _prepareLevel: function (levelData) {
             var track1 = $('#track1 > .parts'),
                 track2 = $('#track2 > .parts');
