@@ -27,11 +27,8 @@ Butterfly.prototype.show = function() {
 };
 
 Butterfly.prototype.hide = function () {
-    var that = this;
-    $(this.element).animate({
-        left: '-=40%',
-        }, 1200, function() {
-            that.element.style.visibility = 'hidden';
+    $(this.element).animate({ left: '-=40%' }, 1200, function () {
+        this.style.visibility = 'hidden';
     });
 };
 
