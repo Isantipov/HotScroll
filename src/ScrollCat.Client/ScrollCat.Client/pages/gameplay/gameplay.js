@@ -47,12 +47,22 @@
             game.currentPlayer.butterfly = new Butterfly(game.currentPlayer, game.duel.Level.Events);
             game.opponentPlayer.butterfly = new Butterfly(game.opponentPlayer, game.duel.Level.Events);
 
-            WinJS.Application.addEventListener('play', startCountDown);
-            
-            function startCountDown() {
-                WinJS.Application.removeEventListener('play', startCountDown);
+            this._onOpponentNotResponding = function () {
+                game._showError("Your opponent has failed to connect!\r\nPlease, try again.");
+                that._onMenuClik();
+            };
+
+            this.opponentReadyTimeout = setTimeout(this._onOpponentNotResponding, 5000);
+
+            this.startCountDown = function () {
+                clearTimeout(that.opponentReadyTimeout);
+                WinJS.Application.removeEventListener('play', this.startCountDown);
                 that._countdown(3);
-            }
+            };
+
+            WinJS.Application.addEventListener('play', this.startCountDown);
+
+            
 
             game.readyToPlay();
 
@@ -98,8 +108,10 @@
             $('#action-menu').hide();
             WinJS.Application.removeEventListener('receiveStep', this._receiveStepHandler);
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
+            WinJS.Application.removeEventListener('play', this.startCountDown);
             this._disableWheelEvent();
             clearInterval(this.timerInterval);
+            clearTimeout(this.opponentReadyTimeout);
             game.currentPlayer.stopAnimation();
             game.opponentPlayer.stopAnimation();
         },
