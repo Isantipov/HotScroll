@@ -6,13 +6,13 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CordovaAppProj")]
+[assembly: AssemblyTitle("ScrollCat")]
 [assembly: AssemblyDescription("2.0.0.0")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Apache Cordova")]
-[assembly: AssemblyProduct("CordovaAppProj")]
-[assembly: AssemblyCopyright("Copyright © Apache Cordova 2013")]
-[assembly: AssemblyTrademark("Apache Cordova")]
+[assembly: AssemblyCompany("Scroll Cat Team")]
+[assembly: AssemblyProduct("ScrollCat")]
+[assembly: AssemblyCopyright("Copyright © Scroll Cat Team 2013")]
+[assembly: AssemblyTrademark("Scroll Cat")]
 [assembly: AssemblyCulture("")]
 
 

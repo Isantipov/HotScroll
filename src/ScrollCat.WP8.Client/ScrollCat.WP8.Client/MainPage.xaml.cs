@@ -54,7 +54,7 @@ namespace ScrollCat.WP8.Client
             {
                 From = 0,
                 Duration = TimeSpan.FromSeconds(0.6),
-                To = 90
+                To = 0
             };
             Storyboard.SetTarget(animation, SplashProjector);
             Storyboard.SetTargetProperty(animation, new PropertyPath("RotationY"));
