@@ -18,7 +18,7 @@
                 document.querySelector('#mainTheme').play();
             }
 
-            WinJS.Application.addEventListener('gameOver', function (args) { that._onGameOver(args); });
+            WinJS.Application.addEventListener('gameOver', that._onGameOver);
 
             this._prepareLevel(game.duel.Level);
 
