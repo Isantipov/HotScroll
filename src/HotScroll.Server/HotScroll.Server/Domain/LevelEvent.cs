@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HotScroll.Server.Domain
 {
     public class LevelEvent
     {
         #region Constants
-        protected const int MinimumScore = 50;
+        protected const int MinimumDeltaScore = 20;
+        protected const int MaximumDeltaScore = 150;
 
         protected const int MaximumDuration = 0;
         protected const int MinimumDuration = 0;
@@ -18,7 +20,7 @@ namespace HotScroll.Server.Domain
 
         private static readonly int MaximumEventNumberHidden = Enum.GetNames(typeof (EventType)).Length;
 
-        protected int ExclusiveUpperBoundForEventNumber
+        protected static int ExclusiveUpperBoundForEventNumber
         {
             get { return MaximumEventNumberHidden + 1; }
         }
@@ -34,11 +36,19 @@ namespace HotScroll.Server.Domain
             Type = EventType.LeftDistractor;
         }
 
-        public void GenerateRandom(Random random)
+        public static List<LevelEvent> GenerateRandomList(Random random, int minScore, int maxScrore)
         {
-            Duration = random.Next(MinimumDuration, MaximumDuration);
-            Score = random.Next(MinimumScore, MaximumScore);
-            Type = (EventType)random.Next(1, ExclusiveUpperBoundForEventNumber);
+            var list = new List<LevelEvent>();
+            var lastItem = new LevelEvent{Score = minScore};
+            do
+            {
+                var score = random.Next(MinimumDeltaScore, MaximumDeltaScore + 1) + lastItem.Score;
+                var type = (EventType)random.Next(1, ExclusiveUpperBoundForEventNumber);
+                var duration = random.Next(MinimumDuration, MaximumDuration);
+                lastItem = new LevelEvent { Type = type, Score = score, Duration = duration};
+                list.Add(lastItem);
+            } while (lastItem.Score <= maxScrore);
+            return list;
         }
     }
 
