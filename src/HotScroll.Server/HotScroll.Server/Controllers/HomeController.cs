@@ -21,6 +21,11 @@ namespace HotScroll.Server.Controllers
             return View();
         }
 
+        public ActionResult Emulator()
+        {
+            return View();
+        }
+
         public ActionResult JoinDuel(string id)
         {
             var duel = game.DuelService.Get(id);
