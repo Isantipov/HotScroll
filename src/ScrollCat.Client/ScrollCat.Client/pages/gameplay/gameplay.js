@@ -17,8 +17,19 @@
             if (!storage.values.muted) {
                 document.querySelector('#mainTheme').play();
             }
+            
+            this._onGameOver = function (args) {
+                that._disposeGame();
+                WinJS.Navigation.navigate('/pages/finish/finish.html', {
+                    hasWon: args.details,
+                    templateClass: game.currentPlayer.templateClass,
+                    time: that.time
+                });
+            };
 
             WinJS.Application.addEventListener('gameOver', that._onGameOver);
+
+            
 
             this._prepareLevel(game.duel.Level);
 
@@ -80,16 +91,7 @@
             game.opponentPlayer.butterfly.matchScore(direction);
             game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() }, direction);
         },
-            
-        _onGameOver: function(args) {
-            var that = this;
-            that._disposeGame();
-            WinJS.Navigation.navigate('/pages/finish/finish.html', {
-                hasWon: args.details,
-                templateClass: game.currentPlayer.templateClass,
-                time: that.time
-            });
-        },
+        
         
         _disposeGame: function () {
             $('#action-menu').unbind('click', this._onMenuClik);
