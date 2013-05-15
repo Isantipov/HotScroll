@@ -374,7 +374,7 @@
             margin-left: -150px;
             transform-origin: 50% 80%;
             transform: rotateY(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, left 0.3s ease;
         }
 
         #players .player.rotated {
@@ -414,10 +414,6 @@
             transform-origin: 50% 50%;
             animation: butterfly 0.16s ease-in-out infinite;
         }
-        #players .player {
-            transition: transform 0.3s ease, left 0.3s ease;
-        }
-
         .player.pink {
             background-image: url("../../images/gameplay/pink-cat.png");
         }
