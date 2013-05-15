@@ -3,25 +3,17 @@
   <DefaultLanguage xmlns="" code="en-US" />
   <Languages xmlns="">
     <Language code="en-US" />
+    <Language code="en" />
   </Languages>
-  <App xmlns="" ProductID="{13b7ec4f-d4cf-422b-90ef-cd9c48af66ab}" Title="ScrollCat.WP8.Client" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="ScrollCat.WP8.Client author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Publisher="ScrollCat.WP8.Client" PublisherID="{db093ed5-53b1-45f7-af72-751e8f36ab80}">
-    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
+  <App xmlns="" ProductID="{13b7ec4f-d4cf-422b-90ef-cd9c48af66ab}" Title="Scroll Cat" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="ScrollCat Team" BitsPerPixel="32" Description="Scroll Cat Game" Publisher="ScrollCat.WP8.Client" PublisherID="{db093ed5-53b1-45f7-af72-751e8f36ab80}">
+    <IconPath IsRelative="true" IsResource="false">Images\AppLogo.png</IconPath>
     <Capabilities>
-      <Capability Name="ID_CAP_IDENTITY_DEVICE" />
       <Capability Name="ID_CAP_IDENTITY_USER" />
-      <Capability Name="ID_CAP_LOCATION" />
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
-      <Capability Name="ID_CAP_APPOINTMENTS" />
       <Capability Name="ID_CAP_CONTACTS" />
-      <Capability Name="ID_CAP_ISV_CAMERA" />
-      <Capability Name="ID_CAP_MICROPHONE" />
-      <Capability Name="ID_CAP_PHONEDIALER" />
       <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
       <Capability Name="ID_CAP_SENSORS" />
-      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
-      <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
-      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
@@ -29,25 +21,31 @@
     <Tokens>
       <PrimaryToken TokenID="ScrollCat.WP8.ClientToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsResource="false" IsRelative="true">Background.png</SmallImageURI>
+          <SmallImageURI IsResource="false" IsRelative="true">Images\SmallTile.png</SmallImageURI>
           <Count>0</Count>
-          <BackgroundImageURI IsResource="false" IsRelative="true">Background.png</BackgroundImageURI>
-          <Title>ScrollCat.WP8.Client</Title>
-          <BackContent></BackContent>
-          <BackBackgroundImageURI></BackBackgroundImageURI>
-          <BackTitle></BackTitle>
-          <LargeBackgroundImageURI></LargeBackgroundImageURI>
-          <LargeBackContent></LargeBackContent>
-          <LargeBackBackgroundImageURI></LargeBackBackgroundImageURI>
-          <DeviceLockImageURI></DeviceLockImageURI>
-          <HasLarge>false</HasLarge>
+          <BackgroundImageURI IsResource="false" IsRelative="true">Images\MediumTile.png</BackgroundImageURI>
+          <Title>Scroll Cat</Title>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
+          <LargeBackgroundImageURI IsRelative="true" IsResource="false">
+          </LargeBackgroundImageURI>
+          <LargeBackContent />
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
+          </LargeBackBackgroundImageURI>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
+          <HasLarge>True</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>
     <ScreenResolutions>
       <ScreenResolution Name="ID_RESOLUTION_WVGA" />
-      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
       <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
     </ScreenResolutions>
   </App>
 </Deployment>
