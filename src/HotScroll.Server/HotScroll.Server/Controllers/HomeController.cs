@@ -33,6 +33,11 @@ namespace HotScroll.Server.Controllers
             return Content("No such duel");
         }
 
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
         private string GetApplicatioLink(string id)
         {
             return string.Format("scrollcat:joinduel-{0}", id);
