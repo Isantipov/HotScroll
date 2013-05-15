@@ -17,8 +17,19 @@
             if (!storage.values.muted) {
                 document.querySelector('#mainTheme').play();
             }
+            
+            this._onGameOver = function (args) {
+                that._disposeGame();
+                WinJS.Navigation.navigate('/pages/finish/finish.html', {
+                    hasWon: args.details,
+                    templateClass: game.currentPlayer.templateClass,
+                    time: that.time
+                });
+            };
 
-            WinJS.Application.addEventListener('gameOver', function (args) { that._onGameOver(args); });
+            WinJS.Application.addEventListener('gameOver', that._onGameOver);
+
+            
 
             this._prepareLevel(game.duel.Level);
 
@@ -36,12 +47,22 @@
             game.currentPlayer.butterfly = new Butterfly(game.currentPlayer, game.duel.Level.Events);
             game.opponentPlayer.butterfly = new Butterfly(game.opponentPlayer, game.duel.Level.Events);
 
-            WinJS.Application.addEventListener('play', startCountDown);
-            
-            function startCountDown() {
-                WinJS.Application.removeEventListener('play', startCountDown);
+            this._onOpponentNotResponding = function () {
+                game._showError("Your opponent has failed to connect!\r\nPlease, try again.");
+                that._onMenuClik();
+            };
+
+            this.opponentReadyTimeout = setTimeout(this._onOpponentNotResponding, 5000);
+
+            this.startCountDown = function () {
+                clearTimeout(that.opponentReadyTimeout);
+                WinJS.Application.removeEventListener('play', this.startCountDown);
                 that._countdown(3);
-            }
+            };
+
+            WinJS.Application.addEventListener('play', this.startCountDown);
+
+            
 
             game.readyToPlay();
 
@@ -80,24 +101,17 @@
             game.opponentPlayer.butterfly.matchScore(direction);
             game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() }, direction);
         },
-            
-        _onGameOver: function(args) {
-            var that = this;
-            that._disposeGame();
-            WinJS.Navigation.navigate('/pages/finish/finish.html', {
-                hasWon: args.details,
-                templateClass: game.currentPlayer.templateClass,
-                time: that.time
-            });
-        },
+        
         
         _disposeGame: function () {
             $('#action-menu').unbind('click', this._onMenuClik);
             $('#action-menu').hide();
             WinJS.Application.removeEventListener('receiveStep', this._receiveStepHandler);
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
+            WinJS.Application.removeEventListener('play', this.startCountDown);
             this._disableWheelEvent();
             clearInterval(this.timerInterval);
+            clearTimeout(this.opponentReadyTimeout);
             game.currentPlayer.stopAnimation();
             game.opponentPlayer.stopAnimation();
         },
