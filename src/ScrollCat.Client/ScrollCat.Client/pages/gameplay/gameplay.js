@@ -68,15 +68,12 @@
 
             WinJS.Application.addEventListener('receiveStep', this._receiveStepHandler);
             
-            this._eventProcessor = function (event) {
-                game.currentPlayer.stopAnimation();
+            this._onMouseScrollEventProcessor = function (event) {
+                game.currentPlayer.stopInertMovement();
                 var direction = event.wheelDelta < 0 ? 1 : -1;
                 var newScore = game.currentPlayer.score + game.currentPlayer.rightDirection * direction;
-                if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
-                    game.currentPlayer.setScore(newScore);
-                    game.currentPlayer.butterfly.matchScore(direction);
-                    game.currentPlayer.playAnimation(event, direction);
-                }
+                
+                game.currentPlayer.move(newScore, direction, event.timestamp);
             };
 
             that._onMenuClik = function() {
@@ -90,12 +87,10 @@
 
         _receiveStepHandler : function(args) {
             var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
-            game.opponentPlayer.stopAnimation();
-            game.opponentPlayer.setOpponentScore(args.detail.Points);
-            game.opponentPlayer.butterfly.matchScore(direction);
-            game.opponentPlayer.playAnimation({ timestamp: new Date().getTime() }, direction);
+            game.opponentPlayer.stopInertMovement();
+            
+            game.opponentPlayer.move(args.detail.Points, direction, new Date().getTime());
         },
-        
         
         _disposeGame: function () {
             $('#action-menu').unbind('click', this._onMenuClik);
@@ -106,8 +101,8 @@
             this._disableScrollEvents();
             clearInterval(this.timerInterval);
             clearTimeout(this.opponentReadyTimeout);
-            game.currentPlayer.stopAnimation();
-            game.opponentPlayer.stopAnimation();
+            game.currentPlayer.stopInertMovement();
+            game.opponentPlayer.stopInertMovement();
         },
 
         _prepareLevel: function (levelData) {
@@ -149,11 +144,11 @@
         },
 
         _enableScrollEvents: function () {
-            document.body.addEventListener('mousewheel', this._eventProcessor);
+            document.body.addEventListener('mousewheel', this._onMouseScrollEventProcessor);
         },
 
         _disableScrollEvents: function () {
-            document.body.removeEventListener('mousewheel', this._eventProcessor);
+            document.body.removeEventListener('mousewheel', this._onMouseScrollEventProcessor);
         },
 
         _startGame: function () {
