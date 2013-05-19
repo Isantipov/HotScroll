@@ -11,7 +11,6 @@
     this.templateClass = template == 0 ? 'pink' : 'green';
     this.iconClass = this.templateClass + '-cat';
     this.rightDirection = 1;
-    this.inertMovement = 0;
     this.butterfly = null;
     this.timestamp = 0;
 
