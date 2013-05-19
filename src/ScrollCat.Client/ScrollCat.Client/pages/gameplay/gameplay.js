@@ -7,7 +7,7 @@
     WinJS.UI.Pages.define('/pages/gameplay/gameplay.html', {
 
         time: 0, // ms
-
+        
         ready: function () {
             var that = this;
 
@@ -74,6 +74,10 @@
                 var newScore = game.currentPlayer.score + game.currentPlayer.rightDirection * direction;
                 
                 game.currentPlayer.move(newScore, direction, event.timeStamp);
+            };
+            
+            this._onPoinerDownEventProcessor = function (event) {
+                var e = even;
             };
 
             that._onMenuClik = function() {
@@ -145,6 +149,7 @@
 
         _enableScrollEvents: function () {
             document.body.addEventListener('mousewheel', this._onMouseScrollEventProcessor);
+            document.body.addEventListener("MSPointerDown", pointerEventListener, false);
         },
 
         _disableScrollEvents: function () {
