@@ -4,7 +4,7 @@
 
     var storage = Windows.Storage.ApplicationData.current.localSettings;
 
-    var control = WinJS.UI.Pages.define('/pages/gameplay/gameplay.html', {
+    WinJS.UI.Pages.define('/pages/gameplay/gameplay.html', {
 
         time: 0, // ms
 
@@ -109,7 +109,7 @@
             WinJS.Application.removeEventListener('receiveStep', this._receiveStepHandler);
             WinJS.Application.removeEventListener('gameOver', this._onGameOver);
             WinJS.Application.removeEventListener('play', this.startCountDown);
-            this._disableWheelEvent();
+            this._disableScrollEvents();
             clearInterval(this.timerInterval);
             clearTimeout(this.opponentReadyTimeout);
             game.currentPlayer.stopAnimation();
@@ -154,16 +154,16 @@
             }, 1000);
         },
 
-        _enableWheelEvent: function () {
+        _enableScrollEvents: function () {
             document.body.addEventListener('mousewheel', this._eventProcessor);
         },
 
-        _disableWheelEvent: function () {
+        _disableScrollEvents: function () {
             document.body.removeEventListener('mousewheel', this._eventProcessor);
         },
 
         _startGame: function () {
-            this._enableWheelEvent();
+            this._enableScrollEvents();
             this.time = 0;
 
             var that = this,
