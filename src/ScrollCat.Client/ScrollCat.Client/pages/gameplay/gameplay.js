@@ -73,7 +73,7 @@
                 var direction = event.wheelDelta < 0 ? 1 : -1;
                 var newScore = game.currentPlayer.score + game.currentPlayer.rightDirection * direction;
                 
-                game.currentPlayer.move(newScore, direction, event.timestamp);
+                game.currentPlayer.move(newScore, direction, event.timeStamp);
             };
 
             that._onMenuClik = function() {
@@ -89,7 +89,7 @@
             var direction = args.detail.Points > game.opponentPlayer.score ? 1 : -1;
             game.opponentPlayer.stopInertMovement();
             
-            game.opponentPlayer.move(args.detail.Points, direction, new Date().getTime());
+            game.opponentPlayer.move(args.detail.Points, direction);
         },
         
         _disposeGame: function () {

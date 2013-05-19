@@ -14,6 +14,11 @@
     this.butterfly = null;
     this.lastMoveTimestamp = 0;
 
+    this.easeInQuad = function (t, b, c, d) {
+        t /= d;
+        return c * t * t + b;
+    };
+
     this.setScore = function (score) {
         if (this.isOpponent) {
             return this.setOpponentScore(score);
@@ -41,25 +46,22 @@
         _this.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
     };
 
-    this.animateCat = function(timeout) {
-
-        /*if (timeout < 120) {
-            _this.newTimeOut = 1.5 * timeout;
-            _this.inertMovementTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
-        }*/
+    this.hookInertMovement = function(timeout) {
+        if (timeout < 120) {
+            _this.newTimeOut = 1.3 * timeout;
+            _this.inertMovementTimeout = setTimeout(_this.moveByInert, _this.newTimeOut);
+        } else {
+            _this.newTimeOut = null;
+        }
     };
 
-    this.animateCatByTimeout = function() {
-        _this.animateCat(_this.newTimeOut);
-        var newScore = _this.score + _this.direction;
-        _this.setScore(newScore);
+    this.moveByInert = function() {
+        _this.move(_this.score + _this.direction * _this.rightDirection, _this.direction);
+        _this.hookInertMovement(_this.newTimeOut);
     };
 
     this.playAnimation = function(timestamp, direction) {
         this.direction = direction;
-        if (this.lastMoveTimestamp) {
-            this.lastMoveTimestamp.timestamp = timestamp - 1;
-        }
         
         var style = this.element.style;
         var bgPos = parseInt(style.backgroundPosition);
@@ -72,10 +74,12 @@
         } else {
             style.backgroundPositionX = bgPos + 'px';
         }
-        
-        var timeout = timestamp - this.lastMoveTimestamp;
-        // TODO : Set inner movement depending on timeout
-        this.lastMoveTimestamp = timestamp;
+        // indicates that we are initiating inert movement for current player
+        if (timestamp && !this.isOpponent) {
+            var timeout = timestamp - this.lastMoveTimestamp;
+            this.hookInertMovement(timeout);
+            this.lastMoveTimestamp = timestamp;
+        }
     };
 
     this.rotate = function() {
@@ -100,7 +104,7 @@
     };
     
     this.stopInertMovement = function () {
-        clearTimeout(_this.inertMovementTimer);
+        clearTimeout(this.inertMovementTimeout);
     };
 
     this.move = function(score, direction, timestamp) {
