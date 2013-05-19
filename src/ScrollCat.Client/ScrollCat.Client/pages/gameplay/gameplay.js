@@ -71,13 +71,7 @@
             this._eventProcessor = function (event) {
                 game.currentPlayer.stopAnimation();
                 var direction = event.wheelDelta < 0 ? 1 : -1;
-                var newScore = game.currentPlayer.score;
-                if (game.currentPlayer.inertMovement > 0) {
-                    newScore--;
-                    game.currentPlayer.inertMovement--;
-                } else {
-                    newScore += game.currentPlayer.rightDirection * direction;
-                }
+                var newScore = game.currentPlayer.score + game.currentPlayer.rightDirection * direction;
                 if (newScore <= game.TOTAL_SCORE && newScore >= 0) {
                     game.currentPlayer.setScore(newScore);
                     game.currentPlayer.butterfly.matchScore(direction);
