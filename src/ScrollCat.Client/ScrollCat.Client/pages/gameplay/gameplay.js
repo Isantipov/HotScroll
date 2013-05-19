@@ -46,7 +46,8 @@
 
             game.currentPlayer = new Player(game.player.Name, false, game.duel.PlayerTemplate);
 
-            // todo: refactor to receive opponent template from Server. 
+            // todo: refactor to receive opponent template from Server.
+            
             var opponentTemplate = game.duel.PlayerTemplate == 0 ? 1 : 0;
             game.opponentPlayer = new Player(game.opponent.Name, true, opponentTemplate);
 
@@ -179,7 +180,7 @@
             var container = document.querySelector('#gameContainer');
             container.addEventListener("MSPointerDown", this._onPoinerDownEventProcessor, false);
             container.addEventListener("MSGestureChange", this._onGestureChangeEventProcessor, false);
-            container.addEventListener("MSGestureChange", this._onGestureEndEventProcessor, false);
+            container.addEventListener("MSGestureEnd", this._onGestureEndEventProcessor, false);
         },
 
         _disableScrollEvents: function () {
@@ -187,7 +188,7 @@
             var container = document.querySelector('#gameContainer');
             container.removeEventListener("MSPointerDown", this._onPoinerDownEventProcessor);
             container.removeEventListener("MSGestureChange", this._onGestureChangeEventProcessor);
-            container.removeEventListener("MSGestureChange", this._onGestureEndEventProcessor);
+            container.removeEventListener("MSGestureEnd", this._onGestureEndEventProcessor);
         },
 
         _startGame: function () {
