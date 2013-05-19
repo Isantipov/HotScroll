@@ -7,12 +7,21 @@
     WinJS.UI.Pages.define('/pages/gameplay/gameplay.html', {
 
         time: 0, // ms
-        
+        gestureObj: null,
         ready: function () {
             var that = this;
 
             this.time = 0;
 
+            // Setting up  gesture object
+            
+            var container = document.querySelector('#gameContainer');
+
+            this.gestureObj = new MSGesture();
+            this.gestureObj.target = container;
+            container.gesture = this.gestureObj;
+            container.gesture.pointerType = null;
+            
             document.querySelector('#mainTheme').setAttribute('data-play', 'true');
             if (!storage.values.muted) {
                 document.querySelector('#mainTheme').play();
@@ -76,8 +85,26 @@
                 game.currentPlayer.move(newScore, direction, event.timeStamp);
             };
             
-            this._onPoinerDownEventProcessor = function (event) {
-                var e = even;
+            this._onPoinerDownEventProcessor = function (e) {
+                if (container.gesture.pointerType === null) {                    // First contact
+                    container.gesture.addPointer(e.pointerId);                   // Attaches pointer to element (e.target is the element)
+                    container.gesture.pointerType = e.pointerType;
+                }
+                else if (container.gesture.pointerType === e.pointerType) {      // Contacts of similar type
+                    container.gesture.addPointer(e.pointerId);                   // Attaches pointer to element (e.target is the element)
+                }
+            };
+            
+            this._onGestureChangeEventProcessor = function (e) {
+                game.currentPlayer.stopInertMovement();
+                var direction = e.translationX < 0 ? 1 : -1;
+                var newScore = game.currentPlayer.score + game.currentPlayer.rightDirection * direction;
+
+                game.currentPlayer.move(newScore, direction, e.timeStamp);
+            };
+            
+            this._onGestureEndEventProcessor = function (e) {
+                container.gesture.pointerType = null;
             };
 
             that._onMenuClik = function() {
@@ -149,11 +176,18 @@
 
         _enableScrollEvents: function () {
             document.body.addEventListener('mousewheel', this._onMouseScrollEventProcessor);
-            document.body.addEventListener("MSPointerDown", pointerEventListener, false);
+            var container = document.querySelector('#gameContainer');
+            container.addEventListener("MSPointerDown", this._onPoinerDownEventProcessor, false);
+            container.addEventListener("MSGestureChange", this._onGestureChangeEventProcessor, false);
+            container.addEventListener("MSGestureChange", this._onGestureEndEventProcessor, false);
         },
 
         _disableScrollEvents: function () {
             document.body.removeEventListener('mousewheel', this._onMouseScrollEventProcessor);
+            var container = document.querySelector('#gameContainer');
+            container.removeEventListener("MSPointerDown", this._onPoinerDownEventProcessor);
+            container.removeEventListener("MSGestureChange", this._onGestureChangeEventProcessor);
+            container.removeEventListener("MSGestureChange", this._onGestureEndEventProcessor);
         },
 
         _startGame: function () {
