@@ -16,12 +16,13 @@
     var _hub = null;
     var _connection = null;
     var _currentDuelUrl = null;
+    var _storage = Windows.Storage.ApplicationData.current.localSettings;
     
     /**
      * Public memebers
     */
     this.TOTAL_SCORE = 1000;
-    this.storage = Windows.Storage.ApplicationData.current.localSettings;
+    
     
     this.player = null;
     this.opponent = null;
@@ -129,13 +130,13 @@
                 });
             });
 
-            if (_this.storage.values.muted) {
+            if (_storage.values.muted) {
                 muteButton.addClass('muted');
             }
 
             muteButton.click(function () {
                 $(this).toggleClass('muted');
-                _this.storage.values.muted = $(this).hasClass('muted');
+                _storage.values.muted = $(this).hasClass('muted');
 
                 $('audio').each(function () {
                         if (this.paused && $(this).data('play')) {
@@ -158,8 +159,8 @@
     }
     
     function loadPlayerName() {
-        if (_this.storage.values.PlayerName) {
-            _this.setPlayerName(_this.storage.values.PlayerName);
+        if (_storage.values.PlayerName) {
+            _this.setPlayerName(_storage.values.PlayerName);
         } else {
             Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (playerName) {
                 _this.setPlayerName(playerName);
@@ -243,6 +244,28 @@
         }
     };
 
+
+    this.getHelpShown = function () {
+        return _storage.values.helpShown || false;
+    };
+
+    this.setHelpShown = function (value) {
+        _storage.values.helpShown = value + '';
+    };
+
+    this.setPlayerName = function (playerName) {
+        if (!this.player) {
+            this.player = {};
+        }
+        this.player.Name = playerName;
+        _storage.values.PlayerName = playerName;
+    };
+
+    Game.prototype.showError = function (msg, shownPopup) {
+        var md = new Windows.UI.Popups.MessageDialog(msg);
+        md.showAsync().then(shownPopup);
+    };
+
     this.recordStep = function (score) {
         _hub.invoke('recordStep', {Points: score });
     };
@@ -309,24 +332,3 @@
         _nav.navigate('/pages/login/login.html');
     };
 }
-
-Game.prototype.getHelpShown = function () {
-    return this.storage.values.helpShown || false;
-};
-
-Game.prototype.setHelpShown = function (value) {
-    this.storage.values.helpShown = value + '';
-};
-
-Game.prototype.setPlayerName = function (playerName) {
-    if (!this.player) {
-        this.player = {};
-    }
-    this.player.Name = playerName;
-    this.storage.values.PlayerName = playerName;
-};
-
-Game.prototype.showError = function (msg, shownPopup) {
-    var md = new Windows.UI.Popups.MessageDialog(msg);
-    md.showAsync().then(shownPopup);
-};
