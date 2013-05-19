@@ -12,9 +12,17 @@
     this.iconClass = this.templateClass + '-cat';
     this.rightDirection = 1;
     this.butterfly = null;
-    this.timestamp = 0;
+    this.lastMoveTimestamp = 0;
 
     this.setScore = function (score) {
+        if (this.isOpponent) {
+            return this.setOpponentScore(score);
+        } else {
+            return this.setPlayerScore(score);
+        }
+    };
+    
+    this.setPlayerScore = function (score) {
         _this.score = score;
         var scorePercent = ((_this.score / game.TOTAL_SCORE) * 100).toFixed(5);
         _this.icon.style.left = scorePercent + '%';
@@ -37,7 +45,7 @@
 
         /*if (timeout < 120) {
             _this.newTimeOut = 1.5 * timeout;
-            _this.animationTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
+            _this.inertMovementTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
         }*/
     };
 
@@ -47,15 +55,15 @@
         _this.setScore(newScore);
     };
 
-    this.playAnimation = function(event, direction) {
-        _this.direction = direction;
-        if (!_this.timestamp) {
-            _this.timestamp = event.timeStamp - 1;
+    this.playAnimation = function(timestamp, direction) {
+        this.direction = direction;
+        if (this.lastMoveTimestamp) {
+            this.lastMoveTimestamp.timestamp = timestamp - 1;
         }
         
-        var style = _this.element.style;
+        var style = this.element.style;
         var bgPos = parseInt(style.backgroundPosition);
-        bgPos -= 350 * _this.direction;
+        bgPos -= 350 * this.direction;
 
         if (Math.abs(bgPos) > 7700) {
             style.backgroundPositionX = '0px';
@@ -65,9 +73,9 @@
             style.backgroundPositionX = bgPos + 'px';
         }
         
-        var timeout = event.timeStamp - _this.timestamp;
-        
-        _this.timestamp = event.timeStamp;
+        var timeout = timestamp - this.lastMoveTimestamp;
+        // TODO : Set inner movement depending on timeout
+        this.lastMoveTimestamp = timestamp;
     };
 
     this.rotate = function() {
@@ -91,7 +99,15 @@
         $(_this.icon).addClass(_this.iconClass).children().text(_this.name);
     };
     
-    this.stopAnimation = function () {
-        clearTimeout(_this.animationTimer);
+    this.stopInertMovement = function () {
+        clearTimeout(_this.inertMovementTimer);
+    };
+
+    this.move = function(score, direction, timestamp) {
+        if (score <= game.TOTAL_SCORE && score >= 0) {
+            this.setScore(score);
+            this.butterfly.matchScore(direction);
+            this.playAnimation(timestamp, direction);
+        }
     };
 }
