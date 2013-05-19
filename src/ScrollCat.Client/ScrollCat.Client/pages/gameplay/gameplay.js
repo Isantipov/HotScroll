@@ -48,7 +48,7 @@
             game.opponentPlayer.butterfly = new Butterfly(game.opponentPlayer, game.duel.Level.Events);
 
             this._onOpponentNotResponding = function () {
-                game._showError("Your opponent has failed to connect!\r\nPlease, try again.");
+                game.showError("Your opponent has failed to connect!\r\nPlease, try again.");
                 that._onMenuClik();
             };
 
