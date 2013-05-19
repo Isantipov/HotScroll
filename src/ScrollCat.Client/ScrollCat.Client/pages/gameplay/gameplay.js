@@ -12,6 +12,7 @@
             var that = this;
 
             this.time = 0;
+            this.gestureEventsCount = 0;
 
             // Setting up  gesture object
             
@@ -94,9 +95,18 @@
                 else if (container.gesture.pointerType === e.pointerType) {      // Contacts of similar type
                     container.gesture.addPointer(e.pointerId);                   // Attaches pointer to element (e.target is the element)
                 }
+                this.gestureEventsCount = 0;
+            };
+
+            this.shouldSkipGestureChange = function () {
+                return (this.gestureEventsCount++ % 2 != 0);
             };
             
             this._onGestureChangeEventProcessor = function (e) {
+                if (that.shouldSkipGestureChange()) {
+                    return;
+                }
+                
                 game.currentPlayer.stopInertMovement();
                 var direction = e.translationX < 0 ? 1 : -1;
                 var newScore = game.currentPlayer.score + game.currentPlayer.rightDirection * direction;
@@ -106,6 +116,7 @@
             
             this._onGestureEndEventProcessor = function (e) {
                 container.gesture.pointerType = null;
+                this.gestureEventsCount = 0;
             };
 
             that._onMenuClik = function() {
