@@ -203,7 +203,7 @@
         }
     };
 
-    this._initConnection = function (connectedCallBack, failedCallBack) {
+    this._initConnection = function () {
         // WinJS environment init
         WinJS.Binding.optimizeBindingReferences = true;
 
