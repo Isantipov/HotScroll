@@ -203,6 +203,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Domain\BgItem.cs" />
     <Compile Include="Domain\BgItemType.cs" />
+    <Compile Include="Domain\Bot.cs" />
     <Compile Include="Domain\Duel.cs" />
     <Compile Include="Domain\DuelPlayer.cs" />
     <Compile Include="Domain\DuelProjection.cs" />
