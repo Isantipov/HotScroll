@@ -21,10 +21,11 @@ namespace HotScroll.Server
 
         private readonly static Lazy<Game> InstanceInternal = new Lazy<Game>(() => new Game());
 
-        private const int MaxTimeout = 6001;
-        private const int MinTimeout = 3000;
+        private const int MaxTimeout = 16001;
+        private const int MinTimeout = 13000;
+        private const int CountdownTimer = 3500;
 
-        protected Random Random { get; set; }
+        public Random Random { get; set; }
 
         public static Game Instance { get { return InstanceInternal.Value; } }
 
@@ -286,7 +287,7 @@ namespace HotScroll.Server
             if (player is Bot)
             {
                 var bot = player as Bot;
-                var timer = new Timer(3000);
+                var timer = new Timer(CountdownTimer);
                 timer.Start();
                 timer.Elapsed += (sender, args) => bot.Play();
             }
