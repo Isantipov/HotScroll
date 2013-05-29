@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using System.Timers;
 using System.Web;
 using HotScroll.Server.Hubs;
 using Microsoft.AspNet.SignalR;
@@ -10,7 +10,7 @@ namespace HotScroll.Server.Domain
 {
     public class Bot : Player
     {
-        protected Thread WorkingThread { get; set; }
+        protected Timer WorkingTimer { get; set; }
         protected Object ThreadLock { get; set; }
         protected Player Opponent { get; set; }
         protected IHubContext GameHub { get { return GlobalHost.ConnectionManager.GetHubContext<GameHub>(); }}
@@ -18,7 +18,8 @@ namespace HotScroll.Server.Domain
 
         public Bot(Player opponent, string connectionId, string name) :base (connectionId, name)
         {
-            
+            Opponent = opponent;
+            ThreadLock = new object();
         }
 
         public bool Initialize()
@@ -28,15 +29,23 @@ namespace HotScroll.Server.Domain
                 if (!IsPlaying)
                 {
                     IsPlaying = true;
-                    WorkingThread = new Thread(GameProcessor);
-                    WorkingThread.Start();
+                    /*TODO: Start playing*/
                     return true;
                 }
                 return false;
             }
         }
 
-        protected void GameProcessor()
+        public void Stop()
+        {
+            lock (ThreadLock)
+            {
+                IsPlaying = false;
+                /*TODO: Stop playing*/
+            }
+        }
+
+        protected void GameProcessor(object args)
         {
             
         }

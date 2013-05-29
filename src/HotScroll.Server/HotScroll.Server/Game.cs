@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using HotScroll.Server.Hubs;
 using HotScroll.Server.Services;
 using Microsoft.AspNet.SignalR;
@@ -12,23 +13,31 @@ namespace HotScroll.Server
     {
         #region [Constants]
 
-        const string DuelHasAlreadyStartedError = "Duel has already been started with another player";
-        const string NoSuchPlayer = "No such player";
-        const string NoSuchDuel = "No such duel";
+        private const string DuelHasAlreadyStartedError = "Duel has already been started with another player";
+        private const string NoSuchPlayer = "No such player";
+        private const string NoSuchDuel = "No such duel";
 
         #endregion
 
         private readonly static Lazy<Game> InstanceInternal = new Lazy<Game>(() => new Game());
 
+        private const int MaxTimeout = 6001;
+        private const int MinTimeout = 3000;
+
+        protected Random Random { get; set; }
+
         public static Game Instance { get { return InstanceInternal.Value; } }
 
         public PlayerService PlayerService { get; private set; }
         public DuelService DuelService { get; private set; }
+        public BotService BotService { get; private set; }
 
         public Game()
         {
+            Random = new Random();
             PlayerService = new PlayerService();
-            DuelService = new DuelService();
+            DuelService = new DuelService(Random);
+            BotService = new BotService(Random);
         }
         
         public IHubContext GetContext()
@@ -50,7 +59,7 @@ namespace HotScroll.Server
             }
             PlayerService.Remove(player);
             Duel duel;
-            if ((duel = DuelService.GetDuelForPLayer(player.ConnectionId)) != null)
+            if ((duel = DuelService.GetDuelForPlayer(player.ConnectionId)) != null)
             {
                 var duelPlayer = duel.Players.First(i => i.Player == player);
                 duelPlayer.Disconnected = true;
@@ -79,7 +88,7 @@ namespace HotScroll.Server
             {
                 return null;
             }
-            var duel = new Duel(new List<Player> { player });
+            var duel = new Duel(Random, new List<Player> { player });
             DuelService.Add(duel);
 
             return duel;
@@ -115,22 +124,68 @@ namespace HotScroll.Server
         {
             Player player = PlayerService.Get(connectionId);
             player.Status = PlayerStatus.WaitingForPartner;
-            Player oponent = PlayerService.GetFreePlayer(player);
 
-            if (oponent != null)
+            Player opponent = PlayerService.GetFreePlayer(player);
+
+            if (opponent != null)
             {
-                var duel = new Duel(new List<Player> { player, oponent });
-                DuelService.Add(duel);
-
-                PrepareDuel(duel);
+                TryCreateDuel(player, opponent);
             }
+            else
+            {
+                var timeout = Random.Next(MinTimeout, MaxTimeout);
+
+                player.PartnerWaitTimerElapsed += OnWaitPartnerTimerElapsed;
+                player.StartWaitingPartner(timeout);
+            }
+            
+        }
+
+        protected void OnWaitPartnerTimerElapsed(object sender, PlayerEventArgs eventArgs)
+        {
+            var player = eventArgs.Player;
+            if (player != null)
+            {
+                player.StopWaitingPartner();
+                player.PartnerWaitTimerElapsed -= OnWaitPartnerTimerElapsed;
+                // TODO: try rerun timer if bot limit is exceded at the moment
+                TryConnectAIPlayer(player);
+            }
+        }
+
+        protected void TryCreateDuel(Player player, Player opponent)
+        {
+            player.StopWaitingPartner();
+            player.PartnerWaitTimerElapsed -= OnWaitPartnerTimerElapsed;
+            opponent.StopWaitingPartner();
+            opponent.PartnerWaitTimerElapsed -= OnWaitPartnerTimerElapsed;
+
+            var duel = new Duel(Random, new List<Player> {player, opponent});
+            DuelService.Add(duel);
+
+            PrepareDuel(duel);
+        }
+
+        protected void TryConnectAIPlayer(Player opponent)
+        {
+            var aiPlayer = BotService.AddForPlayer(opponent);
+            if (aiPlayer == null)
+            {
+                // Means we can't create new AI player
+                return ;
+            }
+
+            PlayerService.Add(aiPlayer);
+            aiPlayer.Status = PlayerStatus.WaitingForPartner;
+            
+            TryCreateDuel(aiPlayer, opponent);
         }
 
         public void RecordStep(string connectionId, Step step)
         {
 
             Player player = PlayerService.Get(connectionId);
-            Duel duel = DuelService.GetDuelForPLayer(player.ConnectionId);
+            Duel duel = DuelService.GetDuelForPlayer(player.ConnectionId);
             if (duel == null || duel.IsGameOver)
             {
                 return;
@@ -152,7 +207,7 @@ namespace HotScroll.Server
             {
                 return;
             }
-            var duel = DuelService.GetDuelForPLayer(player.ConnectionId);
+            var duel = DuelService.GetDuelForPlayer(player.ConnectionId);
             if (duel == null)
             {
                 return;

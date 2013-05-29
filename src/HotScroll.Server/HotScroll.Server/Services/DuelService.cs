@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -10,8 +11,11 @@ namespace HotScroll.Server.Services
     {
         private readonly ConcurrentDictionary<string, Duel> duelsStorage = new ConcurrentDictionary<string, Duel>();
 
-        public DuelService()
+        protected Random Random { get; set; }
+
+        public DuelService(Random rand)
         {
+            Random = rand;
             duelsStorage = new ConcurrentDictionary<string, Duel>();
         }
 
@@ -28,7 +32,7 @@ namespace HotScroll.Server.Services
             return duel;
         }
 
-        public Duel GetDuelForPLayer(string playerId)
+        public Duel GetDuelForPlayer(string playerId)
         {
             return
                 duelsStorage.Values.FirstOrDefault(t => !t.IsGameOver && t.Players.Any(p => p.Player.ConnectionId == playerId));
@@ -70,7 +74,7 @@ namespace HotScroll.Server.Services
                 return retryDuel;
             }
 
-            retryDuel = new Duel(new List<Player>(), duelToRetryId);
+            retryDuel = new Duel(Random, new List<Player>(), duelToRetryId);
             Add(retryDuel);
 
             return retryDuel;
