@@ -184,6 +184,10 @@ namespace HotScroll.Server
         public void RecordStep(string connectionId, Step step)
         {
             Player player = PlayerService.Get(connectionId);
+            if (player == null)
+            {
+                return;
+            }
             Duel duel = DuelService.GetDuelForPlayer(player.ConnectionId);
             if (duel == null || duel.IsGameOver)
             {
@@ -282,7 +286,9 @@ namespace HotScroll.Server
             if (player is Bot)
             {
                 var bot = player as Bot;
-                bot.Play();
+                var timer = new Timer(3000);
+                timer.Start();
+                timer.Elapsed += (sender, args) => bot.Play();
             }
             else
             {

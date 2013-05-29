@@ -7,7 +7,7 @@ namespace HotScroll.Server.Domain
     {
         #region Constants
 
-        public const int Speed = 10;
+        public int Speed = 70;
 
         #endregion
 
