@@ -43,7 +43,6 @@ namespace HotScroll.Server.Services
             var id = Guid.NewGuid().ToString();
             var name = BotNames[Random.Next(0, BotNames.Count)];
             var bot = new Bot(opponent, id, name);
-            bot.Initialize();
             botsStorage.TryAdd(id, bot);
             return bot;
         }

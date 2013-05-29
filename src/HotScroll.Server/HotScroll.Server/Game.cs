@@ -134,7 +134,7 @@ namespace HotScroll.Server
             else
             {
                 var timeout = Random.Next(MinTimeout, MaxTimeout);
-
+                
                 player.PartnerWaitTimerElapsed += OnWaitPartnerTimerElapsed;
                 player.StartWaitingPartner(timeout);
             }
@@ -183,7 +183,6 @@ namespace HotScroll.Server
 
         public void RecordStep(string connectionId, Step step)
         {
-
             Player player = PlayerService.Get(connectionId);
             Duel duel = DuelService.GetDuelForPlayer(player.ConnectionId);
             if (duel == null || duel.IsGameOver)
@@ -247,10 +246,8 @@ namespace HotScroll.Server
                 DuelService.FinishAndRemove(duel);
                 Player opponent = duel.GetOpponent(player.ConnectionId);
 
-                GetContext().Clients.Client(opponent.ConnectionId).gameOver(hasWon: false);
-                GetContext().Clients.Client(player.ConnectionId).gameOver(hasWon: true);
-
-                player.Status = opponent.Status = PlayerStatus.Pending;
+                GameOver(opponent, false);
+                GameOver(player, true);
             }
         }
 
@@ -260,9 +257,54 @@ namespace HotScroll.Server
 
             foreach (var duelPlayer in duel.Players)
             {
-                duelPlayer.Player.Status = PlayerStatus.Playing;
-                GetContext().Clients.Client(duelPlayer.Player.ConnectionId).play();
+                Play(duelPlayer.Player);
+                
             }
+        }
+
+        protected void PrepareToPlay(Player player, Duel duel)
+        {
+            DuelProjection proj = duel.ToProjection(player.ConnectionId);
+            if (player is Bot)
+            {
+                player.Status = PlayerStatus.ReadyToPlay;
+            }
+            else
+            {
+                player.Status = PlayerStatus.PreparingToPlay;
+                GetContext().Clients.Client(player.ConnectionId).prepare(proj);
+            }
+        }
+
+        protected void Play(Player player)
+        {
+            player.Status = PlayerStatus.Playing;
+            if (player is Bot)
+            {
+                var bot = player as Bot;
+                bot.Play();
+            }
+            else
+            {
+                GetContext().Clients.Client(player.ConnectionId).play();
+            }
+        }
+
+        protected void GameOver(Player player, bool hasWon)
+        {
+            player.Status = PlayerStatus.Pending;
+            if (player is Bot)
+            {
+                var bot = player as Bot;
+                bot.Stop();
+                BotService.Remove(bot);
+                PlayerService.Remove(bot);
+            }
+            else
+            {
+                GetContext().Clients.Client(player.ConnectionId).gameOver(hasWon: hasWon);
+            }
+            
         }
 
         /// <summary>
@@ -277,10 +319,7 @@ namespace HotScroll.Server
             foreach (DuelPlayer duelPlayer in duel.Players)
             {
                 var player = duelPlayer.Player;
-                player.Status = PlayerStatus.PreparingToPlay;
-
-                DuelProjection proj = duel.ToProjection(player.ConnectionId);
-                GetContext().Clients.Client(player.ConnectionId).prepare(proj);
+                PrepareToPlay(player, duel);
             }
         }
 
