@@ -37,5 +37,19 @@ namespace HotScroll.Server.Domain
             // Events
             Events = LevelEvent.GenerateRandomList(random, EventsMinScore, EventsMaxScore);
         }
+
+        public LevelMap Clone()
+        {
+            var map = new LevelMap {Background = new List<BgItem>(), Events = new List<LevelEvent>()};
+            foreach (var bgItem in Background)
+            {
+                map.Background.Add(bgItem.Clone());
+            }
+            foreach (var levelEvent in Events)
+            {
+                map.Events.Add(levelEvent.Clone());
+            }
+            return map;
+        }
     }
 }

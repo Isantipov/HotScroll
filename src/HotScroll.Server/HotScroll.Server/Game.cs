@@ -23,7 +23,6 @@ namespace HotScroll.Server
 
         private const int MaxTimeout = 16001;
         private const int MinTimeout = 13000;
-        private const int CountdownTimer = 3500;
 
         public Random Random { get; set; }
 
@@ -273,6 +272,7 @@ namespace HotScroll.Server
             if (player is Bot)
             {
                 player.Status = PlayerStatus.ReadyToPlay;
+                (player as Bot).Duel = proj;
             }
             else
             {
@@ -286,10 +286,7 @@ namespace HotScroll.Server
             player.Status = PlayerStatus.Playing;
             if (player is Bot)
             {
-                var bot = player as Bot;
-                var timer = new Timer(CountdownTimer);
-                timer.Start();
-                timer.Elapsed += (sender, args) => bot.Play();
+                (player as Bot).Play();
             }
             else
             {

@@ -50,6 +50,11 @@ namespace HotScroll.Server.Domain
             } while (lastItem.Score <= maxScrore);
             return list;
         }
+
+        public LevelEvent Clone()
+        {
+            return (LevelEvent) MemberwiseClone();
+        }
     }
 
     public enum EventType
