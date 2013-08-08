@@ -42,6 +42,7 @@ namespace HotScroll.Server.Services
         {
             Player p;
             _players.TryRemove(player.ConnectionId, out p);
+            p.StopWaitingPartner();
         }
 
         public Player Get(string connectionId)

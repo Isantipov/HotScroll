@@ -83,5 +83,10 @@ namespace HotScroll.Server.Domain
             list.Add(lastItem);
             return list;
         }
+
+        public BgItem Clone()
+        {
+            return (BgItem)MemberwiseClone();
+        }
     }
 }

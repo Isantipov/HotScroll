@@ -41,14 +41,14 @@ namespace HotScroll.Server.Domain
             get { return Players.Count == MinPlayersPerDuel; }
         }
 
-        public Duel(List<Player> players, string retriedDuelId = null)
+        public Duel(Random random, IEnumerable<Player> players, string retriedDuelId = null)
         {
             RetriedDuelId = retriedDuelId;
             Id = Guid.NewGuid().ToString();
             Players = new List<DuelPlayer>();
             AddPlayers(players);
             Level = new LevelMap();
-            Random = new Random();
+            Random = random;
             Status = DuelStatus.WaitingForPlayers;
             Level.GenerateRandom(Random);
         }
@@ -58,7 +58,7 @@ namespace HotScroll.Server.Domain
             return new DuelProjection
                        {
                            DuelId = Id,
-                           Level = Level,
+                           Level = Level.Clone(),
                            Opponent = GetOpponent(userId), 
                            Opponents = GetOpponents(userId),
                            PlayerTemplate = GetPlayerTemplate(userId),

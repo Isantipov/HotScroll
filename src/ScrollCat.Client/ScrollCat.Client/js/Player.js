@@ -11,11 +11,23 @@
     this.templateClass = template == 0 ? 'pink' : 'green';
     this.iconClass = this.templateClass + '-cat';
     this.rightDirection = 1;
-    this.inertMovement = 0;
     this.butterfly = null;
-    this.timestamp = 0;
+    this.lastMoveTimestamp = 0;
+
+    this.easeInQuad = function (t, b, c, d) {
+        t /= d;
+        return c * t * t + b;
+    };
 
     this.setScore = function (score) {
+        if (this.isOpponent) {
+            return this.setOpponentScore(score);
+        } else {
+            return this.setPlayerScore(score);
+        }
+    };
+    
+    this.setPlayerScore = function (score) {
         _this.score = score;
         var scorePercent = ((_this.score / game.TOTAL_SCORE) * 100).toFixed(5);
         _this.icon.style.left = scorePercent + '%';
@@ -34,29 +46,26 @@
         _this.element.style.left = window.innerWidth / 2 + (window.innerWidth * (bgPercent / 100) - (bgPercent / 100) * 428) + (window.innerWidth * (opponentBgPercent / 100) - (opponentBgPercent / 100) * 428) + 'px';
     };
 
-    this.animateCat = function(timeout) {
-
-        /*if (timeout < 120) {
-            _this.newTimeOut = 1.5 * timeout;
-            _this.animationTimer = setTimeout(_this.animateCatByTimeout, _this.newTimeOut);
-        }*/
-    };
-
-    this.animateCatByTimeout = function() {
-        _this.animateCat(_this.newTimeOut);
-        var newScore = _this.score + _this.direction;
-        _this.setScore(newScore);
-    };
-
-    this.playAnimation = function(event, direction) {
-        _this.direction = direction;
-        if (!_this.timestamp) {
-            _this.timestamp = event.timeStamp - 1;
+    this.hookInertMovement = function(timeout) {
+        if (timeout < 120) {
+            _this.newTimeOut = 1.3 * timeout;
+            _this.inertMovementTimeout = setTimeout(_this.moveByInert, _this.newTimeOut);
+        } else {
+            _this.newTimeOut = null;
         }
+    };
+
+    this.moveByInert = function() {
+        _this.move(_this.score + _this.direction * _this.rightDirection, _this.direction);
+        _this.hookInertMovement(_this.newTimeOut);
+    };
+
+    this.playAnimation = function(timestamp, direction) {
+        this.direction = direction;
         
-        var style = _this.element.style;
+        var style = this.element.style;
         var bgPos = parseInt(style.backgroundPosition);
-        bgPos -= 350 * _this.direction;
+        bgPos -= 350 * this.direction;
 
         if (Math.abs(bgPos) > 7700) {
             style.backgroundPositionX = '0px';
@@ -65,10 +74,12 @@
         } else {
             style.backgroundPositionX = bgPos + 'px';
         }
-        
-        var timeout = event.timeStamp - _this.timestamp;
-        
-        _this.timestamp = event.timeStamp;
+        // indicates that we are initiating inert movement for current player
+        if (timestamp && !this.isOpponent) {
+            var timeout = timestamp - this.lastMoveTimestamp;
+            this.hookInertMovement(timeout);
+            this.lastMoveTimestamp = timestamp;
+        }
     };
 
     this.rotate = function() {
@@ -92,7 +103,15 @@
         $(_this.icon).addClass(_this.iconClass).children().text(_this.name);
     };
     
-    this.stopAnimation = function () {
-        clearTimeout(_this.animationTimer);
+    this.stopInertMovement = function () {
+        clearTimeout(this.inertMovementTimeout);
+    };
+
+    this.move = function(score, direction, timestamp) {
+        if (score <= game.TOTAL_SCORE && score >= 0) {
+            this.setScore(score);
+            this.butterfly.matchScore(direction);
+            this.playAnimation(timestamp, direction);
+        }
     };
 }

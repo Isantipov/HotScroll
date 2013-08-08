@@ -21,6 +21,11 @@ namespace HotScroll.Server.Controllers
             return View();
         }
 
+        public ActionResult Emulator()
+        {
+            return View();
+        }
+
         public ActionResult JoinDuel(string id)
         {
             var duel = game.DuelService.Get(id);
@@ -31,6 +36,11 @@ namespace HotScroll.Server.Controllers
                 return View(joinDuelModel);
             }
             return Content("No such duel");
+        }
+
+        public ActionResult Privacy()
+        {
+            return View();
         }
 
         private string GetApplicatioLink(string id)

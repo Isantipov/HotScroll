@@ -2,7 +2,6 @@
 
     this.element = player.isOpponent ? document.querySelector('.opponentButterfly') : document.querySelector('.playerButterfly');
     this.events = events.slice(0);
-    this.direction = 1;
     this.currentEvent = null;
     this.player = player;
 }
@@ -42,21 +41,18 @@ Butterfly.prototype.hide = function () {
 
 Butterfly.prototype.matchScore = function(direction) {
     if (this.currentEvent) {
-        if (!this.player.inertMovement && this.player.rightDirection === direction) {
+        if (this.player.rightDirection === direction) {
             // turn the player to the right
             this.hide();
-            this.direction = 1;
             this.player.rotate();
             this.currentEvent = null;
-            }
-        } else {
+        }
+    } else {
         if ((this.currentEvent = this.tryPopEvent(this.player.score))) {
             // turn the player to the left
             this.show();
-            this.direction = -1;
             this.player.rotate();
             this.player.rotateRightDirection();
-            //this.player.inertMovement = 10;
         }
     }
 };

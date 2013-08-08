@@ -14,7 +14,8 @@ namespace HotScroll.Server.Domain
         protected const int BackgroundStart = -50;
 
         // Events
-        protected const int EventsNumber = 14;
+        protected const int EventsMinScore = 100;
+        protected const int EventsMaxScore = 950;
 
         #endregion
 
@@ -34,20 +35,21 @@ namespace HotScroll.Server.Domain
             Background = BgItem.GenerateRandomList(random, BackgroundStart, BackgroundMaxSize);
 
             // Events
-            Events.Clear();
-            for(var i = 0; i < EventsNumber; i++)
+            Events = LevelEvent.GenerateRandomList(random, EventsMinScore, EventsMaxScore);
+        }
+
+        public LevelMap Clone()
+        {
+            var map = new LevelMap {Background = new List<BgItem>(), Events = new List<LevelEvent>()};
+            foreach (var bgItem in Background)
             {
-                LevelEvent evnt = null;
-                do
-                {
-                    evnt = new LevelEvent();
-                    evnt.GenerateRandom(random);
-                } while (Events.Any(t => (t.Score <= evnt.Score && evnt.Score <= t.Score + t.Duration) ||
-                    (t.Score <= evnt.Score + evnt.Duration && evnt.Score + evnt.Duration <= t.Score + t.Duration)));
-                
-                Events.Add(evnt);
+                map.Background.Add(bgItem.Clone());
             }
-            Events = Events.OrderBy(t => t.Score).ToList();
+            foreach (var levelEvent in Events)
+            {
+                map.Events.Add(levelEvent.Clone());
+            }
+            return map;
         }
     }
 }

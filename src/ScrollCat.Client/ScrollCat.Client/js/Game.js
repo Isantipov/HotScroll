@@ -1,65 +1,49 @@
 ﻿function Game () {
 
+    /**
+     * Private members
+    */
     var _this = this;
     
-    var HOST_URL = 'http://scrollcat.azurewebsites.net/';
+    var HOST_URL = 'http://localhost:57666/';
     
-    var app = WinJS.Application;
-    var activation = Windows.ApplicationModel.Activation;
-    var nav = WinJS.Navigation;
-    var storage = Windows.Storage.ApplicationData.current.localSettings;
+    var _app = WinJS.Application;
+    var _activation = Windows.ApplicationModel.Activation;
+    var _nav = WinJS.Navigation;
     
+    var _networkInfo = Windows.Networking.Connectivity.NetworkInformation;
+    var _networkConnectivityInfo = Windows.Networking.Connectivity.NetworkConnectivityLevel;
+    var _hub = null;
+    var _connection = null;
+    var _currentDuelUrl = null;
+    var _storage = Windows.Storage.ApplicationData.current.localSettings;
+    
+    /**
+     * Public memebers
+    */
     this.TOTAL_SCORE = 1000;
     
-    this.hub = null;
-    this.connection = null;
+    
     this.player = null;
     this.opponent = null;
     this.duel = null;
-    this.duelUrl = null;
 
-    app.addEventListener("activated", onActivated);
-    app.oncheckpoint = onCheckpoint;
-
-    var networkInfo = Windows.Networking.Connectivity.NetworkInformation;
-    var networkConnectivityInfo = Windows.Networking.Connectivity.NetworkConnectivityLevel;
-    
-    
+    _app.addEventListener("activated", onActivated);
+    _app.oncheckpoint = onCheckpoint;
 
     WinJS.Namespace.define("Internet", {
         isConnected: isConnected,
         ifConnected: ifConnected
     });
 
-    function isConnected() {
-        var connectionProfile = networkInfo.getInternetConnectionProfile();
-        if (connectionProfile === null) {
-            return false;
-        }
-
-        var networkConnectivityLevel = connectionProfile.getNetworkConnectivityLevel();
-        if (networkConnectivityLevel == networkConnectivityLevel.none
-            || networkConnectivityLevel == networkConnectivityInfo.localAccess
-            || networkConnectivityLevel == networkConnectivityInfo.constrainedInternetAccess) {
-            return false;
-        }
-
-        return true;
-    }
-
-    function ifConnected(action) {
-        if (isConnected()) {
-            if (typeof action === 'function') {
-                action();
-            }
-        }
-    }
-
-    app.start();
+    _app.start();
     
+    /*
+     * Private methods
+    */
     function onActivated (args) {
-        if (args.detail.kind === activation.ActivationKind.launch) {
-            if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
+        if (args.detail.kind === _activation.ActivationKind.launch) {
+            if (args.detail.previousExecutionState !== _activation.ApplicationExecutionState.terminated) {
                 // TODO: This application has been newly launched. Initialize
                 // your application here.
             } else {
@@ -67,15 +51,14 @@
                 // Restore application state here.
             }
             
-            WinJS.Application.onsettings = function (e) {
+            _app.onsettings = function (e) {
                 e.detail.applicationcommands = { "privacyPolicy": { title: "Privacy Policy", href: "/pages/settings/privacy.html" } };
                 WinJS.UI.SettingsFlyout.populateSettings(e);
             };
-
             
             _this._prepareGame(args, proceedToLogin);
             
-        } else if (args.detail.kind === activation.ActivationKind.protocol) {
+        } else if (args.detail.kind === _activation.ActivationKind.protocol) {
             var p = args.detail.uri.path.split("/");
             var cmd = p[0];
             switch (cmd) {
@@ -92,27 +75,42 @@
             }
         }
     }
+    
+    function isConnected() {
+        var connectionProfile = _networkInfo.getInternetConnectionProfile();
+        if (connectionProfile === null) {
+            return false;
+        }
 
-    this.getHelpShown = function () {
-        return storage.values.helpShown || false;
-    };
+        var networkConnectivityLevel = connectionProfile.getNetworkConnectivityLevel();
+        if (networkConnectivityLevel == networkConnectivityLevel.none
+            || networkConnectivityLevel == _networkConnectivityInfo.localAccess
+            || networkConnectivityLevel == _networkConnectivityInfo.constrainedInternetAccess) {
+            return false;
+        }
 
-    this.setHelpShown = function (value) {
-        storage.values.helpShown = value + '';
-    };
+        return true;
+    }
+
+    function ifConnected(action) {
+        if (isConnected()) {
+            if (typeof action === 'function') {
+                action();
+            }
+        }
+    }
 
     this._prepareGame = function (args, gamePrepared) {
-        var that = this;
         function startGame() {
             args.setPromise(_this._initConnection());
-            args.setPromise(_this.connection.start());
+            args.setPromise(_connection.start());
 
             args.setPromise(loadGameData());
             args.setPromise(WinJS.UI.processAll().then(gamePrepared));
         }
 
         $('#reconnect').click(function (event) {
-            that._prepareGame(args, gamePrepared);
+            _this._prepareGame(args, gamePrepared);
         });
 
         if (isConnected()) {
@@ -124,33 +122,30 @@
             $('#actions').show();
 
 
-
             helpButton.click(function () {
-            $('#help').fadeIn();
-            $('#help-close').click(function () {
-                _this.setHelpShown(true);
-                $('#help').fadeOut();
+                $('#help').fadeIn();
+                $('#help-close').click(function () {
+                    _this.setHelpShown(true);
+                    $('#help').fadeOut();
+                });
             });
-        });
 
-
-
-        if (storage.values.muted) {
+            if (_storage.values.muted) {
                 muteButton.addClass('muted');
-        }
+            }
 
             muteButton.click(function () {
-            $(this).toggleClass('muted');
-            storage.values.muted = $(this).hasClass('muted');
+                $(this).toggleClass('muted');
+                _storage.values.muted = $(this).hasClass('muted');
 
-            $('audio').each(function () {
-                    if (this.paused && $(this).data('play')) {
-                    this.play();
-                } else {
-                    this.pause();
-                }
+                $('audio').each(function () {
+                        if (this.paused && $(this).data('play')) {
+                        this.play();
+                    } else {
+                        this.pause();
+                    }
+                });
             });
-        });
 
             startGame();
         } else {
@@ -164,8 +159,8 @@
     }
     
     function loadPlayerName() {
-        if (storage.values.PlayerName) {
-            _this.setPlayerName(storage.values.PlayerName);
+        if (_storage.values.PlayerName) {
+            _this.setPlayerName(_storage.values.PlayerName);
         } else {
             Windows.System.UserProfile.UserInformation.getDisplayNameAsync().done(function (playerName) {
                 _this.setPlayerName(playerName);
@@ -174,11 +169,11 @@
     }
     
     function proceedToLogin() {
-        if (nav.location) {
-            nav.history.current.initialPlaceholder = true;
-            return nav.navigate(nav.location, nav.state);
+        if (_nav.location) {
+            _nav.history.current.initialPlaceholder = true;
+            return _nav.navigate(_nav.location, _nav.state);
         } else {
-            return nav.navigate(Application.navigator.home);
+            return _nav.navigate(Application.navigator.home);
         }
     }
     
@@ -191,19 +186,11 @@
         // that needs to persist across suspensions here. If you need to 
         // complete an asynchronous operation before your application is 
         // suspended, call args.setPromise().
-        app.sessionState.history = nav.history;
+        _app.sessionState.history = _nav.history;
     }
 
-    this.setPlayerName = function (playerName) {
-        if (!this.player) {
-            this.player = {};
-        }
-        this.player.Name = playerName;
-        storage.values.PlayerName = playerName;
-    };
-
     this._onLoginShareDataRequested = function (e) {
-        if (_this.duelUrl) {
+        if (_currentDuelUrl) {
             var request = e.request;
             request.data.properties.title = "Someone invites you to play Scroll Cat";
             var userName = "Someone";
@@ -211,120 +198,137 @@
                 userName = _this.player.Name;
             }
             request.data.properties.description = userName + " has just created a Scroll Cat duel and is now waiting for you to join!";
-            request.data.setUri(new Windows.Foundation.Uri(_this.duelUrl));
+            request.data.setUri(new Windows.Foundation.Uri(_currentDuelUrl));
         } else {
             // TODO: add logic to say something when no duel created
         }
     };
 
-    this._initConnection = function (connectedCallBack, failedCallBack) {
+    this._initConnection = function () {
         // WinJS environment init
         WinJS.Binding.optimizeBindingReferences = true;
 
         // signalR init
-        this.connection = $.hubConnection(HOST_URL);
-        this.hub = this.connection.createHubProxy('gameHub');
-        this.hub.on('prepare', function (response) {
-            app.queueEvent({
+        _connection = $.hubConnection(HOST_URL);
+        _hub = _connection.createHubProxy('gameHub');
+        _hub.on('prepare', function (response) {
+            _app.queueEvent({
                 type: 'prepare',
                 detail: response
             });
         });
 
-        this.hub.on('play', function (response) {
-            app.queueEvent({
+        _hub.on('play', function (response) {
+            _app.queueEvent({
                 type: 'play',
                 detail: response
             });
         });
 
-        this.hub.on('receiveStep', function (response) {
-            app.queueEvent({
+        _hub.on('receiveStep', function (response) {
+            _app.queueEvent({
                 type: 'receiveStep',
                 detail: response
             });
         });
 
-        this.hub.on('gameOver', function (response) {
-            app.queueEvent({
+        _hub.on('gameOver', function (response) {
+            _app.queueEvent({
                 type: 'gameOver',
                 details: response
             });
         });
         
-        if (app.sessionState.history) {
-            nav.history = app.sessionState.history;
+        if (_app.sessionState.history) {
+            _nav.history = _app.sessionState.history;
         }
     };
 
+
+    this.getHelpShown = function () {
+        return _storage.values.helpShown || false;
+    };
+
+    this.setHelpShown = function (value) {
+        _storage.values.helpShown = value + '';
+    };
+
+    this.setPlayerName = function (playerName) {
+        if (!this.player) {
+            this.player = {};
+        }
+        this.player.Name = playerName;
+        _storage.values.PlayerName = playerName;
+    };
+
+    Game.prototype.showError = function (msg, shownPopup) {
+        var md = new Windows.UI.Popups.MessageDialog(msg);
+        md.showAsync().then(shownPopup);
+    };
+
     this.recordStep = function (score) {
-        _this.hub.invoke('recordStep', {Points: score });
+        _hub.invoke('recordStep', {Points: score });
     };
 
     this.loginAndWaitRandom = function (login) {
-        _this.hub.invoke('changeName', login).done(function (player) {
+        _hub.invoke('changeName', login).done(function (player) {
             WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
             _this.player = player;
-            _this.hub.invoke('waitPartner', _this.player);
+            _hub.invoke('waitPartner', _this.player);
         });
     };
 
     this.loginAndJoinDuel = function (login) {
-        _this.hub.invoke('changeName', login).done(function (player) {
-            WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
+        _hub.invoke('changeName', login).done(function (player) {
+            _app.addEventListener('prepare', _this.onDuelPrepare);
             _this.player = player;
-            _this.hub.invoke('joinDuel', _this.duel.Id).done(function(response) {
+            _hub.invoke('joinDuel', _this.duel.Id).done(function(response) {
                 if (response) {
-                    _this._showError(response, function() {
+                    _this.showError(response, function() {
                         WinJS.Navigation.navigate('/pages/login/login.html');
                     });
                 }
             });
         });
     };
-
-    this._showError = function (msg, shownPopup) {
-        var md = new Windows.UI.Popups.MessageDialog(msg);
-        md.showAsync().then(shownPopup);
-    };
     
     this.loginAndWaitFriend = function (login) {
-        _this.hub.invoke('changeName', login).done(function (player) {
-            WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
+        _hub.invoke('changeName', login).done(function (player) {
+            _app.addEventListener('prepare', _this.onDuelPrepare);
             _this.player = player;
-            _this.hub.invoke('createDuel').done(function (duelUrl) {
+            _hub.invoke('createDuel').done(function (duelUrl) {
                 if (duelUrl) {
-                    _this.duelUrl = duelUrl;
+                    _currentDuelUrl = duelUrl;
                     Windows.ApplicationModel.DataTransfer.DataTransferManager.showShareUI();
                 } else {
-                    _this._showError("Server can't create private game at the moment. Try restarting the game.");
+                    _this.showError("Server can't create private game at the moment. Try restarting the game.");
                 }
             });
         });
     };
 
     this.onDuelPrepare = function (args) {
-        WinJS.Application.removeEventListener('prepare', _this.onDuelPrepare);
+        _app.removeEventListener('prepare', _this.onDuelPrepare);
         var duel = args.detail;
         _this.opponent = duel.Opponents[0];
         _this.duel = duel;
-        WinJS.Navigation.navigate('/pages/gameplay/gameplay.html');
+        _nav.navigate('/pages/gameplay/gameplay.html');
     };
 
     this.readyToPlay = function() {
-        _this.hub.invoke('readyToPlay');
+        _hub.invoke('readyToPlay');
     };
 
     this.loginAndRetryDuel = function(login) {
-        _this.hub.invoke('changeName', login).done(function (player) {
+        _hub.invoke('changeName', login).done(function (player) {
             _this.player = player;
-            WinJS.Application.addEventListener('prepare', _this.onDuelPrepare);
-            _this.hub.invoke('retryDuel', _this.duel.DuelId);
+            _app.addEventListener('prepare', _this.onDuelPrepare);
+            _hub.invoke('retryDuel', _this.duel.DuelId);
         });
     };
 
     this.cancel = function() {
-        WinJS.Application.removeEventListener('prepare', _this.onDuelPrepare);
-        WinJS.Navigation.navigate('/pages/login/login.html');
+        _app.removeEventListener('prepare', _this.onDuelPrepare);
+        _nav.navigate('/pages/login/login.html');
     };
 }
